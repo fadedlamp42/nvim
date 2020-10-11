@@ -43,8 +43,6 @@ call plug#end()
     """""""""""""""""""""""
     "plugin configurations"
     """""""""""""""""""""""
-let mapleader="," "leader is comma
-
 "ale
 let g:ale_virtualtext_cursor = 1 "virtual text for diagnostics
 let g:ale_set_signs = 0 " dont use the sign column
@@ -62,20 +60,14 @@ highlight ALEVirtualTextInfo    guifg=#777777
 highlight ALEVirtualTextWarning guifg=#777777
 highlight ALEVirtualTextError   guifg=#777777
 
-"goyo
-nnoremap <silent> <leader>g :Goyo<CR>
-
 
 "limelight
 let g:limelight_conceal_ctermfg = 1
-nnoremap <silent> <leader>l :Limelight!! 0.85<CR>
 
 "tagbar
 let g:tagbar_autofocus = 1 "autofocus on tagbar open
 
 "coc
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr><S-tab> pumvisible() ? "\<c-p>" : "\<tab>"
 set hidden
 set nobackup
 set nowritebackup
@@ -86,22 +78,6 @@ set shortmess-=t
 set shortmess-=T
 set signcolumn=auto
 
-        "goto's
-nmap <silent> gD <Plug>(coc-definition)
-nmap <silent> gt <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nnoremap gd :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-        "rename bound to ,r
-nmap <leader>r <Plug>(coc-rename)
 
 "ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -147,13 +123,6 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
     "enable asynchronous tag generation
 let g:easytags_async = 1
 
-"easyalign
-    " Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
-    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
 "coc
 let g:coc_global_extensions = [
 \   'coc-cmake',
@@ -178,6 +147,9 @@ let g:coc_global_extensions = [
     """""""""
     "mapping"
     """""""""
+"""base vim"""
+let mapleader="," "leader is comma
+
 "tab complete
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
@@ -214,15 +186,16 @@ nnoremap <silent> <leader>T :tab split<CR>
 "map <leader>q/w to switch tabs
 nnoremap <silent> <leader>q :tabp<CR>
 nnoremap <silent> <leader>w :tabn<CR>
+
 "map J/K to flip buffers
-nnoremap J :bprev<CR>
-nnoremap K :bnext<CR>
+nnoremap <silent> J :bprev<CR>
+nnoremap <silent> K :bnext<CR>
 "map <leader>W to close buffer
 nnoremap <silent> <leader>W :bp <BAR> bd! #<CR>
 
 "map <leader>V to edit init.vim
 nnoremap <silent> <leader>V :e ~/.config/nvim/init.vim<CR>
-"map <leader>C to edit init.vim
+"map <leader>C to edit coc-settings.json
 nnoremap <silent> <leader>C :CocConfig<CR>
 
 "clear search highlight after search and fix paste insert mode
@@ -244,15 +217,50 @@ nnoremap <C-k> <C-w><C-W>
 nnoremap <C-j> <C-w><S-w> 
 
 "map <C + hyil> to resize windows
-nnoremap <C-h> :vertical res -3<CR>
-nnoremap <C-l> :vertical res +3<CR>
-nnoremap <C-y> :res +3<CR>
-nnoremap <C-i> :res -3<CR>
+nnoremap <silent> <C-h> :vertical res -3<CR>
+nnoremap <silent> <C-l> :vertical res +3<CR>
+nnoremap <silent> <C-y> :res +3<CR>
+nnoremap <silent> <C-i> :res -3<CR>
 
 "map <leader>e to jump to next location
 nnoremap <silent> <leader>e :lne<CR>zz
 "map <leader>E to jump to previous location
 nnoremap <silent> <leader>E :lNe<CR>zz
+
+"""plugins"""
+"goyo
+nnoremap <silent> <leader>g :Goyo<CR>
+
+"limelight
+nnoremap <silent> <leader>l :Limelight!! 0.85<CR>
+
+"coc
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><S-tab> pumvisible() ? "\<c-p>" : "\<tab>"
+
+    "goto's
+nmap <silent> gD <Plug>(coc-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nnoremap gd :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+    "rename bound to ,r
+nmap <leader>r <Plug>(coc-rename)
+
+"easyalign
+    " Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
     """"""""""""""
     "tab settings"
@@ -264,27 +272,10 @@ set softtabstop=4 "amount of spaces inserted when tabbing
 set shiftwidth=4 "changes >> and <<, automatic indentation
 set linebreak "word wrapping
 
-"visual
-"if empty($TMUX) && empty($STY)
-"  " See https://gist.github.com/XVilka/8346728.
-"  if $COLORTERM =~# 'truecolor' || $COLORTERM =~# '24bit'
-"    if has('termguicolors')
-"      " See :help xterm-true-color
-"      if $TERM =~# '^screen'
-"        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-"      endif
-"      set termguicolors
-"    endif
-"  endif
-"endif
-
     """"""""
     "scheme"
     """"""""
 set termguicolors
-"set background=dark
-"colorscheme modest
 colorscheme fadedwolf
 
     """"""""""""""""""
