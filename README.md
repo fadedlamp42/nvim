@@ -39,3 +39,4 @@ Clone into `$HOME/.config`, relies on `python3-pynvim` and `node`.
 - Rename: `<leader>r`
 - Align text: `ga`
 - Open tag bar: `<leader><return>`
+- Insert emoji: `<c-x><c-e>`

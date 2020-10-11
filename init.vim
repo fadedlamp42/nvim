@@ -19,16 +19,17 @@ call plug#begin()
     Plug 'xolox/vim-easytags'                           "auto tag generation (requires exuberant-ctags)
     Plug 'xolox/vim-misc'                               "utils for easy-tags
 "functional additions
+    Plug 'SirVer/ultisnips'                            "snippet support on tab
     Plug 'airblade/vim-gitgutter'                       "git diff visualization
     Plug 'ctrlpvim/ctrlp.vim'                           "project fuzzy finder
     Plug 'junegunn/vim-easy-align'                      "align text using ga
+    Plug 'kyuhi/vim-emoji-complete'
     Plug 'majutsushi/tagbar'                            "tag side bar
     Plug 'preservim/nerdcommenter'                      "commenting with ,c*
-    Plug '/SirVer/ultisnips'                            "snippet support on tab
+    Plug 'psliwka/vim-smoothie'                         "smooth scrolling animations
     Plug 'tpope/vim-fugitive'                           "git integration
     Plug 'tpope/vim-repeat'                             "allow plugins to map .
     Plug 'tpope/vim-surround'                           "add, change, and delete surroundings
-    Plug 'psliwka/vim-smoothie'                         "smooth scrolling animations
 "visual
     Plug 'junegunn/goyo.vim'                            "distraction free editing
     Plug 'junegunn/limelight.vim'                       "paragraph highlighting
