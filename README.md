@@ -62,4 +62,4 @@ Rename: `<leader>r`
 
 Align text: `ga`
 
-
+Open tag bar: `<leader><return>`
