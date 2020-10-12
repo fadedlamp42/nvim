@@ -19,7 +19,6 @@ call plug#begin()
     Plug 'xolox/vim-easytags'                           "auto tag generation (requires exuberant-ctags)
     Plug 'xolox/vim-misc'                               "utils for easy-tags
 "functional additions
-    Plug 'SirVer/ultisnips'                            "snippet support on tab
     Plug 'airblade/vim-gitgutter'                       "git diff visualization
     Plug 'ctrlpvim/ctrlp.vim'                           "project fuzzy finder
     Plug 'junegunn/vim-easy-align'                      "align text using ga
@@ -78,12 +77,6 @@ set shortmess+=a
 set shortmess-=t
 set shortmess-=T
 set signcolumn=auto
-
-
-"ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "smoothie
 let g:smoothie_update_interval = 3
@@ -234,10 +227,6 @@ nnoremap <silent> <leader>g :Goyo<CR>
 
 "limelight
 nnoremap <silent> <leader>l :Limelight!! 0.85<CR>
-
-"coc
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr><S-tab> pumvisible() ? "\<c-p>" : "\<tab>"
 
     "goto's
 nmap <silent> gD <Plug>(coc-definition)
