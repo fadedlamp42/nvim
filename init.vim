@@ -14,6 +14,7 @@ set hidden                  "allow hiding modified buffer
 call plug#begin()
 "completion and linting
     Plug 'dense-analysis/ale'                           "asynchronous linting
+    Plug 'fatih/vim-go'                                 "golang support
     Plug 'neoclide/coc.nvim', {'branch': 'release'}     "auto complete
     Plug 'sheerun/vim-polyglot'                         "many language syntax support
     Plug 'xolox/vim-easytags'                           "auto tag generation (requires exuberant-ctags)
@@ -125,7 +126,6 @@ let g:coc_global_extensions = [
 \   'coc-stylelintplus',
 \   'coc-eslint',
 \   'coc-git',
-\   'coc-go',
 \   'coc-html',
 \   'coc-json',
 \   'coc-pairs',
@@ -283,6 +283,7 @@ set fillchars+=vert:\  "remove window dividers
 
 "folding
 set foldmethod=syntax
+set foldlevelstart=99
 
 "searching
 set path+=** "find searches downward with depth of 30 from working dir, **n changes the amount of layers
