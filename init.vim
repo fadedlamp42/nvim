@@ -81,7 +81,7 @@ set signcolumn=auto
 
 "smoothie
 let g:smoothie_update_interval = 3
-let g:smoothie_base_speed = 7
+let g:smoothie_base_speed = 9
 let g:smoothie_break_on_reverse = 1
 
 
