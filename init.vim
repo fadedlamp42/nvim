@@ -7,6 +7,7 @@ filetype plugin on          "netrw file browser
 filetype plugin indent on   "filetype specific indenting
 set mouse=a                 "mouse support
 set hidden                  "allow hiding modified buffer
+set scrolloff=10
 
     """"""""""""""""
     "vim-plug pulls"
@@ -25,6 +26,7 @@ call plug#begin()
     Plug 'junegunn/vim-easy-align'                      "align text using ga
     Plug 'kyuhi/vim-emoji-complete'
     Plug 'majutsushi/tagbar'                            "tag side bar
+    Plug 'mattn/emmet-vim'                              "html/css editing
     Plug 'preservim/nerdcommenter'                      "commenting with ,c*
     Plug 'psliwka/vim-smoothie'                         "smooth scrolling animations
     Plug 'tpope/vim-fugitive'                           "git integration
@@ -137,6 +139,9 @@ let g:coc_global_extensions = [
 \   'coc-xml',
 \   'coc-yaml',
 \]
+
+"emmet
+let g:user_emmet_leader_key='<C-E>'
 
     """""""""
     "mapping"

@@ -40,3 +40,4 @@ Clone into `$HOME/.config`, relies on `python3-pynvim` and `node`.
 - Align text: `ga`
 - Open tag bar: `<leader><return>`
 - Insert emoji: `<c-x><c-e>`
+- Trigger emmet: `<c-e>,
