@@ -33,6 +33,8 @@ call plug#begin()
     Plug 'tpope/vim-repeat'                             "allow plugins to map .
     Plug 'tpope/vim-surround'                           "add, change, and delete surroundings
 "visual
+    Plug 'RRethy/vim-illuminate'                        "highlight occurences of hovered token
+    Plug 'Yggdroot/indentLine'                          "tab visualization
     Plug 'junegunn/goyo.vim'                            "distraction free editing
     Plug 'junegunn/limelight.vim'                       "paragraph highlighting
     Plug 'lilydjwg/colorizer'                           "colorize css colors
@@ -40,7 +42,6 @@ call plug#begin()
     Plug 'machakann/vim-highlightedyank'                "highlight yanked text
     Plug 'vim-airline/vim-airline'                      "nice status bar
     Plug 'vim-airline/vim-airline-themes'               "airline themes
-    Plug 'Yggdroot/indentLine'                          "tab visualization
 call plug#end()
 
     """""""""""""""""""""""
@@ -128,9 +129,9 @@ let g:coc_global_extensions = [
 \   'coc-stylelintplus',
 \   'coc-eslint',
 \   'coc-git',
+\   'coc-go',
 \   'coc-html',
 \   'coc-json',
-\   'coc-pairs',
 \   'coc-python',
 \   'coc-sh',
 \   'coc-sql',
@@ -226,12 +227,18 @@ nnoremap <silent> <leader>e :lne<CR>zz
 "map <leader>E to jump to previous location
 nnoremap <silent> <leader>E :lNe<CR>zz
 
+"map ?? to find highlight group
+nnoremap <silent> ?? :echo synIDattr(synID(line("."), col("."), 1), "name")<CR>
+
 """plugins"""
 "goyo
 nnoremap <silent> <leader>g :Goyo<CR>
 
 "limelight
 nnoremap <silent> <leader>l :Limelight!! 0.85<CR>
+
+"illuminate
+hi link illuminatedWord Visual
 
     "goto's
 nmap <silent> gD <Plug>(coc-definition)
