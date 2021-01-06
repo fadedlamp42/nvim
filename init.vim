@@ -239,6 +239,7 @@ nnoremap <silent> <leader>l :Limelight!! 0.85<CR>
 
 "illuminate
 hi link illuminatedWord Visual
+let g:Illuminate_ftblacklist = ['', 'text']
 
     "goto's
 nmap <silent> gD <Plug>(coc-definition)
