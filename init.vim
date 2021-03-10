@@ -79,7 +79,7 @@ set updatetime=300
 set shortmess+=c
 set shortmess+=a
 set shortmess-=t
-set shortmess-=T
+set shortmess+=T
 set signcolumn=auto
 
 "smoothie
@@ -143,6 +143,18 @@ let g:coc_global_extensions = [
 
 "emmet
 let g:user_emmet_leader_key='<C-E>'
+
+"vim-go
+let g:go_diagnostics_level = 2
+let g:go_doc_keywordprg_enabled = 0
+let g:go_diagnostics_enabled = 1
+let g:go_doc_popup_window = 1
+let g:go_highlight_chan_whitespace_error = 1
+let g:go_highlight_space_tab_error = 1
+let g:go_highlight_trailing_whitespace_error = 1
+let g:go_auto_type_info = 1
+let g:go_updatetime = 300
+let g:go_fmt_autosave = 0
 
     """""""""
     "mapping"
