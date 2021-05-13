@@ -329,3 +329,7 @@ let g:netrw_winsize   = 30 "only use 30% of window
 packadd termdebug
 let g:termdebug_wide = 1
 set helpheight=100
+
+" fun to do :Limelight 1 with the following lines
+" let g:limelight_bop = '^'
+" let g:limelight_eop = '\n'
