@@ -63,10 +63,9 @@ map('n', '<C-j>', '<C-w><S-w>')
 map('n', '<C-h>', '<cmd>vertical res -3<CR>')
 map('n', '<C-l>', '<cmd>vertical res +3<CR>')
 map('n', '<C-y>', '<cmd>res +3<CR>')
-map('n', '<C-i>', '<cmd>res -3<CR>')
 
 -- lsp actions
-map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+--map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
 map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
@@ -83,3 +82,43 @@ map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
 map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
 map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
 map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+
+
+-- plugin mappings
+map('n', '<leader>l', '<cmd>Limelight!! 0.85<CR>') 		-- <leader>l to toggle limelight
+vim.cmd("xmap ga <Plug>(EasyAlign)")				-- EasyAlign visual mode
+vim.cmd("nmap ga <Plug>(EasyAlign)")				-- interactive EasyAlign for a motion/text object
+map('n', '<leader>Ga', '<cmd>Git add %<CR>')			-- <leader>Ga to add current file
+map('n', '<leader>GA', '<cmd>Git add .<CR>')			-- <leader>GA to add current directory
+map('n', '<leader>Gb', '<cmd>Git blame<CR>')			-- <leader>Gb for git blame
+map('n', '<leader>Gc', '<cmd>Git commit<CR>')			-- <leader>Gc to commit
+map('n', '<leader>Gd', '<cmd>Git diff<CR>')			-- <leader>Gd to diff unstaged files
+map('n', '<leader>GD', '<cmd>Git diff --staged<CR>')		-- <leader>GD to diff staged files
+map('n', '<leader>Gi', '<cmd>Git init<CR>')			-- <leader>Gi for git init
+map('n', '<leader>Gs', '<cmd>Git status<CR>')			-- <leader>Gs for git status
+map('n', '<leader>GSp', '<cmd>Git stash pop<CR>')		-- <leader>GSp to pop off of stack
+map('n', '<leader>GSP', '<cmd>Git stash push<CR>')		-- <leader>GSP to push onto stack
+map('n', '<leader>Gp', '<cmd>Git pull<CR>')			-- <leader>Gp for git pull
+map('n', '<leader>GP', '<cmd>Git push<CR>')			-- <leader>GP for git push
+map('n', '<leader>Gr', '<cmd>Git reset<CR>')			-- <leader>Gr for git reset
+
+local snap = require'snap'
+snap.register.map({"n"}, {"<C-g>"}, function () -- ripgrep on <C-g>
+	snap.run {
+		prompt = "grep",
+		producer = snap.get'producer.ripgrep.vimgrep',
+		select = snap.get'select.vimgrep'.select,
+		multiselect = snap.get'select.vimgrep'.multiselect,
+		views = {snap.get'preview.vimgrep'}
+	}
+end)
+
+snap.register.map({"n"}, {"<C-p>"}, function () -- fzf on <C-p>
+	snap.run {
+		prompt = "files",
+		producer = snap.get'consumer.fzf'(snap.get'producer.ripgrep.file'),
+		select = snap.get'select.file'.select,
+		multiselect = snap.get'select.file'.multiselect,
+		views = {snap.get'preview.file'}
+	}
+end)

@@ -1,6 +1,8 @@
 -- aliases
 local execute = vim.api.nvim_command
 local fn = vim.fn
+local g = vim.g
+local cmd = vim.cmd
 
 -- utility functions
 function install_servers()
@@ -37,71 +39,78 @@ end
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then 							-- if packer doesn't exist
-  fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path}) 	-- clone repo
-  execute 'packadd packer.nvim' 								-- add package
-  install_servers() 										-- install lsp servers for first time
+	fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path}) 	-- clone repo
+	execute 'packadd packer.nvim' 								-- add package
+	install_servers() 										-- install lsp servers for first time
 end
 
 -- package list
 require('packer').startup(function()
 	use{
 		-- functional
-		'wbthomason/packer.nvim', 					-- packer manages itself
+		'camspiers/snap',						-- producer/consumer based finder
 		'junegunn/vim-easy-align', 					-- align text using ga
 		'preservim/nerdcommenter', 					-- commenting with <leader>c<character>
-		'camspiers/snap',						-- producer/consumer based finder
+		'tpope/vim-fugitive', 						-- git integration
+		'tpope/vim-repeat',                            			-- allow plugins to map .
+		'tpope/vim-surround',                          			-- manipulate surrounding symbols
+		'wbthomason/packer.nvim', 					-- packer manages itself
 
 		-- completion/linting
-		'neovim/nvim-lspconfig', 					-- builtin lsp
-		'kabouzeid/nvim-lspinstall', 					-- lsp installation helper
 		'hrsh7th/nvim-compe', 						-- completion
+		'kabouzeid/nvim-lspinstall', 					-- lsp installation helper
+		'neovim/nvim-lspconfig', 					-- builtin lsp
 
 		-- visual
-		{'lukas-reineke/indent-blankline.nvim', branch = 'lua'}, 	-- blankline indent characters
-		{ 								-- status line
-			'glepnir/galaxyline.nvim',
-			branch = 'main',
-			config = function() require'statusline' end,
-		    	requires = {'kyazdani42/nvim-web-devicons', opt = true}
-		},
+		'RRethy/vim-illuminate',                       			-- highlight other occurences
 		'airblade/vim-gitgutter', 					-- git diff visualization
+		'junegunn/limelight.vim',					-- paragraph highlighting
 		'karb94/neoscroll.nvim', 					-- smooth scrolling
+		'lilydjwg/colorizer',						-- colorize hex color codes
+		'machakann/vim-highlightedyank',				-- highlight yanked  text
+		{'lukas-reineke/indent-blankline.nvim', branch = 'lua'}, 	-- blankline indent characters
 		{ 								-- buffer line
 			'akinsho/nvim-bufferline.lua',
 			requires = 'kyazdani42/nvim-web-devicons'
 		},
+		{ 									-- status line
+			'glepnir/galaxyline.nvim',
+			branch = 'main',
+			config = function() require'statusline' end,
+			requires = {'kyazdani42/nvim-web-devicons', opt = true}
+		},
 		{ 								-- swap icons for nonicons.ttf
 			'yamatsum/nvim-nonicons',
 			requires = {'kyazdani42/nvim-web-devicons'}
-		}
+		},
 	}
 end)
 
 -- compe configuration
 require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 0;
-  preselect = 'disable';
-  throttle_time = 80;
-  source_timeout = 200;
-  resolve_timeout = 800;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
+	enabled = true;
+	autocomplete = true;
+	debug = false;
+	min_length = 0;
+	preselect = 'disable';
+	throttle_time = 80;
+	source_timeout = 200;
+	resolve_timeout = 800;
+	incomplete_delay = 400;
+	max_abbr_width = 100;
+	max_kind_width = 100;
+	max_menu_width = 100;
+	documentation = true;
 
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = true;
-    ultisnips = true;
-  };
+	source = {
+		path = true;
+		buffer = true;
+		calc = true;
+		nvim_lsp = true;
+		nvim_lua = true;
+		vsnip = true;
+		ultisnips = true;
+	};
 }
 
 -- lspinstall configuration
@@ -132,23 +141,6 @@ require"bufferline".setup{ options = {
 	show_buffer_icons = false,
 }}
 
--- snap configuration
-local snap = require'snap'
-
-snap.register.map({"n"}, {"<C-g>"}, function () -- ripgrep on <C-g>
-	snap.run {
-		producer = snap.get'producer.ripgrep.vimgrep',
-		select = snap.get'select.vimgrep'.select,
-      		multiselect = snap.get'select.vimgrep'.multiselect,
-		views = {snap.get'preview.vimgrep'}
-	}
-end)
-
-snap.register.map({"n"}, {"<C-p>"}, function () -- fzf on <C-p>
-	snap.run {
-		producer = snap.get'consumer.fzf'(snap.get'producer.ripgrep.file'),
-		select = snap.get'select.file'.select,
-		multiselect = snap.get'select.file'.multiselect,
-		views = {snap.get'preview.file'}
-	}
-end)
+-- illuminate configuration
+cmd("hi link illuminatedWord Visual")
+g.Illuminate_ftblacklist = {'', 'text'}
