@@ -98,6 +98,7 @@ map('n', '<leader>Gi', '<cmd>Git init<CR>')			-- <leader>Gi for git init
 map('n', '<leader>Gs', '<cmd>Git status<CR>')			-- <leader>Gs for git status
 map('n', '<leader>GSp', '<cmd>Git stash pop<CR>')		-- <leader>GSp to pop off of stack
 map('n', '<leader>GSP', '<cmd>Git stash push<CR>')		-- <leader>GSP to push onto stack
+map('n', '<leader>Gl', '<cmd>Git log<CR>')			-- <leader>Gl for git log
 map('n', '<leader>Gp', '<cmd>Git pull<CR>')			-- <leader>Gp for git pull
 map('n', '<leader>GP', '<cmd>Git push<CR>')			-- <leader>GP for git push
 map('n', '<leader>Gr', '<cmd>Git reset<CR>')			-- <leader>Gr for git reset
