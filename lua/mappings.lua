@@ -88,6 +88,7 @@ map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 map('n', '<leader>l', '<cmd>Limelight!! 0.85<CR>') 		-- <leader>l to toggle limelight
 vim.cmd("xmap ga <Plug>(EasyAlign)")				-- EasyAlign visual mode
 vim.cmd("nmap ga <Plug>(EasyAlign)")				-- interactive EasyAlign for a motion/text object
+map('n', '<leader>cd', '<cmd>cd %:h<CR>')			-- <leader>cd to change to current directory
 map('n', '<leader>Ga', '<cmd>Git add %<CR>')			-- <leader>Ga to add current file
 map('n', '<leader>GA', '<cmd>Git add .<CR>')			-- <leader>GA to add current directory
 map('n', '<leader>Gb', '<cmd>Git blame<CR>')			-- <leader>Gb for git blame
