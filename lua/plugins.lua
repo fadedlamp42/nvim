@@ -48,38 +48,43 @@ end
 require('packer').startup(function()
 	use{
 		-- functional
-		'camspiers/snap',						-- producer/consumer based finder
-		'junegunn/vim-easy-align', 					-- align text using ga
-		'preservim/nerdcommenter', 					-- commenting with <leader>c<character>
-		'tpope/vim-fugitive', 						-- git integration
-		'tpope/vim-repeat',                            			-- allow plugins to map .
-		'tpope/vim-surround',                          			-- manipulate surrounding symbols
-		'wbthomason/packer.nvim', 					-- packer manages itself
+		'camspiers/snap',												-- producer/consumer based finder
+		'junegunn/vim-easy-align', 							-- align text using ga
+		'preservim/nerdcommenter', 							-- commenting with <leader>c<character>
+		'sheerun/vim-polyglot',									-- syntax files for folding
+		'tpope/vim-fugitive', 									-- git integration
+		'tpope/vim-repeat',                 		-- allow plugins to map .
+		'tpope/vim-surround',               		-- manipulate surrounding symbols
+		'wbthomason/packer.nvim', 							-- packer manages itself
 
 		-- completion/linting
-		'hrsh7th/nvim-compe', 						-- completion
-		'kabouzeid/nvim-lspinstall', 					-- lsp installation helper
-		'neovim/nvim-lspconfig', 					-- builtin lsp
+		'hrsh7th/nvim-compe', 									-- completion
+		'kabouzeid/nvim-lspinstall', 						-- lsp installation helper
+		'neovim/nvim-lspconfig', 								-- builtin lsp
 
 		-- visual
-		'RRethy/vim-illuminate',                       			-- highlight other occurences
-		'airblade/vim-gitgutter', 					-- git diff visualization
-		'junegunn/limelight.vim',					-- paragraph highlighting
-		'karb94/neoscroll.nvim', 					-- smooth scrolling
-		'lilydjwg/colorizer',						-- colorize hex color codes
+		'RRethy/vim-illuminate',            		-- highlight other occurences
+		'airblade/vim-gitgutter', 							-- git diff visualization
+		'junegunn/limelight.vim',								-- paragraph highlighting
+		'psliwka/vim-smoothie', 								-- smooth scrolling
+		'lilydjwg/colorizer',										-- colorize hex color codes
+		'MaxMEllon/vim-jsx-pretty',							-- react syntax highlighting
 		'machakann/vim-highlightedyank',				-- highlight yanked  text
-		{'lukas-reineke/indent-blankline.nvim', branch = 'lua'}, 	-- blankline indent characters
-		{ 								-- buffer line
+		{																				-- blankline indent characters
+			'lukas-reineke/indent-blankline.nvim',
+			branch = 'master'
+		},
+		{ 																			-- buffer line
 			'akinsho/nvim-bufferline.lua',
 			requires = 'kyazdani42/nvim-web-devicons'
 		},
-		{ 									-- status line
+		{ 																			-- status line
 			'glepnir/galaxyline.nvim',
 			branch = 'main',
 			config = function() require'statusline' end,
 			requires = {'kyazdani42/nvim-web-devicons', opt = true}
 		},
-		{ 								-- swap icons for nonicons.ttf
+		{ 																			-- swap icons for nonicons.ttf
 			'yamatsum/nvim-nonicons',
 			requires = {'kyazdani42/nvim-web-devicons'}
 		},
@@ -121,17 +126,10 @@ require'lspinstall'.post_install_hook = function()
 	vim.cmd('bufdo e') 	-- reload buffer to trigger lsp startup
 end
 
--- neoscroll configuration
-require'neoscroll'.setup({
-	-- enabled mappings
-	mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', '<C-e>', 'zt', 'zz', 'zb'},
-	hide_cursor = false,         	-- dont hide cursor while scrolling
-	stop_eof = true,             	-- stop at <EOF> when scrolling downwards
-	use_local_scrolloff = true,  	-- use local scrolloff instead of global
-	respect_scrolloff = false,   	-- stop scrolling when the cursor reaches scrolloff margin of file
-	cursor_scrolls_alone = true, 	-- cursor will keep scrolling even if window cannot scroll further
-	easing_function = "quadratic"	-- easing function
-})
+-- vim-smoothie configuration
+g.smoothie_update_interval = 3
+g.smoothie_base_speed = 9
+g.smoothie_break_on_reverse = 1
 
 -- bufferline configuration
 require"bufferline".setup{ options = {
