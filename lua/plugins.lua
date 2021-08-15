@@ -50,6 +50,7 @@ require('packer').startup(function()
 		-- functional
 		'camspiers/snap',												-- producer/consumer based finder
 		'junegunn/vim-easy-align', 							-- align text using ga
+		'ggandor/lightspeed.nvim', 							-- jump to location with 2 chars
 		'preservim/nerdcommenter', 							-- commenting with <leader>c<character>
 		'sheerun/vim-polyglot',									-- syntax files for folding
 		'tpope/vim-fugitive', 									-- git integration
