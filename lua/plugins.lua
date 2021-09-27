@@ -34,6 +34,10 @@ local function setup_servers()
 	end
 end
 
+local function host_matches(host)
+	return fn.system({'hostname'}) == host
+end
+
 -- ensure packer is installed
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
@@ -49,6 +53,49 @@ require('packer').startup(function()
 		-- functional
 		'camspiers/snap',												-- producer/consumer based finder
 		'fatih/vim-go', 												-- go language server and commands
+		'junegunn/vim-easy-align', 							-- align text using ga
+		'preservim/nerdcommenter', 							-- commenting with <leader>c<character>
+		'sheerun/vim-polyglot',									-- syntax files for folding
+		'tpope/vim-fugitive', 									-- git integration
+		'tpope/vim-repeat',                 		-- allow plugins to map .
+		'tpope/vim-surround',               		-- manipulate surrounding symbols
+		'wbthomason/packer.nvim', 							-- packer manages itself
+
+		-- completion/linting
+		'hrsh7th/nvim-compe', 									-- completion
+		'kabouzeid/nvim-lspinstall', 						-- lsp installation helper
+		'neovim/nvim-lspconfig', 								-- builtin lsp
+
+		-- visual
+		'RRethy/vim-illuminate',            		-- highlight other occurences
+		'airblade/vim-gitgutter', 							-- git diff visualization
+		'junegunn/limelight.vim',								-- paragraph highlighting
+		'lilydjwg/colorizer',										-- colorize hex color codes
+		'MaxMEllon/vim-jsx-pretty',							-- react syntax highlighting
+		'machakann/vim-highlightedyank',				-- highlight yanked  text
+		{																				-- blankline indent characters
+			'lukas-reineke/indent-blankline.nvim',
+			branch = 'master'
+		},
+		{ 																			-- buffer line
+			'akinsho/nvim-bufferline.lua',
+			requires = 'kyazdani42/nvim-web-devicons'
+		},
+		{ 																			-- status line
+			'glepnir/galaxyline.nvim',
+			branch = 'main',
+			config = function() require'statusline' end,
+			requires = {'kyazdani42/nvim-web-devicons', opt = true}
+		},
+		{ 																			-- swap icons for nonicons.ttf
+			'yamatsum/nvim-nonicons',
+			requires = {'kyazdani42/nvim-web-devicons'}
+		},
+	}
+
+	-- unnecessary plugins that should only be loaded on powerful machines
+	if host_matches('debian-tower') then
+		use {
 		{
 			"folke/which-key.nvim",
 			config = function()
@@ -115,47 +162,10 @@ require('packer').startup(function()
 
 			end
 		},
-		'junegunn/vim-easy-align', 							-- align text using ga
-		'preservim/nerdcommenter', 							-- commenting with <leader>c<character>
-		'sheerun/vim-polyglot',									-- syntax files for folding
 		'tommcdo/vim-fubitive', 								-- bitbucket remote extension for fugitive
-		'tpope/vim-fugitive', 									-- git integration
-		'tpope/vim-repeat',                 		-- allow plugins to map .
-		'tpope/vim-surround',               		-- manipulate surrounding symbols
-		'wbthomason/packer.nvim', 							-- packer manages itself
-
-		-- completion/linting
-		'hrsh7th/nvim-compe', 									-- completion
-		'kabouzeid/nvim-lspinstall', 						-- lsp installation helper
-		'neovim/nvim-lspconfig', 								-- builtin lsp
-
-		-- visual
-		'RRethy/vim-illuminate',            		-- highlight other occurences
-		'airblade/vim-gitgutter', 							-- git diff visualization
-		'junegunn/limelight.vim',								-- paragraph highlighting
 		'psliwka/vim-smoothie', 								-- smooth scrolling
-		'lilydjwg/colorizer',										-- colorize hex color codes
-		'MaxMEllon/vim-jsx-pretty',							-- react syntax highlighting
-		'machakann/vim-highlightedyank',				-- highlight yanked  text
-		{																				-- blankline indent characters
-			'lukas-reineke/indent-blankline.nvim',
-			branch = 'master'
-		},
-		{ 																			-- buffer line
-			'akinsho/nvim-bufferline.lua',
-			requires = 'kyazdani42/nvim-web-devicons'
-		},
-		{ 																			-- status line
-			'glepnir/galaxyline.nvim',
-			branch = 'main',
-			config = function() require'statusline' end,
-			requires = {'kyazdani42/nvim-web-devicons', opt = true}
-		},
-		{ 																			-- swap icons for nonicons.ttf
-			'yamatsum/nvim-nonicons',
-			requires = {'kyazdani42/nvim-web-devicons'}
-		},
-	}
+		}
+	end
 end)
 
 -- compe configuration
