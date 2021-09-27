@@ -18,7 +18,9 @@ function install_servers()
 		       		'vue',
 		       		'yaml',
 		       		'deno',
+							'go',
 		       		'diagnosticls'}) do
+		fn.input("\npress enter to install " .. server)
 		require'lspinstall'.install_server(server)
 	end
 end
