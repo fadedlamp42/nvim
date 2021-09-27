@@ -219,3 +219,7 @@ require"bufferline".setup{ options = {
 -- illuminate configuration
 cmd("hi link illuminatedWord Visual")
 g.Illuminate_ftblacklist = {'', 'text'}
+
+-- vim-go configuration
+g.go_imports_autosave = 0
+g.go_doc_keywordprg_enabled = 0

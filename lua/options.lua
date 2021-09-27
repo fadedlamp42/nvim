@@ -1,13 +1,14 @@
 local o = vim.opt
 
 -- visual
-o.scrolloff = 10 			-- 10 line buffer at top/bottom of buffer
+o.scrolloff = 10 			      -- 10 line buffer at top/bottom of buffer
 o.termguicolors = true 			-- :help termguicolors
-o.number = true 			-- line numbers
+o.number = true 			      -- line numbers
 o.relativenumber = true 		-- surrounding line numbers are relative
-o.cursorline = true 			-- highlight current line
-o.showmatch = true 			-- briefly jump to matching [{()}] on completion
-o.lazyredraw = true 			-- don't update screen during macros
+o.cursorline = true 			  -- highlight current line
+o.showmatch = true 			    -- briefly jump to matching [{()}] on completion
+o.lazyredraw = true 			  -- don't update screen during macros
+o.linebreak = true          -- break on words instead of characters
 
 -- functional
 --o.autochdir = true 			-- working directory is always directory of current file
