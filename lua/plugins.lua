@@ -14,6 +14,7 @@ function install_servers()
 		       		'json',
 		       		'lua',
 		       		'python',
+							'tailwindcss',
 		       		'vim',
 		       		'vue',
 		       		'yaml',
