@@ -44,8 +44,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
+local package_path_str = "/hdd/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/hdd/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/hdd/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/hdd/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/hdd/home/regular/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -57,7 +57,7 @@ end
 time([[Luarocks path setup]], false)
 time([[try_loadstring definition]], true)
 local function try_loadstring(s, component, name)
-  local success, result = pcall(loadstring(s))
+  local success, result = pcall(loadstring(s), name, _G.packer_plugins[name])
   if not success then
     vim.schedule(function()
       vim.api.nvim_notify('packer.nvim: Error running ' .. component .. ' for ' .. name .. ': ' .. result, vim.log.levels.ERROR, {})
@@ -69,98 +69,136 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["any-jump.vim"] = {
+    loaded = true,
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/any-jump.vim",
+    url = "https://github.com/pechorin/any-jump.vim"
+  },
   colorizer = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/colorizer"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/colorizer",
+    url = "https://github.com/lilydjwg/colorizer"
+  },
+  ["context.vim"] = {
+    loaded = true,
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/context.vim",
+    url = "https://github.com/wellle/context.vim"
+  },
+  ["emmet-vim"] = {
+    loaded = true,
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/emmet-vim",
+    url = "https://github.com/mattn/emmet-vim"
   },
   ["galaxyline.nvim"] = {
     config = { "\27LJ\2\n*\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\15statusline\frequire\0" },
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/galaxyline.nvim"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/galaxyline.nvim",
+    url = "https://github.com/glepnir/galaxyline.nvim"
   },
   ["indent-blankline.nvim"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
+    url = "https://github.com/lukas-reineke/indent-blankline.nvim"
   },
   ["limelight.vim"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/limelight.vim"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/limelight.vim",
+    url = "https://github.com/junegunn/limelight.vim"
+  },
+  ["neoscroll.nvim"] = {
+    loaded = true,
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/neoscroll.nvim",
+    url = "https://github.com/karb94/neoscroll.nvim"
   },
   nerdcommenter = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/nerdcommenter"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/nerdcommenter",
+    url = "https://github.com/preservim/nerdcommenter"
   },
   ["nvim-bufferline.lua"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/nvim-bufferline.lua"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/nvim-bufferline.lua",
+    url = "https://github.com/akinsho/nvim-bufferline.lua"
   },
   ["nvim-compe"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/nvim-compe"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/nvim-compe",
+    url = "https://github.com/hrsh7th/nvim-compe"
+  },
+  ["nvim-lsp-installer"] = {
+    loaded = true,
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
+    url = "https://github.com/williamboman/nvim-lsp-installer"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
-  },
-  ["nvim-lspinstall"] = {
-    loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/nvim-lspinstall"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
+    url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-nonicons"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/nvim-nonicons"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/nvim-nonicons",
+    url = "https://github.com/yamatsum/nvim-nonicons"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    url = "https://github.com/wbthomason/packer.nvim"
   },
   snap = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/snap"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/snap",
+    url = "https://github.com/camspiers/snap"
   },
   ["vim-easy-align"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-easy-align"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/vim-easy-align",
+    url = "https://github.com/junegunn/vim-easy-align"
   },
   ["vim-fugitive"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-fugitive"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/vim-fugitive",
+    url = "https://github.com/tpope/vim-fugitive"
   },
   ["vim-gitgutter"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-gitgutter"
-  },
-  ["vim-go"] = {
-    loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-go"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/vim-gitgutter",
+    url = "https://github.com/airblade/vim-gitgutter"
   },
   ["vim-highlightedyank"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-highlightedyank"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/vim-highlightedyank",
+    url = "https://github.com/machakann/vim-highlightedyank"
   },
   ["vim-illuminate"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-illuminate"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/vim-illuminate",
+    url = "https://github.com/RRethy/vim-illuminate"
   },
   ["vim-jsx-pretty"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-jsx-pretty"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/vim-jsx-pretty",
+    url = "https://github.com/MaxMEllon/vim-jsx-pretty"
   },
   ["vim-polyglot"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-polyglot"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/vim-polyglot",
+    url = "https://github.com/sheerun/vim-polyglot"
   },
   ["vim-repeat"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-repeat"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/vim-repeat",
+    url = "https://github.com/tpope/vim-repeat"
   },
   ["vim-surround"] = {
     loaded = true,
-    path = "/home/regular/.local/share/nvim/site/pack/packer/start/vim-surround"
+    path = "/hdd/home/regular/.local/share/nvim/site/pack/packer/start/vim-surround",
+    url = "https://github.com/tpope/vim-surround"
   }
 }
 
@@ -174,5 +212,6 @@ if should_profile then save_profiles() end
 end)
 
 if not no_errors then
+  error_msg = error_msg:gsub('"', '\\"')
   vim.api.nvim_command('echohl ErrorMsg | echom "Error in packer_compiled: '..error_msg..'" | echom "Please check your config for correctness" | echohl None')
 end

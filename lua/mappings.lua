@@ -35,8 +35,8 @@ map('n', '<leader>S', '<cmd>vsplit<CR>')
 map('n', 'J', '<cmd>bprev<CR>')
 map('n', 'K', '<cmd>bnext<CR>')
 
--- <leader>W to close buffer
-map('n', '<leader>W', '<cmd>bp <BAR> bd! #<CR>')
+-- closing buffer
+map('n', '<M-C-w>', '<cmd>bp <BAR> bd! #<CR>')
 
 -- <leader>V to edit init.lua
 map('n', '<leader>V', '<cmd>e ~/.config/nvim/init.lua<CR>')
@@ -57,7 +57,9 @@ map('n', 'k', 'gk')
 
 -- <C-k> and <C-j> to cycle windows
 map('n', '<C-k>', '<C-w><C-W>')
+map('n', '<M-C-k>', '<C-w><C-W>')
 map('n', '<C-j>', '<C-w><S-w>')
+map('n', '<M-NL>', '<C-w><S-w>')
 
 -- <C-hyil> to resize windows
 map('n', '<C-h>', '<cmd>vertical res -3<CR>')
@@ -124,3 +126,9 @@ snap.register.map({"n"}, {"<C-p>"}, function () -- fzf on <C-p>
 		views = {snap.get'preview.file'}
 	}
 end)
+
+vim.api.nvim_set_keymap("v", "<Leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("v", "<Leader>rf", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("v", "<Leader>rv", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("v", "<Leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("n", "<Leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})

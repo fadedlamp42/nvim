@@ -17,3 +17,4 @@ o.completeopt = 'menuone,noselect' 	-- necessary for compe
 o.mouse = 'a' 				-- mouse support
 o.foldmethod = 'syntax' 		-- fold based on syntax files
 o.foldlevelstart = 99 			-- fold completely on file open (99 = infinite)
+o.colorcolumn = '100'

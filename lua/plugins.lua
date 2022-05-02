@@ -5,38 +5,6 @@ local g = vim.g
 local cmd = vim.cmd
 
 -- utility functions
-function install_servers()
-	-- https://github.com/kabouzeid/nvim-lspinstall for full list
-	for _, server in pairs({'bash',
-		       		'css',
-		       		'dockerfile',
-		       		'html',
-		       		'json',
-		       		'lua',
-		       		'python',
-							'tailwindcss',
-		       		'vim',
-		       		'vue',
-		       		'yaml',
-		       		'deno',
-							'go',
-		       		'diagnosticls'}) do
-		fn.input("\npress enter to install " .. server)
-		require'lspinstall'.install_server(server)
-	end
-end
-
-local function setup_servers()
-	require'lspinstall'.setup()
-
-	local servers = require'lspinstall'.installed_servers()
-	for _, server in pairs(servers) do
-		if server ~= 'diagnosticls' then
-			require'lspconfig'[server].setup{}
-		end
-	end
-end
-
 local function host_matches(host)
 	return fn.system({'hostname'}) == host
 end
@@ -47,7 +15,6 @@ local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then 							-- if packer doesn't exist
 	fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path}) 	-- clone repo
 	execute 'packadd packer.nvim' 								-- add package
-	install_servers() 										-- install lsp servers for first time
 end
 
 -- package list
@@ -55,18 +22,21 @@ require('packer').startup(function()
 	use{
 		-- functional
 		'camspiers/snap',												-- producer/consumer based finder
-		'fatih/vim-go', 												-- go language server and commands
+		-- 'fatih/vim-go', 												-- go language server and commands
 		'junegunn/vim-easy-align', 							-- align text using ga
+		'mattn/emmet-vim',											-- quick html/css editing
+		'pechorin/any-jump.vim',								-- definition jumping
 		'preservim/nerdcommenter', 							-- commenting with <leader>c<character>
 		'sheerun/vim-polyglot',									-- syntax files for folding
 		'tpope/vim-fugitive', 									-- git integration
 		'tpope/vim-repeat',                 		-- allow plugins to map .
 		'tpope/vim-surround',               		-- manipulate surrounding symbols
 		'wbthomason/packer.nvim', 							-- packer manages itself
+		'wellle/context.vim',										-- display logical context
 
 		-- completion/linting
 		'hrsh7th/nvim-compe', 									-- completion
-		'kabouzeid/nvim-lspinstall', 						-- lsp installation helper
+		'williamboman/nvim-lsp-installer', 			-- lsp installation helper
 		'neovim/nvim-lspconfig', 								-- builtin lsp
 
 		-- visual
@@ -86,7 +56,7 @@ require('packer').startup(function()
 		},
 		{ 																			-- status line
 			'glepnir/galaxyline.nvim',
-			branch = 'main',
+			branch = 'dsych:bugfix/diagnostics',
 			config = function() require'statusline' end,
 			requires = {'kyazdani42/nvim-web-devicons', opt = true}
 		},
@@ -94,6 +64,7 @@ require('packer').startup(function()
 			'yamatsum/nvim-nonicons',
 			requires = {'kyazdani42/nvim-web-devicons'}
 		},
+		'karb94/neoscroll.nvim', 								-- smooth scrolling
 	}
 
 	-- unnecessary plugins that should only be loaded on powerful machines
@@ -166,12 +137,11 @@ require('packer').startup(function()
 			end
 		},
 		'tommcdo/vim-fubitive', 								-- bitbucket remote extension for fugitive
-		'psliwka/vim-smoothie', 								-- smooth scrolling
 		}
 	end
 end)
 
--- compe configuration
+-- compe
 require'compe'.setup {
 	enabled = true;
 	autocomplete = true;
@@ -198,20 +168,46 @@ require'compe'.setup {
 	};
 }
 
--- lspinstall configuration
-setup_servers()
+-- lsp-installer
+require'lspconfig'.bashls.setup{}               -- npm i -g bash-language-server
+require'lspconfig'.ccls.setup{}								  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ccls
+require'lspconfig'.csharp_ls.setup{} 						-- dotnet tool install --global csharp-ls
+require'lspconfig'.cssls.setup{}                -- npm i -g vscode-langservers-extracted
+require'lspconfig'.dockerls.setup{}             -- npm install -g dockerfile-language-server-nodejs
+require'lspconfig'.eslint.setup{}               -- npm i -g vscode-langservers-extracted
+require'lspconfig'.gopls.setup{}                -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
+require'lspconfig'.html.setup{}                 -- npm i -g vscode-langservers-extracted
+require'lspconfig'.jedi_language_server.setup{} -- pip3 install jedi-language-server
+require'lspconfig'.solargraph.setup{						-- gem install solargraph
+	diagnostics = true;
+	formatting = true;
+}
+require'lspconfig'.tailwindcss.setup{}          -- npm install -g @tailwindcss/language-server
+require'lspconfig'.terraform_lsp.setup{}        -- https://github.com/juliosueiras/terraform-lsp/releases
+require'lspconfig'.tsserver.setup{}             -- npm install -g typescript typescript-language-server
+require'lspconfig'.vimls.setup{}                -- npm install -g vim-language-server
+require'lspconfig'.yamlls.setup{}               -- yarn global add yaml-language-server
+require'lspconfig'.zeta_note.setup{             -- https://github.com/artempyanykh/zeta-note/releases
+	cmd = {'/usr/local/bin/zeta-note-linux'}
+}
 
-require'lspinstall'.post_install_hook = function()
-	setup_servers() 	-- install new servers
-	vim.cmd('bufdo e') 	-- reload buffer to trigger lsp startup
-end
 
--- vim-smoothie configuration
-g.smoothie_update_interval = 3
-g.smoothie_base_speed = 9
-g.smoothie_break_on_reverse = 1
+vim.g.markdown_fenced_languages = {
+  "ts=typescript"
+}
 
--- bufferline configuration
+-- vim-smoothie
+-- g.smoothie_update_interval = 3
+-- g.smoothie_base_speed = 9
+-- g.smoothie_break_on_reverse = 1
+
+-- neoscroll
+require('neoscroll').setup({
+	hide_cursor = false,
+	easing_function = 'sine',
+})
+
+-- bufferline
 require"bufferline".setup{ options = {
 	show_close_icon = false,
 	diagnostics = "nvim_lsp",
@@ -219,10 +215,14 @@ require"bufferline".setup{ options = {
 	show_buffer_icons = false,
 }}
 
--- illuminate configuration
+
+-- illuminate
 cmd("hi link illuminatedWord Visual")
 g.Illuminate_ftblacklist = {'', 'text'}
 
--- vim-go configuration
+-- vim-go
 g.go_imports_autosave = 0
 g.go_doc_keywordprg_enabled = 0
+
+-- emmet-vim
+g.user_emmet_leader_key = '<c-e>'
