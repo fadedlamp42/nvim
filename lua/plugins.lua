@@ -32,7 +32,25 @@ require('packer').startup(function()
 		'tpope/vim-repeat',                 		-- allow plugins to map .
 		'tpope/vim-surround',               		-- manipulate surrounding symbols
 		'wbthomason/packer.nvim', 							-- packer manages itself
-		'wellle/context.vim',										-- display logical context
+		-- 'wellle/context.vim',										-- display logical context TODO find option to make this break less window integrations (snap, any-jump, etc.)
+		{
+			"folke/trouble.nvim",
+			requires = "kyazdani42/nvim-web-devicons",
+			config = function()
+				require("trouble").setup {
+					-- see https://github.com/folke/trouble.nvim for configuration
+				}
+			end
+		},
+		{
+			"folke/todo-comments.nvim",
+			requires = "nvim-lua/plenary.nvim",
+			config = function()
+				require("todo-comments").setup {
+					-- see https://github.com/folke/todo-comments.nvim for configuration
+				}
+			end
+		},
 
 		-- completion/linting
 		'hrsh7th/nvim-compe', 									-- completion

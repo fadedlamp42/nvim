@@ -88,6 +88,8 @@ map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 
 -- plugin mappings
 map('n', '<leader>l', '<cmd>Limelight!! 0.85<CR>') 		-- <leader>l to toggle limelight
+map('n', '<leader>t', '<cmd>TroubleToggle<CR>') 		-- <leader>t to toggle Trouble
+map('n', '<leader>T', '<cmd>TodoTrouble<CR>') 		-- <leader>t to view TODOs with Trouble
 vim.cmd("xmap ga <Plug>(EasyAlign)")				-- EasyAlign visual mode
 vim.cmd("nmap ga <Plug>(EasyAlign)")				-- interactive EasyAlign for a motion/text object
 map('n', '<leader>cd', '<cmd>cd %:h<CR>')			-- <leader>cd to change to current directory
@@ -126,9 +128,3 @@ snap.register.map({"n"}, {"<C-p>"}, function () -- fzf on <C-p>
 		views = {snap.get'preview.file'}
 	}
 end)
-
-vim.api.nvim_set_keymap("v", "<Leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("v", "<Leader>rf", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("v", "<Leader>rv", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("v", "<Leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})
-vim.api.nvim_set_keymap("n", "<Leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})
