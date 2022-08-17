@@ -27,6 +27,7 @@ require('packer').startup(function()
 		'mattn/emmet-vim',											-- quick html/css editing
 		'pechorin/any-jump.vim',								-- definition jumping
 		'preservim/nerdcommenter', 							-- commenting with <leader>c<character>
+		'sbdchd/neoformat',											-- autoformatting
 		'sheerun/vim-polyglot',									-- syntax files for folding
 		'tpope/vim-fugitive', 									-- git integration
 		'tpope/vim-repeat',                 		-- allow plugins to map .
@@ -74,7 +75,7 @@ require('packer').startup(function()
 		},
 		{ 																			-- status line
 			'glepnir/galaxyline.nvim',
-			branch = 'dsych:bugfix/diagnostics',
+			branch = 'main',
 			config = function() require'statusline' end,
 			requires = {'kyazdani42/nvim-web-devicons', opt = true}
 		},
@@ -205,9 +206,6 @@ require'lspconfig'.terraform_lsp.setup{}        -- https://github.com/juliosueir
 require'lspconfig'.tsserver.setup{}             -- npm install -g typescript typescript-language-server
 require'lspconfig'.vimls.setup{}                -- npm install -g vim-language-server
 require'lspconfig'.yamlls.setup{}               -- yarn global add yaml-language-server
-require'lspconfig'.zeta_note.setup{             -- https://github.com/artempyanykh/zeta-note/releases
-	cmd = {'/usr/local/bin/zeta-note-linux'}
-}
 
 
 vim.g.markdown_fenced_languages = {
@@ -244,3 +242,11 @@ g.go_doc_keywordprg_enabled = 0
 
 -- emmet-vim
 g.user_emmet_leader_key = '<c-e>'
+
+-- neoformat
+g.neoformat_enabled_javascript = {'prettier'}
+
+cmd('augroup fmt')
+cmd('autocmd!')
+cmd('autocmd BufWritePre * undojoin | Neoformat')
+cmd('augroup END')
