@@ -55,6 +55,7 @@ let g:ale_lint_on_insert_leave = 1 " only lint after insert
 let g:ale_lint_delay = 0 " set delay to zero
 
 let g:ale_fixers = {'python': ['black', 'isort']}
+let g:ale_linters = {'javascript': []}
 
     "highlights
 highlight ALEInfo           guifg=#ffff00
@@ -123,11 +124,13 @@ let g:easytags_async = 1
 
 "coc
 let g:coc_global_extensions = [
-\   'coc-cmake',
+"\   'coc-cmake',
 \   'coc-css',
 \   'coc-cssmodules',
 \   'coc-stylelintplus',
 \   'coc-eslint',
+\   'coc-prettier',
+\   'coc-tsserver',
 \   'coc-git',
 \   'coc-go',
 \   'coc-html',
@@ -135,10 +138,9 @@ let g:coc_global_extensions = [
 \   'coc-python',
 \   'coc-sh',
 \   'coc-sql',
-\   'coc-tsserver',
 \   'coc-vimlsp',
 \   'coc-xml',
-\   'coc-yaml',
+\   'coc-yaml'
 \]
 
 "emmet
@@ -329,3 +331,7 @@ let g:netrw_winsize   = 30 "only use 30% of window
 packadd termdebug
 let g:termdebug_wide = 1
 set helpheight=100
+
+" fun to do :Limelight 1 with the following lines
+" let g:limelight_bop = '^'
+" let g:limelight_eop = '\n'

@@ -18,5 +18,9 @@
     },
     "yaml.schemas": {
         "kubernetes": "/*.y*ml"
-    }
+    },
+    "diagnostic.enableHighlightLineNumber": true,
+    "tsserver.log": "verbose",
+    "tsserver.typingsCacheLocation": "/usr/local/lib/node_modules/@types/node/",
+    "tsserver.enable": false
 }
