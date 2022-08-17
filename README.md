@@ -41,3 +41,11 @@ Clone into `$HOME/.config`, relies on `python3-pynvim` and `node`.
 - Open tag bar: `<leader><return>`
 - Insert emoji: `<c-x><c-e>`
 - Trigger emmet: `<c-e>,
+
+# Lua Porting Resources
+* [the switch to init.lua](https://oroques.dev/notes/neovim-init/)
+* [switching from init.vim to init.lua](https://icyphox.sh/blog/nvim-lua/)
+* [official lsp instructions](https://github.com/neovim/nvim-lspconfig)
+* [compe repo](https://github.com/hrsh7th/nvim-compe)
+* [NvChad init.lua example](https://github.com/siduck76/NvChad/blob/main/init.lua)
+* [current init.vim](https://github.com/fadedlamp42/nvim/blob/master/init.vim)
