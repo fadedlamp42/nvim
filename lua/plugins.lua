@@ -22,13 +22,23 @@ require('packer').startup(function()
 	use{
 		-- functional
 		'camspiers/snap',												-- producer/consumer based finder
-		-- 'fatih/vim-go', 												-- go language server and commands
+		'chentoast/marks.nvim',									-- mark manipulation and visualization
+		-- 'fatih/vim-go', 											-- go language server and commands
+		{																				-- docstring generation
+			'kkoomen/vim-doge',
+			run = ':call doge#install()'
+		},
 		'junegunn/vim-easy-align', 							-- align text using ga
 		'mattn/emmet-vim',											-- quick html/css editing
 		'pechorin/any-jump.vim',								-- definition jumping
 		'preservim/nerdcommenter', 							-- commenting with <leader>c<character>
-		'sbdchd/neoformat',											-- autoformatting
+		--'sbdchd/neoformat',										-- autoformatting
+		'tell-k/vim-autopep8',									-- python autoformatting, requires https://github.com/hhatto/autopep8
 		'sheerun/vim-polyglot',									-- syntax files for folding
+		{																				-- extract components
+			'napmn/react-extract.nvim',
+			requires = { "nvim-treesitter/nvim-treesitter" }
+		},
 		'tpope/vim-fugitive', 									-- git integration
 		'tpope/vim-repeat',                 		-- allow plugins to map .
 		'tpope/vim-surround',               		-- manipulate surrounding symbols
@@ -36,7 +46,7 @@ require('packer').startup(function()
 		-- 'wellle/context.vim',										-- display logical context TODO find option to make this break less window integrations (snap, any-jump, etc.)
 		{
 			"folke/trouble.nvim",
-			requires = "kyazdani42/nvim-web-devicons",
+			requires = "nvim-tree/nvim-web-devicons",
 			config = function()
 				require("trouble").setup {
 					-- see https://github.com/folke/trouble.nvim for configuration
@@ -54,9 +64,12 @@ require('packer').startup(function()
 		},
 
 		-- completion/linting
+		'github/copilot.vim',										-- GitHub Copilot
 		'hrsh7th/nvim-compe', 									-- completion
 		'williamboman/nvim-lsp-installer', 			-- lsp installation helper
+		'mfussenegger/nvim-lint', 							-- linting to augment lsps
 		'neovim/nvim-lspconfig', 								-- builtin lsp
+		'ray-x/lsp_signature.nvim',							-- signature help
 
 		-- visual
 		'RRethy/vim-illuminate',            		-- highlight other occurences
@@ -71,19 +84,23 @@ require('packer').startup(function()
 		},
 		{ 																			-- buffer line
 			'akinsho/nvim-bufferline.lua',
-			requires = 'kyazdani42/nvim-web-devicons'
+			tag = "v3.*",
+			requires = 'nvim-tree/nvim-web-devicons',
 		},
 		{ 																			-- status line
 			'glepnir/galaxyline.nvim',
 			branch = 'main',
 			config = function() require'statusline' end,
-			requires = {'kyazdani42/nvim-web-devicons', opt = true}
+			requires = {'nvim-tree/nvim-web-devicons', opt = true}
 		},
 		{ 																			-- swap icons for nonicons.ttf
 			'yamatsum/nvim-nonicons',
-			requires = {'kyazdani42/nvim-web-devicons'}
+			requires = {'nvim-tree/nvim-web-devicons'}
 		},
 		'karb94/neoscroll.nvim', 								-- smooth scrolling
+
+		-- always loaded last
+		'ryanoasis/vim-devicons',
 	}
 
 	-- unnecessary plugins that should only be loaded on powerful machines
@@ -197,6 +214,7 @@ require'lspconfig'.eslint.setup{}               -- npm i -g vscode-langservers-e
 require'lspconfig'.gopls.setup{}                -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
 require'lspconfig'.html.setup{}                 -- npm i -g vscode-langservers-extracted
 require'lspconfig'.jedi_language_server.setup{} -- pip3 install jedi-language-server
+require'lspconfig'.pyright.setup{} 							-- npm i -g pyright
 require'lspconfig'.solargraph.setup{						-- gem install solargraph
 	diagnostics = true;
 	formatting = true;
@@ -244,9 +262,126 @@ g.go_doc_keywordprg_enabled = 0
 g.user_emmet_leader_key = '<c-e>'
 
 -- neoformat
-g.neoformat_enabled_javascript = {'prettier'}
+--g.neoformat_enabled_javascript = {'prettier'}
 
-cmd('augroup fmt')
-cmd('autocmd!')
-cmd('autocmd BufWritePre * undojoin | Neoformat')
-cmd('augroup END')
+--cmd('augroup fmt')
+--cmd('autocmd!')
+--cmd('autocmd BufWritePre * undojoin | Neoformat')
+--cmd('augroup END')
+
+-- lsp_signature
+local signature_config = {
+	doc_lines = 30, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
+
+	max_height = 30, -- max height of signature floating_window
+	max_width = 100, -- max_width of signature floating_window
+
+	floating_window = false, -- show hint in a floating window, set to false for virtual text only mode
+
+	floating_window_above_cur_line = true, -- try to place the floating above the current line when possible Note:
+	-- will set to true when fully tested, set to false will use whichever side has more space
+	-- this setting will be helpful if you do not want the PUM and floating win overlap
+
+	floating_window_off_x = 1, -- adjust float windows x position. 
+	-- can be either a number or function
+	floating_window_off_y = 0, -- adjust float windows y position. e.g -2 move window up 2 lines; 2 move down 2 lines
+	-- can be either number or function, see examples
+
+	close_timeout = 1000, -- close floating window after ms when laster parameter is entered
+	fix_pos = false,  -- set to true, the floating window will not auto-close until finish all parameters
+	hint_enable = true, -- virtual hint enable
+	hint_prefix = "🐼 ",  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
+	hint_scheme = "String",
+	hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
+	handler_opts = {
+		border = "rounded"   -- double, rounded, single, shadow, none, or a table of borders
+	},
+
+	always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
+
+	auto_close_after = 1000, -- autoclose signature float win after x sec, disabled if nil.
+	extra_trigger_chars = {"(", ","}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
+	zindex = 200, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
+
+	padding = '', -- character to pad on left and right of signature can be ' ', or '|'  etc
+
+	transparency = nil, -- disabled by default, allow floating win transparent value 1~100
+	shadow_blend = 36, -- if you using shadow as border use this set the opacity
+	shadow_guibg = 'Black', -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
+	timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
+	toggle_key = '<C-/>', -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
+
+	select_signature_key = '<M-n>', -- cycle to next signature, e.g. '<M-n>' function overloading
+	move_cursor_key = nil, -- imap, use nvim_set_current_win to move cursor between current win and floating
+}
+require "lsp_signature".setup(cfg)
+
+-- marks
+require'marks'.setup {
+  -- whether to map keybinds or not. default true
+  default_mappings = true,
+
+  -- which builtin marks to show. default {}
+  builtin_marks = { ".", "<", ">", "^" },
+
+  -- whether movements cycle back to the beginning/end of buffer. default true
+  cyclic = true,
+
+  -- whether the shada file is updated after modifying uppercase marks. default false
+  force_write_shada = false,
+
+  -- how often (in ms) to redraw signs/recompute mark positions. 
+  -- higher values will have better performance but may cause visual lag, 
+  -- while lower values may cause performance penalties. default 150.
+  refresh_interval = 250,
+
+  -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
+  -- marks, and bookmarks.
+  -- can be either a table with all/none of the keys, or a single number, in which case
+  -- the priority applies to all marks.
+  -- default 10.
+  sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
+
+  -- disables mark tracking for specific filetypes. default {}
+  excluded_filetypes = {},
+
+  -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
+  -- sign/virttext. Bookmarks can be used to group together positions and quickly move
+  -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
+  -- default virt_text is "".
+  --bookmark_0 = {
+  --  sign = "⚑",
+  --  virt_text = "hello world",
+  --  -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
+  --  -- defaults to false.
+  --  annotate = false,
+  --},
+  mappings = {}
+}
+
+-- vim-autopep8
+g.autopep8_disable_show_diff=1
+g.autopep8_max_line_length=120
+g.autopep8_on_save = 0
+
+vim.cmd("autocmd BufWritePre *.py execute ':Autopep8' | :undojoin | :undojoin")
+
+-- vim-pydocstring
+g.doge_enable_mappings = 0
+g.doge_buffer_mappings = 0
+g.doge_doc_standard_python = 'numpy'
+
+-- copilot 
+g.copilot_node_command = '/usr/local/n/versions/node/16.20.1/bin/node'
+
+-- nvim-lint
+local pylint = require('lint').linters.pylint
+pylint.args = {
+	'--rcfile', '/home/regular/code/chartmetric/script/.pylintrc',
+	'-f', 'json'
+}
+require('lint').linters_by_ft = {
+  python = {'pylint',}
+}
+
+vim.cmd("au BufWritePost * lua require('lint').try_lint()")

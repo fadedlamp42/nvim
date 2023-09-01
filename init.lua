@@ -6,9 +6,9 @@ local cmd = vim.cmd
 cmd 'colorscheme fadedwolf'
 
 -- modules
+require 'options'
 require 'plugins'
 require 'mappings'
-require 'options'
 
 -- plugin configuration
 g.indent_blankline_enabled = true

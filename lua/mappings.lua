@@ -68,10 +68,9 @@ map('n', '<C-y>', '<cmd>res +3<CR>')
 
 -- lsp actions
 --map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
 map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-map('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+map('n', '<leader>f', '<cmd>lua vim.lsp.buf.format { async = true }<CR>')
 map('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
 map('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>')
 map('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
@@ -107,6 +106,7 @@ map('n', '<leader>Gl', '<cmd>Git log<CR>')			-- <leader>Gl for git log
 map('n', '<leader>Gp', '<cmd>Git pull<CR>')			-- <leader>Gp for git pull
 map('n', '<leader>GP', '<cmd>Git push<CR>')			-- <leader>GP for git push
 map('n', '<leader>Gr', '<cmd>Git reset<CR>')			-- <leader>Gr for git reset
+map('i', '<C-p>', '<cmd>Copilot panel<CR>') 		-- <leader>p to toggle Copilot panel
 
 local snap = require'snap'
 snap.register.map({"n"}, {"<C-g>"}, function () -- ripgrep on <C-g>
@@ -128,3 +128,13 @@ snap.register.map({"n"}, {"<C-p>"}, function () -- fzf on <C-p>
 		views = {snap.get'preview.file'}
 	}
 end)
+
+-- vim-doge
+map('n', '<leader>D', '<cmd>DogeGenerate<CR>') -- :DogeGenerate on <leader>D
+
+map('n', '<TAB>', '<Plug>(doge-comment-jump-forward)')
+map('n', '<S-TAB>', '<Plug>(doge-comment-jump-backward)')
+-- map('i', '<TAB>', '<Plug>(doge-comment-jump-forward)')
+-- map('i', '<S-TAB>', '<Plug>(doge-comment-jump-backward)')
+--map('s', '<TAB>', '<Plug>(doge-comment-jump-forward)')
+--map('s', '<S-TAB>', '<Plug>(doge-comment-jump-backward)')
