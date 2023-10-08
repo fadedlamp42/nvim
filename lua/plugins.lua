@@ -372,7 +372,7 @@ g.doge_buffer_mappings = 0
 g.doge_doc_standard_python = 'numpy'
 
 -- copilot 
-g.copilot_node_command = '/usr/local/n/versions/node/16.20.1/bin/node'
+g.copilot_filetypes = { ['*'] = true }
 
 -- nvim-lint
 local pylint = require('lint').linters.pylint
