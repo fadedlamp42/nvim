@@ -206,7 +206,7 @@ require'compe'.setup {
 
 -- lsp-installer
 require'lspconfig'.bashls.setup{}               -- npm i -g bash-language-server
-require'lspconfig'.ccls.setup{}								  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ccls
+require'lspconfig'.ccls.setup{}								  -- sudo apt install ccls
 require'lspconfig'.csharp_ls.setup{} 						-- dotnet tool install --global csharp-ls
 require'lspconfig'.cssls.setup{}                -- npm i -g vscode-langservers-extracted
 require'lspconfig'.dockerls.setup{}             -- npm install -g dockerfile-language-server-nodejs
@@ -223,7 +223,7 @@ require'lspconfig'.tailwindcss.setup{}          -- npm install -g @tailwindcss/l
 require'lspconfig'.terraform_lsp.setup{}        -- https://github.com/juliosueiras/terraform-lsp/releases
 require'lspconfig'.tsserver.setup{}             -- npm install -g typescript typescript-language-server
 require'lspconfig'.vimls.setup{}                -- npm install -g vim-language-server
-require'lspconfig'.yamlls.setup{}               -- yarn global add yaml-language-server
+require'lspconfig'.yamlls.setup{}               -- yarn global add yaml-language-server (npm install -g yaml-language-server)
 
 
 vim.g.markdown_fenced_languages = {
