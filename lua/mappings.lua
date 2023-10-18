@@ -108,26 +108,36 @@ map('n', '<leader>GP', '<cmd>Git push<CR>')			-- <leader>GP for git push
 map('n', '<leader>Gr', '<cmd>Git reset<CR>')			-- <leader>Gr for git reset
 map('i', '<C-p>', '<cmd>Copilot panel<CR>') 		-- <leader>p to toggle Copilot panel
 
-local snap = require'snap'
-snap.register.map({"n"}, {"<C-g>"}, function () -- ripgrep on <C-g>
-	snap.run {
-		prompt = "grep",
-		producer = snap.get'producer.ripgrep.vimgrep',
-		select = snap.get'select.vimgrep'.select,
-		multiselect = snap.get'select.vimgrep'.multiselect,
-		views = {snap.get'preview.vimgrep'}
-	}
-end)
+-- snap
+--local snap = require'snap'
+--snap.register.map({"n"}, {"<C-g>"}, function () -- ripgrep on <C-g>
+--	snap.run {
+--		prompt = "grep",
+--		producer = snap.get'producer.ripgrep.vimgrep',
+--		select = snap.get'select.vimgrep'.select,
+--		multiselect = snap.get'select.vimgrep'.multiselect,
+--		views = {snap.get'preview.vimgrep'}
+--	}
+--end)
+--
+--snap.register.map({"n"}, {"<C-p>"}, function () -- fzf on <C-p>
+--	snap.run {
+--		prompt = "files",
+--		producer = snap.get'consumer.fzf'(snap.get'producer.ripgrep.file'),
+--		select = snap.get'select.file'.select,
+--		multiselect = snap.get'select.file'.multiselect,
+--		views = {snap.get'preview.file'}
+--	}
+--end)
 
-snap.register.map({"n"}, {"<C-p>"}, function () -- fzf on <C-p>
-	snap.run {
-		prompt = "files",
-		producer = snap.get'consumer.fzf'(snap.get'producer.ripgrep.file'),
-		select = snap.get'select.file'.select,
-		multiselect = snap.get'select.file'.multiselect,
-		views = {snap.get'preview.file'}
-	}
-end)
+-- telescope
+--local builtin = require('telescope.builtin')
+--vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+--vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+--vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+--vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+map('n', '<C-g>', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
+map('n', '<C-p>', '<cmd>lua require("telescope.builtin").find_files()<CR>')
 
 -- vim-doge
 map('n', '<leader>D', '<cmd>DogeGenerate<CR>') -- :DogeGenerate on <leader>D

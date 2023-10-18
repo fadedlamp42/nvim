@@ -21,7 +21,11 @@ end
 require('packer').startup(function()
 	use{
 		-- functional
-		'camspiers/snap',												-- producer/consumer based finder
+		--'camspiers/snap',												-- producer/consumer based finder
+		{ 																			-- better finder for Mac?
+			'nvim-telescope/telescope.nvim', tag = '0.1.4',
+			requires = { {'nvim-lua/plenary.nvim'} }
+		},
 		'chentoast/marks.nvim',									-- mark manipulation and visualization
 		-- 'fatih/vim-go', 											-- go language server and commands
 		{																				-- docstring generation
@@ -211,7 +215,7 @@ require'lspconfig'.csharp_ls.setup{} 						-- dotnet tool install --global cshar
 require'lspconfig'.cssls.setup{}                -- npm i -g vscode-langservers-extracted
 require'lspconfig'.dockerls.setup{}             -- npm install -g dockerfile-language-server-nodejs
 require'lspconfig'.eslint.setup{}               -- npm i -g vscode-langservers-extracted
-require'lspconfig'.gopls.setup{}                -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#gopls
+require'lspconfig'.gopls.setup{}                -- go install golang.org/x/tools/gopls@latest
 require'lspconfig'.html.setup{}                 -- npm i -g vscode-langservers-extracted
 require'lspconfig'.jedi_language_server.setup{} -- pip3 install jedi-language-server
 require'lspconfig'.pyright.setup{} 							-- npm i -g pyright
@@ -385,3 +389,11 @@ require('lint').linters_by_ft = {
 }
 
 vim.cmd("au BufWritePost * lua require('lint').try_lint()")
+
+-- telescope
+require('telescope').setup{
+  defaults = {
+		sorting_strategy = "ascending",
+		dynamic_preview_title = true,
+  }
+};
