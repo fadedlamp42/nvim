@@ -21,11 +21,8 @@ end
 require('packer').startup(function()
 	use{
 		-- functional
-		--'camspiers/snap',												-- producer/consumer based finder
-		{ 																			-- better finder for Mac?
-			'nvim-telescope/telescope.nvim', tag = '0.1.4',
-			requires = { {'nvim-lua/plenary.nvim'} }
-		},
+		'junegunn/fzf',
+		'junegunn/fzf.vim',											-- fuzzy finder
 		'chentoast/marks.nvim',									-- mark manipulation and visualization
 		-- 'fatih/vim-go', 											-- go language server and commands
 		{																				-- docstring generation
@@ -390,10 +387,10 @@ require('lint').linters_by_ft = {
 
 vim.cmd("au BufWritePost * lua require('lint').try_lint()")
 
--- telescope
-require('telescope').setup{
-  defaults = {
-		sorting_strategy = "ascending",
-		dynamic_preview_title = true,
-  }
-};
+-- fzf
+g.fzf_layout = {
+	['window'] = {
+		['width'] = 0.95,
+		['height'] = 0.95
+	}
+}
