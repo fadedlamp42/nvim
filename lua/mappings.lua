@@ -10,11 +10,6 @@ end
 -- leader
 vim.g.mapleader = ","
 
--- tab completion
-map("i", "<TAB>", 'pumvisible() ? "<C-n>" : "<TAB>"', { expr = true }) -- tab advances
-map("i", "<S-TAB>", 'pumvisible() ? "<C-p>" : "<C-h>"', { expr = true }) -- shift+tab reverts
-map("i", "<CR>", 'pumvisible() ? "<C-g>u" : "<CR>"', { expr = true }) -- enter confirms
-
 -- jk to exit interactive/terminal mode
 map("i", "jk", "<esc>")
 map("t", "jk", "<C-\\><C-n>")

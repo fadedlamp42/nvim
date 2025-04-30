@@ -407,6 +407,12 @@ g.fzf_layout = {
 -- nvim-cmp
 local cmp = require("cmp")
 
+local has_words_before = function()
+	unpack = unpack or table.unpack
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 cmp.setup({
 	snippet = {
 		-- REQUIRED - you must specify a snippet engine
@@ -424,6 +430,32 @@ cmp.setup({
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-e>"] = cmp.mapping.abort(),
 		["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		["<Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				if #cmp.get_entries() == 1 then
+					cmp.confirm({ select = true })
+				else
+					cmp.select_next_item()
+				end
+			--[[ Replace with your snippet engine (see above sections on this page)
+      elseif snippy.can_expand_or_advance() then
+        snippy.expand_or_advance() ]]
+			-- elseif has_words_before() then
+			-- 	cmp.complete()
+			-- 	if #cmp.get_entries() == 1 then
+			-- 		cmp.confirm({ select = true })
+			-- 	end
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
 	}),
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
@@ -491,3 +523,6 @@ lsp.vimls.setup(c) -- npm install -g vim-language-server
 lsp.yamlls.setup(c) -- yarn global add yaml-language-server (npm install -g yaml-language-server)
 
 g.markdown_fenced_languages = { "ts=typescript" }
+
+-- codecompanion
+g.codecompanion_auto_tool_mode = true
