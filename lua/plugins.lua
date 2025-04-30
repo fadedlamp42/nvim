@@ -81,6 +81,33 @@ local configure_which_key = function()
 	})
 end
 
+-- https://codecompanion.olimorris.dev/getting-started.html#suggested-plugin-workflow
+local configure_codecompanion = function()
+	require("codecompanion").setup({
+		strategies = {
+			chat = {
+				adapter = "ollama",
+			},
+			inline = {
+				adapter = "ollama",
+			},
+			cmd = {
+				adapter = "ollama",
+			},
+		},
+		extensions = {
+			mcphub = {
+				callback = "mcphub.extensions.codecompanion",
+				opts = {
+					make_vars = true,
+					make_slash_commands = true,
+					show_result_in_chat = true,
+				},
+			},
+		},
+	})
+end
+
 -- package list
 require("packer").startup(function()
 	use({
@@ -135,6 +162,18 @@ require("packer").startup(function()
 		{ "lukas-reineke/indent-blankline.nvim", branch = "master" }, -- blankline indent characters
 		{ "napmn/react-extract.nvim", requires = { "nvim-treesitter/nvim-treesitter" } }, -- extract components
 		{ "yamatsum/nvim-nonicons", requires = { "nvim-tree/nvim-web-devicons" } }, -- swap icons for nonicons.ttf
+		{
+			"olimorris/codecompanion.nvim",
+			dependencies = {
+				"ravitemer/mcphub.nvim",
+			},
+			config = configure_codecompanion,
+			requires = {
+				"nvim-lua/plenary.nvim",
+				"nvim-treesitter/nvim-treesitter", -- To fix yaml parser error, run :TSInstall yaml
+				"ravitemer/mcphub.nvim",
+			},
+		},
 
 		-- always loaded last
 		"ryanoasis/vim-devicons", -- font icons

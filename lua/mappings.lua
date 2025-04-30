@@ -120,3 +120,9 @@ map("n", "<S-TAB>", "<Plug>(doge-comment-jump-backward)")
 -- map('i', '<S-TAB>', '<Plug>(doge-comment-jump-backward)')
 --map('s', '<TAB>', '<Plug>(doge-comment-jump-forward)')
 --map('s', '<S-TAB>', '<Plug>(doge-comment-jump-backward)')
+
+-- codecompanion
+vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "<LocalLeader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.keymap.set("v", "a", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+vim.cmd([[cab cc CodeCompanion]]) -- 'cc'->'CodeCompanion' in command mode
