@@ -108,6 +108,38 @@ local configure_codecompanion = function()
 	})
 end
 
+-- mcphub
+local configure_mcphub = function()
+	require("mcphub").setup({
+		config = vim.fn.expand("~/.config/nvim/mcp-servers.json"),
+
+		auto_approve = true, -- Auto approve mcp tool calls (best for codecompanion integration)
+		auto_toggle_mcp_servers = true, -- Let LLMs start and stop MCP servers automatically
+
+		-- Extensions configuration
+		-- extensions = {
+		-- 	codecompanion = {
+		-- 		show_result_in_chat = true,
+		-- 		make_vars = true,
+		-- 		make_slash_commands = true, -- make /slash commands from MCP server prompts
+		-- 	},
+		-- },
+
+		-- Default window settings
+		ui = {
+			window = {
+				width = 0.8, -- 0-1 (ratio); "50%" (percentage); 50 (raw number)
+				height = 0.8, -- 0-1 (ratio); "50%" (percentage); 50 (raw number)
+				relative = "editor",
+				zindex = 50,
+				border = "rounded", -- "none", "single", "double", "rounded", "solid", "shadow"
+			},
+			wo = { -- window-scoped options (vim.wo)
+			},
+		},
+	})
+end
+
 -- package list
 require("packer").startup(function()
 	use({
@@ -174,6 +206,7 @@ require("packer").startup(function()
 				"ravitemer/mcphub.nvim",
 			},
 		},
+		{ "ravitemer/mcphub.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = configure_mcphub }, -- npm install -g mcp-hub@latest,
 
 		-- always loaded last
 		"ryanoasis/vim-devicons", -- font icons
