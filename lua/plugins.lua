@@ -20,6 +20,9 @@ end
 -- package list
 require('packer').startup(function()
 	use{
+		-- tracking
+		-- 'ActivityWatch/aw-watcher-vim', 				-- send activity to ActivityWatch (stopped working?)
+
 		-- functional
 		'junegunn/fzf',
 		'junegunn/fzf.vim',											-- fuzzy finder
@@ -34,7 +37,7 @@ require('packer').startup(function()
 		'pechorin/any-jump.vim',								-- definition jumping
 		'preservim/nerdcommenter', 							-- commenting with <leader>c<character>
 		--'sbdchd/neoformat',										-- autoformatting
-		'tell-k/vim-autopep8',									-- python autoformatting, requires https://github.com/hhatto/autopep8
+		--'tell-k/vim-autopep8',									-- python autoformatting, requires https://github.com/hhatto/autopep8
 		'sheerun/vim-polyglot',									-- syntax files for folding
 		{																				-- extract components
 			'napmn/react-extract.nvim',
@@ -66,7 +69,7 @@ require('packer').startup(function()
 
 		-- completion/linting
 		'github/copilot.vim',										-- GitHub Copilot
-		'hrsh7th/nvim-compe', 									-- completion
+		-- 'hrsh7th/nvim-compe', 									-- completion
 		'williamboman/nvim-lsp-installer', 			-- lsp installation helper
 		'mfussenegger/nvim-lint', 							-- linting to augment lsps
 		'neovim/nvim-lspconfig', 								-- builtin lsp
@@ -85,7 +88,7 @@ require('packer').startup(function()
 		},
 		{ 																			-- buffer line
 			'akinsho/nvim-bufferline.lua',
-			tag = "v3.*",
+			-- tag = "v3.*",
 			requires = 'nvim-tree/nvim-web-devicons',
 		},
 		{ 																			-- status line
@@ -179,31 +182,31 @@ require('packer').startup(function()
 end)
 
 -- compe
-require'compe'.setup {
-	enabled = true;
-	autocomplete = true;
-	debug = false;
-	min_length = 0;
-	preselect = 'disable';
-	throttle_time = 80;
-	source_timeout = 200;
-	resolve_timeout = 800;
-	incomplete_delay = 400;
-	max_abbr_width = 100;
-	max_kind_width = 100;
-	max_menu_width = 100;
-	documentation = true;
-
-	source = {
-		path = true;
-		buffer = true;
-		calc = true;
-		nvim_lsp = true;
-		nvim_lua = true;
-		vsnip = true;
-		ultisnips = true;
-	};
-}
+-- require'compe'.setup {
+-- 	enabled = true;
+-- 	autocomplete = true;
+-- 	debug = false;
+-- 	min_length = 0;
+-- 	preselect = 'disable';
+-- 	throttle_time = 80;
+-- 	source_timeout = 200;
+-- 	resolve_timeout = 800;
+-- 	incomplete_delay = 400;
+-- 	max_abbr_width = 100;
+-- 	max_kind_width = 100;
+-- 	max_menu_width = 100;
+-- 	documentation = true;
+-- 
+-- 	source = {
+-- 		path = true;
+-- 		buffer = true;
+-- 		calc = true;
+-- 		nvim_lsp = true;
+-- 		nvim_lua = true;
+-- 		vsnip = true;
+-- 		ultisnips = true;
+-- 	};
+-- }
 
 -- lsp-installer
 require'lspconfig'.bashls.setup{}               -- npm i -g bash-language-server
@@ -214,14 +217,23 @@ require'lspconfig'.dockerls.setup{}             -- npm install -g dockerfile-lan
 require'lspconfig'.eslint.setup{}               -- npm i -g vscode-langservers-extracted
 require'lspconfig'.gopls.setup{}                -- go install golang.org/x/tools/gopls@latest
 require'lspconfig'.html.setup{}                 -- npm i -g vscode-langservers-extracted
-require'lspconfig'.jedi_language_server.setup{} -- pip3 install jedi-language-server
+-- require'lspconfig'.jedi_language_server.setup{} -- pip3 install jedi-language-server
+-- require'lspconfig'.pyright.setup{} 							-- npm i -g pyright
+require'lspconfig'.kotlin_language_server.setup{-- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/kotlin_language_server/
+	kotlin = {
+		languageServer = {
+			path = 'kotlin-language-server'
+		}
+	}
+} 
 require'lspconfig'.pyright.setup{} 							-- npm i -g pyright
 require'lspconfig'.solargraph.setup{						-- gem install solargraph
 	diagnostics = true;
 	formatting = true;
 }
 require'lspconfig'.tailwindcss.setup{}          -- npm install -g @tailwindcss/language-server
-require'lspconfig'.terraform_lsp.setup{}        -- https://github.com/juliosueiras/terraform-lsp/releases
+-- require'lspconfig'.terraform_lsp.setup{}        -- https://github.com/juliosueiras/terraform-lsp/releases
+require'lspconfig'.terraformls.setup{}          -- https://github.com/hashicorp/terraform-ls
 require'lspconfig'.tsserver.setup{}             -- npm install -g typescript typescript-language-server
 require'lspconfig'.vimls.setup{}                -- npm install -g vim-language-server
 require'lspconfig'.yamlls.setup{}               -- yarn global add yaml-language-server (npm install -g yaml-language-server)
@@ -361,11 +373,11 @@ require'marks'.setup {
 }
 
 -- vim-autopep8
-g.autopep8_disable_show_diff=1
-g.autopep8_max_line_length=120
-g.autopep8_on_save = 0
-
-vim.cmd("autocmd BufWritePre *.py execute ':Autopep8' | :undojoin | :undojoin")
+--g.autopep8_disable_show_diff=1
+--g.autopep8_max_line_length=120
+--g.autopep8_on_save = 0
+--
+--vim.cmd("autocmd BufWritePre *.py execute ':Autopep8' | :undojoin | :undojoin")
 
 -- vim-pydocstring
 g.doge_enable_mappings = 0
@@ -377,15 +389,19 @@ g.copilot_filetypes = { ['*'] = true }
 
 -- nvim-lint
 local pylint = require('lint').linters.pylint
-pylint.args = {
-	'--rcfile', '/home/regular/code/chartmetric/script/.pylintrc',
-	'-f', 'json'
-}
+-- pylint.args = {
+-- 	'--rcfile', '/home/regular/code/chartmetric/script/.pylintrc',
+-- 	'-f', 'json'
+-- }
 require('lint').linters_by_ft = {
-  python = {'pylint',}
+  python = {'pylint', 'ruff'}
 }
 
 vim.cmd("au BufWritePost * lua require('lint').try_lint()")
+
+-- darker (relies on darker in pyenv)
+vim.cmd("set autoread")
+vim.cmd("autocmd BufWritePost *.py silent :!darker %")
 
 -- fzf
 g.fzf_layout = {
