@@ -110,7 +110,7 @@ require('packer').startup(function()
 		{ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim", config = function() require("todo-comments").setup {} end },      -- see https://github.com/folke/todo-comments.nvim for configuration
 		{ "folke/trouble.nvim", requires = "nvim-tree/nvim-web-devicons", config = function() require("trouble").setup {} end },            -- see https://github.com/folke/trouble.nvim for configuration
 		{ 'akinsho/nvim-bufferline.lua', requires = 'nvim-tree/nvim-web-devicons' },                                                        -- buffer line
-		{ 'folke/which-key.nvim', config = configure_which_key },                                                                           -- keybinding helper
+		{ 'folke/which-key.nvim', requires = "echasnovski/mini.icons", config = configure_which_key },                                      -- keybinding helper
 		{ 'glepnir/galaxyline.nvim', config = function() require'statusline' end, requires = {'nvim-tree/nvim-web-devicons', opt = true} }, -- status line
 		{ 'junegunn/fzf.vim', requires = 'junegunn/fzf' },                                                                                  -- fuzzy finder
 		{ 'kkoomen/vim-doge', run = ':call doge#install()' },                                                                               -- docstring generation
@@ -124,44 +124,25 @@ require('packer').startup(function()
 end)
 
 -- lsp-installer
-require'lspconfig'.bashls.setup{}               -- npm i -g bash-language-server
-require'lspconfig'.ccls.setup{}								  -- sudo apt install ccls
-require'lspconfig'.csharp_ls.setup{} 						-- dotnet tool install --global csharp-ls
-require'lspconfig'.cssls.setup{}                -- npm i -g vscode-langservers-extracted
-require'lspconfig'.dockerls.setup{}             -- npm install -g dockerfile-language-server-nodejs
-require'lspconfig'.eslint.setup{}               -- npm i -g vscode-langservers-extracted
-require'lspconfig'.gopls.setup{}                -- go install golang.org/x/tools/gopls@latest
-require'lspconfig'.html.setup{}                 -- npm i -g vscode-langservers-extracted
--- require'lspconfig'.jedi_language_server.setup{} -- pip3 install jedi-language-server
--- require'lspconfig'.pyright.setup{} 							-- npm i -g pyright
-require'lspconfig'.kotlin_language_server.setup{-- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/kotlin_language_server/
-	kotlin = {
-		languageServer = {
-			path = 'kotlin-language-server'
-		}
-	}
-} 
-require'lspconfig'.pyright.setup{} 							-- npm i -g pyright
-require'lspconfig'.solargraph.setup{						-- gem install solargraph
-	diagnostics = true;
-	formatting = true;
-}
-require'lspconfig'.tailwindcss.setup{}          -- npm install -g @tailwindcss/language-server
--- require'lspconfig'.terraform_lsp.setup{}        -- https://github.com/juliosueiras/terraform-lsp/releases
-require'lspconfig'.terraformls.setup{}          -- https://github.com/hashicorp/terraform-ls
-require'lspconfig'.tsserver.setup{}             -- npm install -g typescript typescript-language-server
-require'lspconfig'.vimls.setup{}                -- npm install -g vim-language-server
-require'lspconfig'.yamlls.setup{}               -- yarn global add yaml-language-server (npm install -g yaml-language-server)
+local lsp = require'lspconfig'
+lsp.bashls.setup{}               -- npm i -g bash-language-server
+lsp.ccls.setup{}								  -- sudo apt install ccls
+lsp.csharp_ls.setup{} 						-- dotnet tool install --global csharp-ls
+lsp.cssls.setup{}                -- npm i -g vscode-langservers-extracted
+lsp.dockerls.setup{}             -- npm install -g dockerfile-language-server-nodejs
+lsp.eslint.setup{}               -- npm i -g vscode-langservers-extracted
+lsp.gopls.setup{}                -- go install golang.org/x/tools/gopls@latest
+lsp.html.setup{}                 -- npm i -g vscode-langservers-extracted
+lsp.kotlin_language_server.setup { kotlin = { languageServer = { path = 'kotlin-language-server' } } } -- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/kotlin_language_server/ 
+lsp.pyright.setup{} 							-- npm i -g pyright
+lsp.solargraph.setup { diagnostics = true; formatting = true; } -- gem install solargraph
+lsp.tailwindcss.setup{}          -- npm install -g @tailwindcss/language-server
+lsp.terraformls.setup{}          -- https://github.com/hashicorp/terraform-ls
+lsp.ts_ls.setup{}                -- npm install -g typescript typescript-language-server
+lsp.vimls.setup{}                -- npm install -g vim-language-server
+lsp.yamlls.setup{}               -- yarn global add yaml-language-server (npm install -g yaml-language-server)
 
-
-vim.g.markdown_fenced_languages = {
-  "ts=typescript"
-}
-
--- vim-smoothie
--- g.smoothie_update_interval = 3
--- g.smoothie_base_speed = 9
--- g.smoothie_break_on_reverse = 1
+g.markdown_fenced_languages = { "ts=typescript" }
 
 -- neoscroll
 require('neoscroll').setup({
@@ -190,12 +171,8 @@ g.go_doc_keywordprg_enabled = 0
 g.user_emmet_leader_key = '<c-e>'
 
 -- neoformat
---g.neoformat_enabled_javascript = {'prettier'}
-
---cmd('augroup fmt')
---cmd('autocmd!')
---cmd('autocmd BufWritePre * undojoin | Neoformat')
---cmd('augroup END')
+-- g.neoformat_enabled_javascript = {'prettier'}
+g.neoformat_run_all_formatters = 1
 
 -- lsp_signature
 local signature_config = {
@@ -286,13 +263,6 @@ require'marks'.setup {
   --},
   mappings = {}
 }
-
--- vim-autopep8
---g.autopep8_disable_show_diff=1
---g.autopep8_max_line_length=120
---g.autopep8_on_save = 0
---
---vim.cmd("autocmd BufWritePre *.py execute ':Autopep8' | :undojoin | :undojoin")
 
 -- vim-pydocstring
 g.doge_enable_mappings = 0
