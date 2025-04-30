@@ -84,15 +84,36 @@ end
 -- https://codecompanion.olimorris.dev/getting-started.html#suggested-plugin-workflow
 local configure_codecompanion = function()
 	require("codecompanion").setup({
+		adapters = {
+			copilot = function()
+				return require("codecompanion.adapters").extend("copilot", {
+					schema = {
+						model = {
+							default = "claude-3.7-sonnet",
+						},
+					},
+				})
+			end,
+		},
 		strategies = {
+			-- TODO figure out tool calling with ollama
+			-- chat = {
+			-- 	adapter = "ollama",
+			-- },
+			-- inline = {
+			-- 	adapter = "ollama",
+			-- },
+			-- cmd = {
+			-- 	adapter = "ollama",
+			-- },
 			chat = {
-				adapter = "ollama",
+				adapter = "copilot",
 			},
 			inline = {
-				adapter = "ollama",
+				adapter = "copilot",
 			},
 			cmd = {
-				adapter = "ollama",
+				adapter = "copilot",
 			},
 		},
 		extensions = {
@@ -201,6 +222,7 @@ require("packer").startup(function()
 				"nvim-lua/plenary.nvim",
 				"nvim-treesitter/nvim-treesitter", -- To fix yaml parser error, run :TSInstall yaml
 				"ravitemer/mcphub.nvim",
+				"echasnovski/mini.pick",
 			},
 		},
 		{ "ravitemer/mcphub.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = configure_mcphub }, -- npm install -g mcp-hub@latest,
@@ -224,7 +246,6 @@ require("packer").startup(function()
 		-- For vsnip users
 		"hrsh7th/cmp-vsnip",
 		"hrsh7th/vim-vsnip",
-
 
 		-- always loaded last
 		"ryanoasis/vim-devicons", -- font icons
