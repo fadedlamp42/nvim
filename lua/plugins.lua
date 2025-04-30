@@ -84,6 +84,49 @@ end
 -- https://codecompanion.olimorris.dev/getting-started.html#suggested-plugin-workflow
 local configure_codecompanion = function()
 	require("codecompanion").setup({
+		opts = {
+			system_prompt = function(opts)
+				--[[ Default prompt
+					return "
+						You are an AI programming assistant named "CodeCompanion". You are currently plugged in to the Neovim text editor on a user's machine.
+
+						Your core tasks include:
+						- Answering general programming questions.
+						- Explaining how the code in a Neovim buffer works.
+						- Reviewing the selected code in a Neovim buffer.
+						- Generating unit tests for the selected code.
+						- Proposing fixes for problems in the selected code.
+						- Scaffolding code for a new workspace.
+						- Finding relevant code to the user's query.
+						- Proposing fixes for test failures.
+						- Answering questions about Neovim.
+						- Running tools.
+
+						You must:
+						- Follow the user's requirements carefully and to the letter.
+						- Keep your answers short and impersonal, especially if the user responds with context outside of your tasks.
+						- Minimize other prose.
+						- Use Markdown formatting in your answers.
+						- Include the programming language name at the start of the Markdown code blocks.
+						- Avoid including line numbers in code blocks.
+						- Avoid wrapping the whole response in triple backticks.
+						- Only return code that's relevant to the task at hand. You may not need to return all of the code that the user has shared.
+						- Use actual line breaks instead of '\n' in your response to begin new lines.
+						- Use '\n' only when you want a literal backslash followed by a character 'n'.
+						- All non-code responses must be in %s.
+
+						When given a task:
+						1. Think step-by-step and describe your plan for what to build in pseudocode, written out in great detail, unless asked not to do so.
+						2. Output the code in a single code block, being careful to only return relevant code.
+						3. You should always generate short suggestions for the next user turns that are relevant to the conversation.
+						4. You can only give one reply for each conversation turn.
+					"
+				end,
+				]]
+				--
+				return "You're a programming assistant. Answer coding questions, explain code, review selections, generate tests, fix code issues, scaffold new code, find relevant code, fix test failures, answer Neovim questions, and run tools. Keep responses extremely brief—just one sentence unless specifically asked for more. Use proper Markdown with language indicators for code blocks, avoid line numbers, and don't wrap entire responses in backticks. Use actual line breaks instead of '\n' except when literal. Use blunt language, don't make extra suggestions, and use concise words."
+			end,
+		},
 		adapters = {
 			copilot = function()
 				return require("codecompanion.adapters").extend("copilot", {
@@ -107,7 +150,7 @@ local configure_codecompanion = function()
 			-- 	adapter = "ollama",
 			-- },
 			chat = {
-				adapter = "copilot",
+				adapter = "ollama",
 			},
 			inline = {
 				adapter = "copilot",
@@ -497,30 +540,27 @@ cmp.setup.cmdline(":", {
 
 -- Set up lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 local c = { capabilities = capabilities }
-
--- lsp-installer
 local lsp = require("lspconfig")
-lsp.bashls.setup(c) -- npm i -g bash-language-server
-lsp.ccls.setup(c) -- sudo apt install ccls
-lsp.csharp_ls.setup(c) -- dotnet tool install --global csharp-ls
-lsp.cssls.setup(c) -- npm i -g vscode-langservers-extracted
-lsp.dockerls.setup(c) -- npm install -g dockerfile-language-server-nodejs
-lsp.eslint.setup(c) -- npm i -g vscode-langservers-extracted
-lsp.gopls.setup(c) -- go install golang.org/x/tools/gopls@latest
-lsp.html.setup(c) -- npm i -g vscode-langservers-extracted
+lsp.bashls.setup(c)
+lsp.ccls.setup(c)
+lsp.csharp_ls.setup(c)
+lsp.cssls.setup(c)
+lsp.dockerls.setup(c)
+lsp.eslint.setup(c)
+lsp.gopls.setup(c)
+lsp.html.setup(c)
 lsp.kotlin_language_server.setup({
 	kotlin = { languageServer = { path = "kotlin-language-server" } },
 	capabilities = capabilities,
-}) -- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/kotlin_language_server/
-lsp.pyright.setup(c) -- npm i -g pyright
-lsp.solargraph.setup({ diagnostics = true, formatting = true }) -- gem install solargraph
-lsp.tailwindcss.setup(c) -- npm install -g @tailwindcss/language-server
-lsp.terraformls.setup(c) -- https://github.com/hashicorp/terraform-ls
-lsp.ts_ls.setup(c) -- npm install -g typescript typescript-language-server
-lsp.vimls.setup(c) -- npm install -g vim-language-server
-lsp.yamlls.setup(c) -- yarn global add yaml-language-server (npm install -g yaml-language-server)
+})
+lsp.pyright.setup(c)
+lsp.solargraph.setup({ diagnostics = true, formatting = true })
+lsp.tailwindcss.setup(c)
+lsp.terraformls.setup(c)
+lsp.ts_ls.setup(c)
+lsp.vimls.setup(c)
+lsp.yamlls.setup(c)
 
 g.markdown_fenced_languages = { "ts=typescript" }
 
