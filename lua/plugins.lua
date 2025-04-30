@@ -6,20 +6,20 @@ local cmd = vim.cmd
 
 -- utility functions
 local function host_matches(host)
-	return fn.system({'hostname'}) == host
+	return fn.system({ "hostname" }) == host
 end
 
 -- ensure packer is installed
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
-if fn.empty(fn.glob(install_path)) > 0 then 							-- if packer doesn't exist
-	fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path}) 	-- clone repo
-	execute 'packadd packer.nvim' 								-- add package
+if fn.empty(fn.glob(install_path)) > 0 then -- if packer doesn't exist
+	fn.system({ "git", "clone", "https://github.com/wbthomason/packer.nvim", install_path }) -- clone repo
+	execute("packadd packer.nvim") -- add package
 end
 
 -- configuration functions to keep final plugin lines clean
 local configure_which_key = function()
-	require("which-key").setup {
+	require("which-key").setup({
 		plugins = {
 			marks = true, -- shows a list of your marks on ' and `
 			registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -67,7 +67,7 @@ local configure_which_key = function()
 			align = "left", -- align columns left, center or right
 		},
 		ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
-		hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
+		hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
 		show_help = true, -- show help message on the command line when the popup is visible
 		triggers = "auto", -- automatically setup triggers
 		-- triggers = {"<leader>"} -- or specify a list manually
@@ -78,100 +78,118 @@ local configure_which_key = function()
 			i = { "j", "k" },
 			v = { "j", "k" },
 		},
-	}
+	})
 end
 
 -- package list
-require('packer').startup(function()
-	use {
-		'MaxMEllon/vim-jsx-pretty',                                                                                                         -- react syntax highlighting
-		'RRethy/vim-illuminate',                                                                                                            -- highlight other occurences
-		'airblade/vim-gitgutter',                                                                                                           -- git diff visualization
-		'chentoast/marks.nvim',                                                                                                             -- mark manipulation and visualization
-		'github/copilot.vim',                                                                                                               -- GitHub Copilot
-		'junegunn/limelight.vim',                                                                                                           -- paragraph highlighting
-		'junegunn/vim-easy-align',                                                                                                          -- align text using ga
-		'karb94/neoscroll.nvim',                                                                                                            -- smooth scrolling
-		'lilydjwg/colorizer',                                                                                                               -- colorize hex color codes
-		'machakann/vim-highlightedyank',                                                                                                    -- highlight yanked  text
-		'mattn/emmet-vim',                                                                                                                  -- quick html/css editing
-		'mfussenegger/nvim-lint',                                                                                                           -- linting to augment lsps
-		'neovim/nvim-lspconfig',                                                                                                            -- builtin lsp
-		'pechorin/any-jump.vim',                                                                                                            -- definition jumping
-		'preservim/nerdcommenter',                                                                                                          -- commenting with <leader>c<character>
-		'ray-x/lsp_signature.nvim',                                                                                                         -- signature help
-		'sbdchd/neoformat',                                                                                                                 -- code formatting, best to not connect to automatic saves
-		'sheerun/vim-polyglot',                                                                                                             -- syntax files for folding
-		'tpope/vim-fugitive',                                                                                                               -- git integration
-		'tpope/vim-repeat',                                                                                                                 -- allow plugins to map .
-		'tpope/vim-surround',                                                                                                               -- manipulate surrounding symbols
-		'wbthomason/packer.nvim',                                                                                                           -- packer manages itself
-		'williamboman/nvim-lsp-installer',                                                                                                  -- lsp installation helper
-		{ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim", config = function() require("todo-comments").setup {} end },      -- see https://github.com/folke/todo-comments.nvim for configuration
-		{ "folke/trouble.nvim", requires = "nvim-tree/nvim-web-devicons", config = function() require("trouble").setup {} end },            -- see https://github.com/folke/trouble.nvim for configuration
-		{ 'akinsho/nvim-bufferline.lua', requires = 'nvim-tree/nvim-web-devicons' },                                                        -- buffer line
-		{ 'folke/which-key.nvim', requires = "echasnovski/mini.icons", config = configure_which_key },                                      -- keybinding helper
-		{ 'glepnir/galaxyline.nvim', config = function() require'statusline' end, requires = {'nvim-tree/nvim-web-devicons', opt = true} }, -- status line
-		{ 'junegunn/fzf.vim', requires = 'junegunn/fzf' },                                                                                  -- fuzzy finder
-		{ 'kkoomen/vim-doge', run = ':call doge#install()' },                                                                               -- docstring generation
-		{ 'lukas-reineke/indent-blankline.nvim', branch = 'master' },                                                                       -- blankline indent characters
-		{ 'napmn/react-extract.nvim', requires = { "nvim-treesitter/nvim-treesitter" } },                                                   -- extract components
-		{ 'yamatsum/nvim-nonicons', requires = {'nvim-tree/nvim-web-devicons'} },                                                           -- swap icons for nonicons.ttf
+require("packer").startup(function()
+	use({
+		"MaxMEllon/vim-jsx-pretty", -- react syntax highlighting
+		"RRethy/vim-illuminate", -- highlight other occurences
+		"airblade/vim-gitgutter", -- git diff visualization
+		"chentoast/marks.nvim", -- mark manipulation and visualization
+		"github/copilot.vim", -- GitHub Copilot
+		"junegunn/limelight.vim", -- paragraph highlighting
+		"junegunn/vim-easy-align", -- align text using ga
+		"karb94/neoscroll.nvim", -- smooth scrolling
+		"lilydjwg/colorizer", -- colorize hex color codes
+		"machakann/vim-highlightedyank", -- highlight yanked  text
+		"mattn/emmet-vim", -- quick html/css editing
+		"mfussenegger/nvim-lint", -- linting to augment lsps
+		"neovim/nvim-lspconfig", -- builtin lsp
+		"pechorin/any-jump.vim", -- definition jumping
+		"preservim/nerdcommenter", -- commenting with <leader>c<character>
+		"ray-x/lsp_signature.nvim", -- signature help
+		"sbdchd/neoformat", -- code formatting, best to not connect to automatic saves
+		"sheerun/vim-polyglot", -- syntax files for folding
+		"tpope/vim-fugitive", -- git integration
+		"tpope/vim-repeat", -- allow plugins to map .
+		"tpope/vim-surround", -- manipulate surrounding symbols
+		"wbthomason/packer.nvim", -- packer manages itself
+		"williamboman/nvim-lsp-installer", -- lsp installation helper
+		{
+			"folke/todo-comments.nvim",
+			requires = "nvim-lua/plenary.nvim",
+			config = function()
+				require("todo-comments").setup({})
+			end,
+		}, -- see https://github.com/folke/todo-comments.nvim for configuration
+		{
+			"folke/trouble.nvim",
+			requires = "nvim-tree/nvim-web-devicons",
+			config = function()
+				require("trouble").setup({})
+			end,
+		}, -- see https://github.com/folke/trouble.nvim for configuration
+		{ "akinsho/nvim-bufferline.lua", requires = "nvim-tree/nvim-web-devicons" }, -- buffer line
+		{ "folke/which-key.nvim", requires = "echasnovski/mini.icons", config = configure_which_key }, -- keybinding helper
+		{
+			"glepnir/galaxyline.nvim",
+			config = function()
+				require("statusline")
+			end,
+			requires = { "nvim-tree/nvim-web-devicons", opt = true },
+		}, -- status line
+		{ "junegunn/fzf.vim", requires = "junegunn/fzf" }, -- fuzzy finder
+		{ "kkoomen/vim-doge", run = ":call doge#install()" }, -- docstring generation
+		{ "lukas-reineke/indent-blankline.nvim", branch = "master" }, -- blankline indent characters
+		{ "napmn/react-extract.nvim", requires = { "nvim-treesitter/nvim-treesitter" } }, -- extract components
+		{ "yamatsum/nvim-nonicons", requires = { "nvim-tree/nvim-web-devicons" } }, -- swap icons for nonicons.ttf
 
 		-- always loaded last
-		'ryanoasis/vim-devicons',                                                                                                           -- font icons
-	}
+		"ryanoasis/vim-devicons", -- font icons
+	})
 end)
 
 -- lsp-installer
-local lsp = require'lspconfig'
-lsp.bashls.setup{}               -- npm i -g bash-language-server
-lsp.ccls.setup{}								  -- sudo apt install ccls
-lsp.csharp_ls.setup{} 						-- dotnet tool install --global csharp-ls
-lsp.cssls.setup{}                -- npm i -g vscode-langservers-extracted
-lsp.dockerls.setup{}             -- npm install -g dockerfile-language-server-nodejs
-lsp.eslint.setup{}               -- npm i -g vscode-langservers-extracted
-lsp.gopls.setup{}                -- go install golang.org/x/tools/gopls@latest
-lsp.html.setup{}                 -- npm i -g vscode-langservers-extracted
-lsp.kotlin_language_server.setup { kotlin = { languageServer = { path = 'kotlin-language-server' } } } -- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/kotlin_language_server/ 
-lsp.pyright.setup{} 							-- npm i -g pyright
-lsp.solargraph.setup { diagnostics = true; formatting = true; } -- gem install solargraph
-lsp.tailwindcss.setup{}          -- npm install -g @tailwindcss/language-server
-lsp.terraformls.setup{}          -- https://github.com/hashicorp/terraform-ls
-lsp.ts_ls.setup{}                -- npm install -g typescript typescript-language-server
-lsp.vimls.setup{}                -- npm install -g vim-language-server
-lsp.yamlls.setup{}               -- yarn global add yaml-language-server (npm install -g yaml-language-server)
+local lsp = require("lspconfig")
+lsp.bashls.setup({}) -- npm i -g bash-language-server
+lsp.ccls.setup({}) -- sudo apt install ccls
+lsp.csharp_ls.setup({}) -- dotnet tool install --global csharp-ls
+lsp.cssls.setup({}) -- npm i -g vscode-langservers-extracted
+lsp.dockerls.setup({}) -- npm install -g dockerfile-language-server-nodejs
+lsp.eslint.setup({}) -- npm i -g vscode-langservers-extracted
+lsp.gopls.setup({}) -- go install golang.org/x/tools/gopls@latest
+lsp.html.setup({}) -- npm i -g vscode-langservers-extracted
+lsp.kotlin_language_server.setup({ kotlin = { languageServer = { path = "kotlin-language-server" } } }) -- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/kotlin_language_server/
+lsp.pyright.setup({}) -- npm i -g pyright
+lsp.solargraph.setup({ diagnostics = true, formatting = true }) -- gem install solargraph
+lsp.tailwindcss.setup({}) -- npm install -g @tailwindcss/language-server
+lsp.terraformls.setup({}) -- https://github.com/hashicorp/terraform-ls
+lsp.ts_ls.setup({}) -- npm install -g typescript typescript-language-server
+lsp.vimls.setup({}) -- npm install -g vim-language-server
+lsp.yamlls.setup({}) -- yarn global add yaml-language-server (npm install -g yaml-language-server)
 
 g.markdown_fenced_languages = { "ts=typescript" }
 
 -- neoscroll
-require('neoscroll').setup({
+require("neoscroll").setup({
 	hide_cursor = false,
-	easing_function = 'sine',
+	easing_function = "sine",
 })
 
 -- bufferline
-require"bufferline".setup{ options = {
-	show_close_icon = false,
-	diagnostics = "nvim_lsp",
-	always_show_bufferline = false,
-	show_buffer_icons = false,
-}}
-
+require("bufferline").setup({
+	options = {
+		show_close_icon = false,
+		diagnostics = "nvim_lsp",
+		always_show_bufferline = false,
+		show_buffer_icons = false,
+	},
+})
 
 -- illuminate
 cmd("hi link illuminatedWord Visual")
-g.Illuminate_ftblacklist = {'', 'text'}
+g.Illuminate_ftblacklist = { "", "text" }
 
 -- vim-go
 g.go_imports_autosave = 0
 g.go_doc_keywordprg_enabled = 0
 
 -- emmet-vim
-g.user_emmet_leader_key = '<c-e>'
+g.user_emmet_leader_key = "<c-e>"
 
--- neoformat
--- g.neoformat_enabled_javascript = {'prettier'}
+-- neoformat: sudo npm install -g @johnnymorganz/stylua-bin prettier
 g.neoformat_run_all_formatters = 1
 
 -- lsp_signature
@@ -187,99 +205,99 @@ local signature_config = {
 	-- will set to true when fully tested, set to false will use whichever side has more space
 	-- this setting will be helpful if you do not want the PUM and floating win overlap
 
-	floating_window_off_x = 1, -- adjust float windows x position. 
+	floating_window_off_x = 1, -- adjust float windows x position.
 	-- can be either a number or function
 	floating_window_off_y = 0, -- adjust float windows y position. e.g -2 move window up 2 lines; 2 move down 2 lines
 	-- can be either number or function, see examples
 
 	close_timeout = 1000, -- close floating window after ms when laster parameter is entered
-	fix_pos = false,  -- set to true, the floating window will not auto-close until finish all parameters
+	fix_pos = false, -- set to true, the floating window will not auto-close until finish all parameters
 	hint_enable = true, -- virtual hint enable
-	hint_prefix = "🐼 ",  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
+	hint_prefix = "🐼 ", -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
 	hint_scheme = "String",
 	hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
 	handler_opts = {
-		border = "rounded"   -- double, rounded, single, shadow, none, or a table of borders
+		border = "rounded", -- double, rounded, single, shadow, none, or a table of borders
 	},
 
 	always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
 
 	auto_close_after = 1000, -- autoclose signature float win after x sec, disabled if nil.
-	extra_trigger_chars = {"(", ","}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
+	extra_trigger_chars = { "(", "," }, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
 	zindex = 200, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
 
-	padding = '', -- character to pad on left and right of signature can be ' ', or '|'  etc
+	padding = "", -- character to pad on left and right of signature can be ' ', or '|'  etc
 
 	transparency = nil, -- disabled by default, allow floating win transparent value 1~100
 	shadow_blend = 36, -- if you using shadow as border use this set the opacity
-	shadow_guibg = 'Black', -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
+	shadow_guibg = "Black", -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
 	timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
-	toggle_key = '<C-/>', -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
+	toggle_key = "<C-/>", -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
 
-	select_signature_key = '<M-n>', -- cycle to next signature, e.g. '<M-n>' function overloading
+	select_signature_key = "<M-n>", -- cycle to next signature, e.g. '<M-n>' function overloading
 	move_cursor_key = nil, -- imap, use nvim_set_current_win to move cursor between current win and floating
 }
-require "lsp_signature".setup(cfg)
+require("lsp_signature").setup(cfg)
 
 -- marks
-require'marks'.setup {
-  -- whether to map keybinds or not. default true
-  default_mappings = true,
+require("marks").setup({
+	-- whether to map keybinds or not. default true
+	default_mappings = true,
 
-  -- which builtin marks to show. default {}
-  builtin_marks = { ".", "<", ">", "^" },
+	-- which builtin marks to show. default {}
+	builtin_marks = { ".", "<", ">", "^" },
 
-  -- whether movements cycle back to the beginning/end of buffer. default true
-  cyclic = true,
+	-- whether movements cycle back to the beginning/end of buffer. default true
+	cyclic = true,
 
-  -- whether the shada file is updated after modifying uppercase marks. default false
-  force_write_shada = false,
+	-- whether the shada file is updated after modifying uppercase marks. default false
+	force_write_shada = false,
 
-  -- how often (in ms) to redraw signs/recompute mark positions. 
-  -- higher values will have better performance but may cause visual lag, 
-  -- while lower values may cause performance penalties. default 150.
-  refresh_interval = 250,
+	-- how often (in ms) to redraw signs/recompute mark positions.
+	-- higher values will have better performance but may cause visual lag,
+	-- while lower values may cause performance penalties. default 150.
+	refresh_interval = 250,
 
-  -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
-  -- marks, and bookmarks.
-  -- can be either a table with all/none of the keys, or a single number, in which case
-  -- the priority applies to all marks.
-  -- default 10.
-  sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
+	-- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
+	-- marks, and bookmarks.
+	-- can be either a table with all/none of the keys, or a single number, in which case
+	-- the priority applies to all marks.
+	-- default 10.
+	sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
 
-  -- disables mark tracking for specific filetypes. default {}
-  excluded_filetypes = {},
+	-- disables mark tracking for specific filetypes. default {}
+	excluded_filetypes = {},
 
-  -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
-  -- sign/virttext. Bookmarks can be used to group together positions and quickly move
-  -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
-  -- default virt_text is "".
-  --bookmark_0 = {
-  --  sign = "⚑",
-  --  virt_text = "hello world",
-  --  -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
-  --  -- defaults to false.
-  --  annotate = false,
-  --},
-  mappings = {}
-}
+	-- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
+	-- sign/virttext. Bookmarks can be used to group together positions and quickly move
+	-- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
+	-- default virt_text is "".
+	--bookmark_0 = {
+	--  sign = "⚑",
+	--  virt_text = "hello world",
+	--  -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
+	--  -- defaults to false.
+	--  annotate = false,
+	--},
+	mappings = {},
+})
 
 -- vim-pydocstring
 g.doge_enable_mappings = 0
 g.doge_buffer_mappings = 0
-g.doge_doc_standard_python = 'numpy'
+g.doge_doc_standard_python = "numpy"
 
--- copilot 
-g.copilot_filetypes = { ['*'] = true }
+-- copilot
+g.copilot_filetypes = { ["*"] = true }
 
 -- nvim-lint
-local pylint = require('lint').linters.pylint
+local pylint = require("lint").linters.pylint
 -- pylint.args = {
 -- 	'--rcfile', '/home/regular/code/chartmetric/script/.pylintrc',
 -- 	'-f', 'json'
 -- }
-require('lint').linters_by_ft = {
-  python = {'pylint', 'ruff'}
+require("lint").linters_by_ft = {
+	python = { "pylint", "ruff" },
 }
 
 vim.cmd("au BufWritePost * lua require('lint').try_lint()")
@@ -290,8 +308,8 @@ vim.cmd("autocmd BufWritePost *.py silent :!darker %")
 
 -- fzf
 g.fzf_layout = {
-	['window'] = {
-		['width'] = 0.95,
-		['height'] = 0.95
-	}
+	["window"] = {
+		["width"] = 0.95,
+		["height"] = 0.95,
+	},
 }
