@@ -14,6 +14,7 @@ npm install -g mcp-hub@latest
 
 # Install Go packages
 go install golang.org/x/tools/gopls@latest
+go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
 # Install Ruby gems
 gem install solargraph
