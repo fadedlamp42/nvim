@@ -17,196 +17,111 @@ if fn.empty(fn.glob(install_path)) > 0 then 							-- if packer doesn't exist
 	execute 'packadd packer.nvim' 								-- add package
 end
 
+-- configuration functions to keep final plugin lines clean
+local configure_which_key = function()
+	require("which-key").setup {
+		plugins = {
+			marks = true, -- shows a list of your marks on ' and `
+			registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+			spelling = {
+				enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+				suggestions = 50, -- how many suggestions should be shown in the list? (default 20)
+			},
+			-- the presets plugin, adds help for a bunch of default keybindings in Neovim
+			-- No actual key bindings are created
+			presets = {
+				operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
+				motions = true, -- adds help for motions
+				text_objects = true, -- help for text objects triggered after entering an operator
+				windows = true, -- default bindings on <c-w>
+				nav = true, -- misc bindings to work with windows
+				z = true, -- bindings for folds, spelling and others prefixed with z
+				g = true, -- bindings for prefixed with g
+			},
+		},
+		-- add operators that will trigger motion and text object completion
+		-- to enable all native operators, set the preset / operators plugin above
+		operators = { gc = "Comments" },
+		key_labels = {
+			-- override the label used to display some keys. It doesn't effect WK in any other way.
+			-- For example:
+			-- ["<space>"] = "SPC",
+			-- ["<cr>"] = "RET",
+			-- ["<tab>"] = "TAB",
+		},
+		icons = {
+			breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+			separator = "➜", -- symbol used between a key and it's label
+			group = "+", -- symbol prepended to a group
+		},
+		window = {
+			border = "double", -- none, single, double, shadow (default none)
+			position = "bottom", -- bottom, top
+			margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+			padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+		},
+		layout = {
+			height = { min = 4, max = 25 }, -- min and max height of the columns
+			width = { min = 20, max = 50 }, -- min and max width of the columns
+			spacing = 3, -- spacing between columns
+			align = "left", -- align columns left, center or right
+		},
+		ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
+		hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
+		show_help = true, -- show help message on the command line when the popup is visible
+		triggers = "auto", -- automatically setup triggers
+		-- triggers = {"<leader>"} -- or specify a list manually
+		triggers_blacklist = {
+			-- list of mode / prefixes that should never be hooked by WhichKey
+			-- this is mostly relevant for key maps that start with a native binding
+			-- most people should not need to change this
+			i = { "j", "k" },
+			v = { "j", "k" },
+		},
+	}
+end
+
 -- package list
 require('packer').startup(function()
-	use{
-		-- tracking
-		-- 'ActivityWatch/aw-watcher-vim', 				-- send activity to ActivityWatch (stopped working?)
-
-		-- functional
-		'junegunn/fzf',
-		'junegunn/fzf.vim',											-- fuzzy finder
-		'chentoast/marks.nvim',									-- mark manipulation and visualization
-		-- 'fatih/vim-go', 											-- go language server and commands
-		{																				-- docstring generation
-			'kkoomen/vim-doge',
-			run = ':call doge#install()'
-		},
-		'junegunn/vim-easy-align', 							-- align text using ga
-		'mattn/emmet-vim',											-- quick html/css editing
-		'pechorin/any-jump.vim',								-- definition jumping
-		'preservim/nerdcommenter', 							-- commenting with <leader>c<character>
-		--'sbdchd/neoformat',										-- autoformatting
-		--'tell-k/vim-autopep8',									-- python autoformatting, requires https://github.com/hhatto/autopep8
-		'sheerun/vim-polyglot',									-- syntax files for folding
-		{																				-- extract components
-			'napmn/react-extract.nvim',
-			requires = { "nvim-treesitter/nvim-treesitter" }
-		},
-		'tpope/vim-fugitive', 									-- git integration
-		'tpope/vim-repeat',                 		-- allow plugins to map .
-		'tpope/vim-surround',               		-- manipulate surrounding symbols
-		'wbthomason/packer.nvim', 							-- packer manages itself
-		-- 'wellle/context.vim',										-- display logical context TODO find option to make this break less window integrations (snap, any-jump, etc.)
-		{
-			"folke/trouble.nvim",
-			requires = "nvim-tree/nvim-web-devicons",
-			config = function()
-				require("trouble").setup {
-					-- see https://github.com/folke/trouble.nvim for configuration
-				}
-			end
-		},
-		{
-			"folke/todo-comments.nvim",
-			requires = "nvim-lua/plenary.nvim",
-			config = function()
-				require("todo-comments").setup {
-					-- see https://github.com/folke/todo-comments.nvim for configuration
-				}
-			end
-		},
-
-		-- completion/linting
-		'github/copilot.vim',										-- GitHub Copilot
-		-- 'hrsh7th/nvim-compe', 									-- completion
-		'williamboman/nvim-lsp-installer', 			-- lsp installation helper
-		'mfussenegger/nvim-lint', 							-- linting to augment lsps
-		'neovim/nvim-lspconfig', 								-- builtin lsp
-		'ray-x/lsp_signature.nvim',							-- signature help
-
-		-- visual
-		'RRethy/vim-illuminate',            		-- highlight other occurences
-		'airblade/vim-gitgutter', 							-- git diff visualization
-		'junegunn/limelight.vim',								-- paragraph highlighting
-		'lilydjwg/colorizer',										-- colorize hex color codes
-		'MaxMEllon/vim-jsx-pretty',							-- react syntax highlighting
-		'machakann/vim-highlightedyank',				-- highlight yanked  text
-		{																				-- blankline indent characters
-			'lukas-reineke/indent-blankline.nvim',
-			branch = 'master'
-		},
-		{ 																			-- buffer line
-			'akinsho/nvim-bufferline.lua',
-			-- tag = "v3.*",
-			requires = 'nvim-tree/nvim-web-devicons',
-		},
-		{ 																			-- status line
-			'glepnir/galaxyline.nvim',
-			branch = 'main',
-			config = function() require'statusline' end,
-			requires = {'nvim-tree/nvim-web-devicons', opt = true}
-		},
-		{ 																			-- swap icons for nonicons.ttf
-			'yamatsum/nvim-nonicons',
-			requires = {'nvim-tree/nvim-web-devicons'}
-		},
-		'karb94/neoscroll.nvim', 								-- smooth scrolling
+	use {
+		'MaxMEllon/vim-jsx-pretty',                                                                                                         -- react syntax highlighting
+		'RRethy/vim-illuminate',                                                                                                            -- highlight other occurences
+		'airblade/vim-gitgutter',                                                                                                           -- git diff visualization
+		'chentoast/marks.nvim',                                                                                                             -- mark manipulation and visualization
+		'github/copilot.vim',                                                                                                               -- GitHub Copilot
+		'junegunn/limelight.vim',                                                                                                           -- paragraph highlighting
+		'junegunn/vim-easy-align',                                                                                                          -- align text using ga
+		'karb94/neoscroll.nvim',                                                                                                            -- smooth scrolling
+		'lilydjwg/colorizer',                                                                                                               -- colorize hex color codes
+		'machakann/vim-highlightedyank',                                                                                                    -- highlight yanked  text
+		'mattn/emmet-vim',                                                                                                                  -- quick html/css editing
+		'mfussenegger/nvim-lint',                                                                                                           -- linting to augment lsps
+		'neovim/nvim-lspconfig',                                                                                                            -- builtin lsp
+		'pechorin/any-jump.vim',                                                                                                            -- definition jumping
+		'preservim/nerdcommenter',                                                                                                          -- commenting with <leader>c<character>
+		'ray-x/lsp_signature.nvim',                                                                                                         -- signature help
+		'sbdchd/neoformat',                                                                                                                 -- code formatting, best to not connect to automatic saves
+		'sheerun/vim-polyglot',                                                                                                             -- syntax files for folding
+		'tpope/vim-fugitive',                                                                                                               -- git integration
+		'tpope/vim-repeat',                                                                                                                 -- allow plugins to map .
+		'tpope/vim-surround',                                                                                                               -- manipulate surrounding symbols
+		'wbthomason/packer.nvim',                                                                                                           -- packer manages itself
+		'williamboman/nvim-lsp-installer',                                                                                                  -- lsp installation helper
+		{ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim", config = function() require("todo-comments").setup {} end },      -- see https://github.com/folke/todo-comments.nvim for configuration
+		{ "folke/trouble.nvim", requires = "nvim-tree/nvim-web-devicons", config = function() require("trouble").setup {} end },            -- see https://github.com/folke/trouble.nvim for configuration
+		{ 'akinsho/nvim-bufferline.lua', requires = 'nvim-tree/nvim-web-devicons' },                                                        -- buffer line
+		{ 'folke/which-key.nvim', config = configure_which_key },                                                                           -- keybinding helper
+		{ 'glepnir/galaxyline.nvim', config = function() require'statusline' end, requires = {'nvim-tree/nvim-web-devicons', opt = true} }, -- status line
+		{ 'junegunn/fzf.vim', requires = 'junegunn/fzf' },                                                                                  -- fuzzy finder
+		{ 'kkoomen/vim-doge', run = ':call doge#install()' },                                                                               -- docstring generation
+		{ 'lukas-reineke/indent-blankline.nvim', branch = 'master' },                                                                       -- blankline indent characters
+		{ 'napmn/react-extract.nvim', requires = { "nvim-treesitter/nvim-treesitter" } },                                                   -- extract components
+		{ 'yamatsum/nvim-nonicons', requires = {'nvim-tree/nvim-web-devicons'} },                                                           -- swap icons for nonicons.ttf
 
 		-- always loaded last
-		'ryanoasis/vim-devicons',
+		'ryanoasis/vim-devicons',                                                                                                           -- font icons
 	}
-
-	-- unnecessary plugins that should only be loaded on powerful machines
-	if host_matches('debian-tower') then
-		use {
-		{
-			"folke/which-key.nvim",
-			config = function()
-				require("which-key").setup {
-					plugins = {
-						marks = true, -- shows a list of your marks on ' and `
-						registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
-						spelling = {
-							enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
-							suggestions = 50, -- how many suggestions should be shown in the list? (default 20)
-						},
-						-- the presets plugin, adds help for a bunch of default keybindings in Neovim
-						-- No actual key bindings are created
-						presets = {
-							operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
-							motions = true, -- adds help for motions
-							text_objects = true, -- help for text objects triggered after entering an operator
-							windows = true, -- default bindings on <c-w>
-							nav = true, -- misc bindings to work with windows
-							z = true, -- bindings for folds, spelling and others prefixed with z
-							g = true, -- bindings for prefixed with g
-						},
-					},
-					-- add operators that will trigger motion and text object completion
-					-- to enable all native operators, set the preset / operators plugin above
-					operators = { gc = "Comments" },
-					key_labels = {
-						-- override the label used to display some keys. It doesn't effect WK in any other way.
-						-- For example:
-						-- ["<space>"] = "SPC",
-						-- ["<cr>"] = "RET",
-						-- ["<tab>"] = "TAB",
-					},
-					icons = {
-						breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-						separator = "➜", -- symbol used between a key and it's label
-						group = "+", -- symbol prepended to a group
-					},
-					window = {
-						border = "double", -- none, single, double, shadow (default none)
-						position = "bottom", -- bottom, top
-						margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-						padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
-					},
-					layout = {
-						height = { min = 4, max = 25 }, -- min and max height of the columns
-						width = { min = 20, max = 50 }, -- min and max width of the columns
-						spacing = 3, -- spacing between columns
-						align = "left", -- align columns left, center or right
-					},
-					ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
-					hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
-					show_help = true, -- show help message on the command line when the popup is visible
-					triggers = "auto", -- automatically setup triggers
-					-- triggers = {"<leader>"} -- or specify a list manually
-					triggers_blacklist = {
-						-- list of mode / prefixes that should never be hooked by WhichKey
-						-- this is mostly relevant for key maps that start with a native binding
-						-- most people should not need to change this
-						i = { "j", "k" },
-						v = { "j", "k" },
-					},
-				}
-
-			end
-		},
-		'tommcdo/vim-fubitive', 								-- bitbucket remote extension for fugitive
-		}
-	end
 end)
-
--- compe
--- require'compe'.setup {
--- 	enabled = true;
--- 	autocomplete = true;
--- 	debug = false;
--- 	min_length = 0;
--- 	preselect = 'disable';
--- 	throttle_time = 80;
--- 	source_timeout = 200;
--- 	resolve_timeout = 800;
--- 	incomplete_delay = 400;
--- 	max_abbr_width = 100;
--- 	max_kind_width = 100;
--- 	max_menu_width = 100;
--- 	documentation = true;
--- 
--- 	source = {
--- 		path = true;
--- 		buffer = true;
--- 		calc = true;
--- 		nvim_lsp = true;
--- 		nvim_lua = true;
--- 		vsnip = true;
--- 		ultisnips = true;
--- 	};
--- }
 
 -- lsp-installer
 require'lspconfig'.bashls.setup{}               -- npm i -g bash-language-server
