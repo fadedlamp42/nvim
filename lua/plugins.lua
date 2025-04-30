@@ -196,9 +196,6 @@ require("packer").startup(function()
 		{ "yamatsum/nvim-nonicons", requires = { "nvim-tree/nvim-web-devicons" } }, -- swap icons for nonicons.ttf
 		{
 			"olimorris/codecompanion.nvim",
-			dependencies = {
-				"ravitemer/mcphub.nvim",
-			},
 			config = configure_codecompanion,
 			requires = {
 				"nvim-lua/plenary.nvim",
@@ -207,32 +204,32 @@ require("packer").startup(function()
 			},
 		},
 		{ "ravitemer/mcphub.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = configure_mcphub }, -- npm install -g mcp-hub@latest,
+		{
+			"CopilotC-Nvim/CopilotChat.nvim",
+			requires = {
+				{ "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+				{ "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+			},
+			build = "make tiktoken", -- Only on MacOS or Linux
+		},
+
+		-- LSP and completion
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
+		"hrsh7th/cmp-cmdline",
+		"hrsh7th/nvim-cmp",
+		"petertriho/cmp-git",
+
+		-- For vsnip users
+		"hrsh7th/cmp-vsnip",
+		"hrsh7th/vim-vsnip",
+
 
 		-- always loaded last
 		"ryanoasis/vim-devicons", -- font icons
 	})
 end)
-
--- lsp-installer
-local lsp = require("lspconfig")
-lsp.bashls.setup({}) -- npm i -g bash-language-server
-lsp.ccls.setup({}) -- sudo apt install ccls
-lsp.csharp_ls.setup({}) -- dotnet tool install --global csharp-ls
-lsp.cssls.setup({}) -- npm i -g vscode-langservers-extracted
-lsp.dockerls.setup({}) -- npm install -g dockerfile-language-server-nodejs
-lsp.eslint.setup({}) -- npm i -g vscode-langservers-extracted
-lsp.gopls.setup({}) -- go install golang.org/x/tools/gopls@latest
-lsp.html.setup({}) -- npm i -g vscode-langservers-extracted
-lsp.kotlin_language_server.setup({ kotlin = { languageServer = { path = "kotlin-language-server" } } }) -- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/kotlin_language_server/
-lsp.pyright.setup({}) -- npm i -g pyright
-lsp.solargraph.setup({ diagnostics = true, formatting = true }) -- gem install solargraph
-lsp.tailwindcss.setup({}) -- npm install -g @tailwindcss/language-server
-lsp.terraformls.setup({}) -- https://github.com/hashicorp/terraform-ls
-lsp.ts_ls.setup({}) -- npm install -g typescript typescript-language-server
-lsp.vimls.setup({}) -- npm install -g vim-language-server
-lsp.yamlls.setup({}) -- yarn global add yaml-language-server (npm install -g yaml-language-server)
-
-g.markdown_fenced_languages = { "ts=typescript" }
 
 -- neoscroll
 require("neoscroll").setup({
@@ -385,3 +382,91 @@ g.fzf_layout = {
 		["height"] = 0.95,
 	},
 }
+
+-- nvim-cmp
+local cmp = require("cmp")
+
+cmp.setup({
+	snippet = {
+		-- REQUIRED - you must specify a snippet engine
+		expand = function(args)
+			vim.fn["vsnip#anonymous"](args.body)
+		end,
+	},
+	window = {
+		-- completion = cmp.config.window.bordered(),
+		-- documentation = cmp.config.window.bordered(),
+	},
+	mapping = cmp.mapping.preset.insert({
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.abort(),
+		["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+	}),
+	sources = cmp.config.sources({
+		{ name = "nvim_lsp" },
+		{ name = "vsnip" }, -- For vsnip users.
+	}, {
+		{ name = "buffer" },
+	}),
+})
+
+-- To use git you need to install the plugin petertriho/cmp-git and uncomment lines below
+-- Set configuration for specific filetype.
+cmp.setup.filetype("gitcommit", {
+	sources = cmp.config.sources({
+		{ name = "git" },
+	}, {
+		{ name = "buffer" },
+	}),
+})
+require("cmp_git").setup()
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ "/", "?" }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = "buffer" },
+	},
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(":", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		{ name = "path" },
+	}, {
+		{ name = "cmdline" },
+	}),
+	matching = { disallow_symbol_nonprefix_matching = false },
+})
+
+-- Set up lspconfig.
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+local c = { capabilities = capabilities }
+
+-- lsp-installer
+local lsp = require("lspconfig")
+lsp.bashls.setup(c) -- npm i -g bash-language-server
+lsp.ccls.setup(c) -- sudo apt install ccls
+lsp.csharp_ls.setup(c) -- dotnet tool install --global csharp-ls
+lsp.cssls.setup(c) -- npm i -g vscode-langservers-extracted
+lsp.dockerls.setup(c) -- npm install -g dockerfile-language-server-nodejs
+lsp.eslint.setup(c) -- npm i -g vscode-langservers-extracted
+lsp.gopls.setup(c) -- go install golang.org/x/tools/gopls@latest
+lsp.html.setup(c) -- npm i -g vscode-langservers-extracted
+lsp.kotlin_language_server.setup({
+	kotlin = { languageServer = { path = "kotlin-language-server" } },
+	capabilities = capabilities,
+}) -- https://www.andersevenrud.net/neovim.github.io/lsp/configurations/kotlin_language_server/
+lsp.pyright.setup(c) -- npm i -g pyright
+lsp.solargraph.setup({ diagnostics = true, formatting = true }) -- gem install solargraph
+lsp.tailwindcss.setup(c) -- npm install -g @tailwindcss/language-server
+lsp.terraformls.setup(c) -- https://github.com/hashicorp/terraform-ls
+lsp.ts_ls.setup(c) -- npm install -g typescript typescript-language-server
+lsp.vimls.setup(c) -- npm install -g vim-language-server
+lsp.yamlls.setup(c) -- yarn global add yaml-language-server (npm install -g yaml-language-server)
+
+g.markdown_fenced_languages = { "ts=typescript" }
