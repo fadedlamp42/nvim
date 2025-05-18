@@ -110,7 +110,8 @@ map("i", "<C-p>", "<cmd>Copilot panel<CR>") -- <leader>p to toggle Copilot panel
 
 -- fzf
 map("n", "<C-g>", "<cmd>Rg<CR>")
-map("n", "<C-p>", "<cmd>Files<CR>")
+map("n", "<C-p>", "<cmd>GFiles<CR>")
+map("n", "<A-p>", "<cmd>Files<CR>")
 
 -- vim-doge
 map("n", "<leader>D", "<cmd>DogeGenerate<CR>") -- :DogeGenerate on <leader>D
