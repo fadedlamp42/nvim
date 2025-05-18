@@ -61,6 +61,12 @@ map("n", "<C-h>", "<cmd>vertical res -3<CR>")
 map("n", "<C-l>", "<cmd>vertical res +3<CR>")
 map("n", "<C-y>", "<cmd>res +3<CR>")
 
+-- <leader-p> to copy path of current file with a message
+map("n", "<leader>p", "<cmd>let @+ = expand('%:p')<CR>:echo 'File path copied to clipboard: ' . expand('%:p')<CR>")
+
+-- <leader-R> to reload init.lua
+map("n", "<leader>R", "<cmd>source ~/.config/nvim/init.lua<CR>:echo 'Reloaded init.lua'<CR>")
+
 -- lsp actions
 --map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
@@ -120,10 +126,10 @@ map("n", "<S-TAB>", "<Plug>(doge-comment-jump-backward)")
 -- vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
 -- vim.keymap.set({ "n", "v" }, "<LocalLeader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
 -- vim.keymap.set("v", "a", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
-map("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-map("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-map("n", "<leader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-map("v", "<leader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+map("n", "<leader>a", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+map("v", "<leader>a", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+map("n", "<C-a>", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+map("v", "<C-a>", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
 map("v", "a", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 
 vim.cmd([[cab cc CodeCompanion]]) -- 'cc'->'CodeCompanion' in command mode

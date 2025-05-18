@@ -74,6 +74,15 @@ local configure_codecompanion = function()
 					},
 				})
 			end,
+			-- ollama = function()
+			-- 	return require("codecompanion.adapters").extend("ollama", {
+			-- 		schema = {
+			-- 			model = {
+			-- 				default = "gemma3:4b-it-qat",
+			-- 			},
+			-- 		},
+			-- 	})
+			-- end,
 		},
 		strategies = {
 			-- TODO figure out tool calling with ollama
@@ -87,7 +96,7 @@ local configure_codecompanion = function()
 			-- 	adapter = "ollama",
 			-- },
 			chat = {
-				adapter = "ollama",
+				adapter = "copilot",
 			},
 			inline = {
 				adapter = "copilot",
@@ -213,6 +222,14 @@ require("packer").startup(function()
 				{ "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
 			},
 			build = "make tiktoken", -- Only on MacOS or Linux
+		},
+		{
+			"MeanderingProgrammer/render-markdown.nvim",
+			after = { "nvim-treesitter" },
+			requires = { "nvim-tree/nvim-web-devicons", opt = true }, -- if you prefer nvim-web-devicons
+			config = function()
+				require("render-markdown").setup({})
+			end,
 		},
 
 		-- LSP and completion
