@@ -18,24 +18,24 @@ if fn.empty(fn.glob(install_path)) > 0 then -- if packer doesn't exist
 end
 
 -- configuration functions to keep final plugin lines clean
-vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+vim.api.nvim_set_hl(0, "FadedSteel", { fg = "#3d5a7a" })     -- steel blue
+vim.api.nvim_set_hl(0, "FadedAmber", { fg = "#8b5a2b" })     -- warm amber brown
+vim.api.nvim_set_hl(0, "FadedIndigo", { fg = "#4a4a7a" })   -- muted indigo
+vim.api.nvim_set_hl(0, "FadedCopper", { fg = "#a0522d" })   -- copper orange-brown
+vim.api.nvim_set_hl(0, "FadedNavy", { fg = "#2d3d5f" })     -- deep navy
+vim.api.nvim_set_hl(0, "FadedRust", { fg = "#8b4513" })     -- rust orange
+vim.api.nvim_set_hl(0, "FadedPurple", { fg = "#5a3d6b" })   -- muted purple
 local configure_indent = function()
 	require("ibl").setup {
 		indent = {
 			highlight = {
-				"RainbowRed",
-				"RainbowYellow",
-				"RainbowBlue",
-				"RainbowOrange",
-				"RainbowGreen",
-				"RainbowViolet",
-				"RainbowCyan"
+				"FadedSteel",
+				"FadedAmber",
+				"FadedIndigo",
+				"FadedCopper",
+				"FadedNavy",
+				"FadedRust",
+				"FadedPurple"
 			}
 		}
 		-- scope = {
