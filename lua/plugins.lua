@@ -18,6 +18,35 @@ if fn.empty(fn.glob(install_path)) > 0 then -- if packer doesn't exist
 end
 
 -- configuration functions to keep final plugin lines clean
+vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+local configure_indent = function()
+	require("ibl").setup {
+		indent = {
+			highlight = {
+				"RainbowRed",
+				"RainbowYellow",
+				"RainbowBlue",
+				"RainbowOrange",
+				"RainbowGreen",
+				"RainbowViolet",
+				"RainbowCyan"
+			}
+		}
+		-- scope = {
+			-- 	enabled = true,
+			-- 	show_start = true,
+			-- 	show_end = false,
+			-- 	highlight = { "Function", "Label" },
+			-- 	priority = 500,
+		-- }
+	}
+end
 -- https://codecompanion.olimorris.dev/getting-started.html#suggested-plugin-workflow
 local configure_codecompanion = function()
 	require("codecompanion").setup({
@@ -201,7 +230,7 @@ require("packer").startup(function()
 		}, -- status line
 		{ "junegunn/fzf.vim", requires = "junegunn/fzf" }, -- fuzzy finder
 		{ "kkoomen/vim-doge", run = ":call doge#install()" }, -- docstring generation
-		{ "lukas-reineke/indent-blankline.nvim", branch = "master" }, -- blankline indent characters
+		{ "lukas-reineke/indent-blankline.nvim", branch = "master", config = configure_indent, requires = { "nvim-treesitter/nvim-treesitter" }}, -- blankline indent characters
 		{ "napmn/react-extract.nvim", requires = { "nvim-treesitter/nvim-treesitter" } }, -- extract components
 		{ "yamatsum/nvim-nonicons", requires = { "nvim-tree/nvim-web-devicons" } }, -- swap icons for nonicons.ttf
 		{
