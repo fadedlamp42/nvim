@@ -4,7 +4,6 @@ local o = vim.opt
 o.scrolloff = 10 -- 10 line buffer at top/bottom of buffer
 o.termguicolors = true -- :help termguicolors
 o.number = true -- line numbers
-o.relativenumber = true -- surrounding line numbers are relative
 o.cursorline = true -- highlight current line
 o.showmatch = true -- briefly jump to matching [{()}] on completion
 o.lazyredraw = true -- don't update screen during macros

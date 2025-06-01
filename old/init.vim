@@ -282,6 +282,7 @@ nmap ga <Plug>(EasyAlign)
     """"""""""""""
     "tab settings"
     """"""""""""""
+" TODO expandtab isn't working, nor is tabstop
 set autoindent "maintain indentation from previous line
 set expandtab "replace tabs with spaces
 set tabstop=4 "amount of spaces in a tab character 
@@ -299,8 +300,7 @@ colorscheme fadedwolf
     "vanilla settings"
     """"""""""""""""""
 syntax enable "explanatory
-set relativenumber "line numbers aren't absolute
-set nu rnu "hybrid line numbers
+set nu "absolute line numbers (add rnu for hybrid)
 set showcmd "show command being typed
 set cursorline "highlight line being edited
 set wildmenu "visual autocomplete for commands
