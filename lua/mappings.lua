@@ -64,6 +64,9 @@ map("n", "<C-y>", "<cmd>res +3<CR>")
 -- <leader-p> to copy path of current file with a message
 map("n", "<leader>p", "<cmd>let @+ = expand('%:p')<CR>:echo 'File path copied to clipboard: ' . expand('%:p')<CR>")
 
+-- <leader>cd to change to current directory
+map("n", "<leader>cd", "<cmd>cd %:h<CR>")
+
 -- <leader-R> to reload init.lua
 map("n", "<leader>R", "<cmd>source ~/.config/nvim/init.lua<CR>:echo 'Reloaded init.lua'<CR>")
 
@@ -86,12 +89,18 @@ map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
 map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 
 -- plugin mappings
+-- > limelight
 map("n", "<leader>l", "<cmd>Limelight!! 0.85<CR>") -- <leader>l to toggle limelight
+
+-- > Trouble
 map("n", "<leader>t", "<cmd>TroubleToggle<CR>") -- <leader>t to toggle Trouble
 map("n", "<leader>T", "<cmd>TodoTrouble<CR>") -- <leader>t to view TODOs with Trouble
+
+-- > easy-align
 vim.cmd("xmap ga <Plug>(EasyAlign)") -- EasyAlign visual mode
 vim.cmd("nmap ga <Plug>(EasyAlign)") -- interactive EasyAlign for a motion/text object
-map("n", "<leader>cd", "<cmd>cd %:h<CR>") -- <leader>cd to change to current directory
+
+-- > git-fugitive
 map("n", "<leader>Ga", "<cmd>Git add %<CR>") -- <leader>Ga to add current file
 map("n", "<leader>GA", "<cmd>Git add .<CR>") -- <leader>GA to add current directory
 map("n", "<leader>Gb", "<cmd>Git blame<CR>") -- <leader>Gb for git blame
@@ -106,12 +115,14 @@ map("n", "<leader>Gl", "<cmd>Git log<CR>") -- <leader>Gl for git log
 map("n", "<leader>Gp", "<cmd>Git pull<CR>") -- <leader>Gp for git pull
 map("n", "<leader>GP", "<cmd>Git push<CR>") -- <leader>GP for git push
 map("n", "<leader>Gr", "<cmd>Git reset<CR>") -- <leader>Gr for git reset
+
+-- > Copilot
 map("i", "<C-p>", "<cmd>Copilot panel<CR>") -- <leader>p to toggle Copilot panel
 
 -- fzf
 map("n", "<C-g>", "<cmd>Rg<CR>")
-map("n", "<C-p>", "<cmd>GFiles<CR>")
-map("n", "<A-p>", "<cmd>Files<CR>")
+map("n", "<C-p>", "<cmd>Files<CR>")
+map("n", "<A-p>", "<cmd>GFiles<CR>")
 
 -- vim-doge
 map("n", "<leader>D", "<cmd>DogeGenerate<CR>") -- :DogeGenerate on <leader>D
