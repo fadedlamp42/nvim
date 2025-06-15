@@ -39,23 +39,26 @@ return {
             select = true,
           }),
           ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              if #cmp.get_entries() == 1 then
-                cmp.confirm({ select = true })
-              else
-                cmp.select_next_item()
-              end
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            elseif has_words_before() then
-              cmp.complete()
-              if #cmp.get_entries() == 1 then
-                cmp.confirm({ select = true })
-              end
+          local copilot_suggestion = require("copilot.suggestion")
+          if copilot_suggestion.is_visible() then
+          copilot_suggestion.accept()
+          elseif cmp.visible() then
+          if #cmp.get_entries() == 1 then
+            cmp.confirm({ select = true })
             else
-              fallback()
+            cmp.select_next_item()
             end
-          end, { "i", "s" }),
+          elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+          elseif has_words_before() then
+          cmp.complete()
+            if #cmp.get_entries() == 1 then
+            cmp.confirm({ select = true })
+            end
+            else
+            fallback()
+          end
+        end, { "i", "s" }),
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()

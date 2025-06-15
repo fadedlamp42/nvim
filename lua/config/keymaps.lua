@@ -31,6 +31,7 @@ keymap("n", "<C-y>", "<cmd>res +3<cr>", { desc = "Increase window height" })
 -- Buffer navigation
 keymap("n", "J", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 keymap("n", "K", "<cmd>bnext<cr>", { desc = "Next buffer" })
+keymap("n", "<S-K>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 keymap("n", "<M-C-w>", "<cmd>bp | bd! #<cr>", { desc = "Close buffer" })
 keymap("n", "<leader>q", "<cmd>bp | bd #<cr>", { desc = "Close buffer" })
 

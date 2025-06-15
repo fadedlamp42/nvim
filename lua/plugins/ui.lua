@@ -109,6 +109,11 @@ return {
 				right_mouse_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
 				diagnostics = "nvim_lsp",
 				always_show_bufferline = false,
+				show_buffer_close_icons = false,
+				show_buffer_icons = true,
+				name_formatter = function(buf)
+					return vim.fn.fnamemodify(buf.name, ":~:.")
+				end,
 				diagnostics_indicator = function(_, _, diag)
 					local icons = { Error = " ", Warn = " ", Info = " " }
 					local ret = (diag.error and icons.Error .. diag.error .. " " or "")
@@ -355,28 +360,30 @@ return {
 		event = "VimEnter",
 		opts = function()
 			local logo = [[
-                                              ___
-                                           ,o88888
-                                        ,o8888888'
-                  ,:o:o:oooo.        ,8O88Pd8888"
-              ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
-            ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
-           , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"
-          , ..:.::o:ooOoOO8O888O8O,COCOO"
-         , . ..:.::o:ooOoOOOO8OOOOCOCO"
-          . ..:.::o:ooOoOoOO8O8OCCCC"o
-             . ..:.::o:ooooOoCoCCC"o:o
-             . ..:.::o:o:,cooooCo"oo:o:
-          `   . . ..:.:cocoooo"'o:o:::'
-          .`   . ..::ccccoc"'o:o:o:::'
-         :.:.    ,c:cccc"':.:.:.:.:.'
-       ..:.:"'`::::c:"'..:.:.:.:.:.'
-     ...:.'.:.::::"'    . . . . .'
-    .. . ....:."' `   .  . . ''
-  . . . ...."'
-  .. . ."'
- .
-      ]]
+ ____________________________________________________
+|                                             ___    \
+|                                            ,o88888  |
+|                                         ,o8888888'  |
+|                   ,:o:o:oooo.        ,8O88Pd8888"   |
+|               ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"     |
+|             ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"       |
+|            , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"         |
+|           , ..:.::o:ooOoOO8O888O8O,COCOO"           |
+|          , . ..:.::o:ooOoOOOO8OOOOCOCO"             |
+|           . ..:.::o:ooOoOoOO8O8OCCCC"o              |
+|              . ..:.::o:ooooOoCoCCC"o:o              |
+|              . ..:.::o:o:,cooooCo"oo:o:             |
+|           `   . . ..:.:cocoooo"'o:o:::'             |
+|           .`   . ..::ccccoc"'o:o:o:::'              |
+|          :.:.    ,c:cccc"':.:.:.:.:.'               |
+|        ..:.:"'`::::c:"'..:.:.:.:.:.'                |
+|      ...:.'.:.::::"'    . . . . .'                  |
+|     .. . ....:."' `   .  . . ''                     |
+|   . . . ...."'                                      |
+|   .. . ."'                                          |
+|  . ."'                                              |
+|                                                     |
+|_____________________________________________________|]]
 
 			logo = string.rep("\n", 8) .. logo .. "\n\n"
 
