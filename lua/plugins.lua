@@ -204,6 +204,7 @@ require("packer").startup(function()
 		"tpope/vim-repeat", -- allow plugins to map .
 		"tpope/vim-surround", -- manipulate surrounding symbols
 		"wbthomason/packer.nvim", -- packer manages itself
+		"xiyaowong/transparent.nvim", -- transparent background
 		"williamboman/nvim-lsp-installer", -- lsp installation helper
 		{
 			"folke/todo-comments.nvim",
