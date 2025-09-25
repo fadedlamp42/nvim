@@ -20,6 +20,9 @@ map("n", "<leader>f", "<cmd>Vexplore<CR>")
 -- <leader>F to open netrw in current window
 map("n", "<leader>F", "<cmd>Explore<CR>")
 
+-- <leader>t to open chadtree
+map("n", "<leader>t", "<cmd>CHADopen<CR>")
+
 -- <leader>s to split horizontally
 map("n", "<leader>s", "<cmd>split<CR>")
 
@@ -75,7 +78,7 @@ map("n", "<leader>R", "<cmd>source ~/.config/nvim/init.lua<CR>:echo 'Reloaded in
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 map("n", "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>")
 map("n", "<leader>f", "<cmd>lua vim.lsp.buf.format { async = true }<CR>")
-map("n", "<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>")
+map("n", "<leader>q", "<cmd>%!sleek<CR>:set filetype=sql<CR>:set foldmethod=indent<CR>")
 map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
 map("n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>")
 map("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>")
@@ -90,10 +93,10 @@ map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 
 -- plugin mappings
 -- > limelight
-map("n", "<leader>l", "<cmd>Limelight!! 0.85<CR>") -- <leader>l to toggle limelight
+map("n", "<leader>l", "<cmd>TransparentToggle<CR>Limelight!! 0.85<CR>") -- <leader>l to toggle limelight
 
 -- > Trouble
-map("n", "<leader>t", "<cmd>TroubleToggle<CR>") -- <leader>t to toggle Trouble
+-- map("n", "<leader>t", "<cmd>TroubleToggle<CR>") -- <leader>t to toggle Trouble
 map("n", "<leader>T", "<cmd>TodoTrouble<CR>") -- <leader>t to view TODOs with Trouble
 
 -- > easy-align

@@ -182,6 +182,7 @@ end
 -- package list
 require("packer").startup(function()
 	use({
+		"prisma/vim-prisma", -- prisma syntax highlighting
 		"MaxMEllon/vim-jsx-pretty", -- react syntax highlighting
 		"RRethy/vim-illuminate", -- highlight other occurences
 		"airblade/vim-gitgutter", -- git diff visualization
@@ -258,8 +259,31 @@ require("packer").startup(function()
 			after = { "nvim-treesitter" },
 			requires = { "nvim-tree/nvim-web-devicons", opt = true }, -- if you prefer nvim-web-devicons
 			config = function()
-				require("render-markdown").setup({})
+				require("render-markdown").setup({
+						heading = {
+							backgrounds = {
+								'FadedSteel',
+								'FadedAmber',
+								'FadedIndigo',
+								'FadedCopper',
+								'FadedNavy',
+								'FadedRust',
+							},
+							foregrounds = {
+								'FadedSteel',
+								'FadedAmber',
+								'FadedIndigo',
+								'FadedCopper',
+								'FadedNavy',
+								'FadedRust',
+							}
+						}
+					})
 			end,
+		},
+		{
+			"ms-jpq/chadtree",
+			branch = "chad"
 		},
 
 		-- LSP and completion
