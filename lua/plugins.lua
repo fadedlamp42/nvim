@@ -550,29 +550,35 @@ cmp.setup.cmdline(":", {
 	matching = { disallow_symbol_nonprefix_matching = false },
 })
 
--- Set up lspconfig.
+-- lsp setup with native vim.lsp.config (nvim 0.11+)
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local c = { capabilities = capabilities }
-local lsp = require("lspconfig")
-lsp.bashls.setup(c)
-lsp.ccls.setup(c)
-lsp.csharp_ls.setup(c)
-lsp.cssls.setup(c)
-lsp.dockerls.setup(c)
-lsp.eslint.setup(c)
-lsp.gopls.setup(c)
-lsp.html.setup(c)
-lsp.kotlin_language_server.setup({
+
+vim.lsp.config('bashls', c)
+vim.lsp.config('ccls', c)
+vim.lsp.config('csharp_ls', c)
+vim.lsp.config('cssls', c)
+vim.lsp.config('dockerls', c)
+vim.lsp.config('eslint', c)
+vim.lsp.config('gopls', c)
+vim.lsp.config('html', c)
+vim.lsp.config('kotlin_language_server', {
 	kotlin = { languageServer = { path = "kotlin-language-server" } },
 	capabilities = capabilities,
 })
-lsp.pyright.setup(c)
-lsp.solargraph.setup({ diagnostics = true, formatting = true })
-lsp.tailwindcss.setup(c)
-lsp.terraformls.setup(c)
-lsp.ts_ls.setup(c)
-lsp.vimls.setup(c)
-lsp.yamlls.setup(c)
+vim.lsp.config('pyright', c)
+vim.lsp.config('solargraph', { diagnostics = true, formatting = true })
+vim.lsp.config('tailwindcss', c)
+vim.lsp.config('terraformls', c)
+vim.lsp.config('ts_ls', c)
+vim.lsp.config('vimls', c)
+vim.lsp.config('yamlls', c)
+
+vim.lsp.enable({
+	'bashls', 'ccls', 'csharp_ls', 'cssls', 'dockerls', 'eslint',
+	'gopls', 'html', 'kotlin_language_server', 'pyright', 'solargraph',
+	'tailwindcss', 'terraformls', 'ts_ls', 'vimls', 'yamlls'
+})
 
 g.markdown_fenced_languages = { "ts=typescript" }
 
