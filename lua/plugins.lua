@@ -285,6 +285,7 @@ require("packer").startup(function()
 			"ms-jpq/chadtree",
 			branch = "chad"
 		},
+		"powerman/vim-plugin-AnsiEsc",
 
 		-- LSP and completion
 		"hrsh7th/cmp-nvim-lsp",
@@ -450,9 +451,12 @@ vim.cmd("autocmd BufWritePost *.py silent :!darker %")
 -- fzf
 g.fzf_layout = {
 	["window"] = {
-		["width"] = 0.95,
-		["height"] = 0.95,
+		["width"] = 0.98,
+		["height"] = 0.98,
 	},
+}
+g.fzf_vim = {
+	["grep_multi_line"] = 2 -- path on separate lines (https://github.com/junegunn/fzf.vim?tab=readme-ov-file#command-level-options)
 }
 
 -- nvim-cmp
