@@ -430,7 +430,7 @@ g.doge_buffer_mappings = 0
 g.doge_doc_standard_python = "numpy"
 
 -- copilot
-g.copilot_filetypes = { ["*"] = true }
+g.copilot_enabled = false
 
 -- nvim-lint
 local pylint = require("lint").linters.pylint
