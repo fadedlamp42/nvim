@@ -17,3 +17,9 @@ o.mouse = "a" -- mouse support
 o.foldmethod = "syntax" -- fold based on syntax files
 o.foldlevelstart = 99 -- fold completely on file open (99 = infinite)
 o.colorcolumn = "100"
+
+-- tabs and indentation (soft tabs, 4 spaces everywhere)
+o.expandtab = true -- use spaces instead of tabs
+o.tabstop = 4 -- display width of a tab character
+o.shiftwidth = 4 -- number of spaces for >> and << in normal mode
+o.softtabstop = 4 -- number of spaces inserted when hitting tab in insert mode
