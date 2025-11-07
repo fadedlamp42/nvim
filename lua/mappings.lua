@@ -148,3 +148,9 @@ map("v", "<C-a>", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent 
 map("v", "a", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 
 vim.cmd([[cab cc CodeCompanion]]) -- 'cc'->'CodeCompanion' in command mode
+
+-- vim-lexical spell check toggle
+map("n", "<leader>L", "<cmd>set spell!<CR>", { noremap = true, silent = true })
+
+-- aerial code outline (configured in plugins.lua on_attach, but also global binding)
+map("n", "<leader>A", "<cmd>AerialToggle!<CR>", { noremap = true, silent = true })

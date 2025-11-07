@@ -201,6 +201,7 @@ require("packer").startup(function()
 		"ray-x/lsp_signature.nvim", -- signature help
 		"sbdchd/neoformat", -- code formatting, best to not connect to automatic saves
 		"sheerun/vim-polyglot", -- syntax files for folding
+		"shushcat/vim-minimd", -- markdown shortcuts and folding
 		"tpope/vim-fugitive", -- git integration
 		"tpope/vim-repeat", -- allow plugins to map .
 		"tpope/vim-surround", -- manipulate surrounding symbols
@@ -284,6 +285,20 @@ require("packer").startup(function()
 		{
 			"ms-jpq/chadtree",
 			branch = "chad"
+		},
+		{
+			"stevearc/aerial.nvim",
+			requires = {
+				"nvim-treesitter/nvim-treesitter",
+				"nvim-tree/nvim-web-devicons"
+			},
+			config = function()
+				require("aerial").setup({
+					on_attach = function(bufnr)
+						vim.keymap.set("n", "<leader>A", "<cmd>AerialToggle!<CR>", { buffer = bufnr })
+					end,
+				})
+			end,
 		},
 		"powerman/vim-plugin-AnsiEsc",
 
@@ -584,3 +599,16 @@ g.markdown_fenced_languages = { "ts=typescript" }
 
 -- codecompanion
 g.codecompanion_auto_tool_mode = true
+
+-- native vim spell check and thesaurus
+vim.opt.thesaurus:append(vim.fn.stdpath('config') .. '/thesaurus/mthesaur.txt')
+vim.opt.dictionary:append('/usr/share/dict/words')
+vim.opt.spellcapcheck = '' -- disable capitalization checking
+
+-- enable spell check for markdown and text files
+vim.cmd([[
+	augroup prose_settings
+		autocmd!
+		autocmd FileType markdown,mkd,text setlocal spell
+	augroup END
+]])
