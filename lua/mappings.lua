@@ -154,3 +154,6 @@ map("n", "<leader>L", "<cmd>set spell!<CR>", { noremap = true, silent = true })
 
 -- aerial code outline (configured in plugins.lua on_attach, but also global binding)
 map("n", "<leader>A", "<cmd>AerialToggle!<CR>", { noremap = true, silent = true })
+
+-- macdict - macOS Dictionary.app lookup (offline)
+map("n", "<leader>d", "<cmd>lua require('macdict').lookup()<CR>", { noremap = true, silent = true })
