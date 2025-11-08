@@ -6,6 +6,35 @@ A general purpose nvim configuration geared towards programming.
 
 Clone into `$HOME/.config`, relies on `python3-pynvim` and `node`.
 
+## Development
+
+### Pre-commit hooks
+
+This repo uses pre-commit hooks to automatically format Lua code with StyLua before commits.
+
+**Setup:**
+
+```bash
+# install pre-commit
+brew install pre-commit
+
+# install the git hooks
+cd ~/.config/faded-setup/dot-files/nvim
+pre-commit install
+```
+
+After setup, your Lua files will be automatically formatted on commit. If files are changed by the formatter, the commit will be blocked - just stage the formatted changes and commit again.
+
+**Manual formatting:**
+
+```bash
+# format all files
+pre-commit run --all-files
+
+# format specific file
+stylua path/to/file.lua
+```
+
 ## Mappings
 
 ### Base vim
