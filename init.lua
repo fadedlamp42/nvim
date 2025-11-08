@@ -3,12 +3,12 @@ local g = vim.g
 local cmd = vim.cmd
 
 -- colorscheme
-cmd 'colorscheme fadedwolf'
+cmd("colorscheme fadedwolf")
 
 -- modules
-require 'options'
-require 'plugins'
-require 'mappings'
+require("options")
+require("plugins")
+require("mappings")
 
 -- plugin configuration
 g.indent_blankline_enabled = true
