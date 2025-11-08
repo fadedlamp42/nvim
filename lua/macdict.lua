@@ -9,23 +9,39 @@ local function get_word_under_cursor()
     return word
 end
 
-local function format_definition(definition)
-    -- add line breaks for better readability
-    local formatted = definition
+local function format_definition(word, definition)
+    -- extract first part (word + pronunciation) for header, remove trailing pipe
+    local header_part = definition:match("^([^|]+%| [^|]+)")
+    local rest = definition:sub(#header_part + 3) -- skip the header, trailing pipe, and space
 
-    -- split numbered definitions (1, 2, 3, etc.)
-    formatted = formatted:gsub(" (%d) ", "\n\n%1 ")
+    -- start with level 1 header
+    local formatted = "# " .. header_part .. "\n\n" .. rest
+
+    -- make sections into headers with content on next line
+    formatted = formatted:gsub(" DERIVATIVES ([^O]+)", "\n\n## Derivatives\n\n%1")
+    formatted = formatted:gsub(" ORIGIN ([^%.]+%.)", "\n\n## Origin\n\n%1")
+    formatted = formatted:gsub(" PHRASES ([^%.]+)", "\n\n## Phrases\n\n%1")
+
+    -- add space after part of speech
+    formatted = formatted:gsub("^(# [^\n]+)\n\n(%a+)", "%1\n\n**%2**")
+
+    -- split numbered definitions into regular numbered list
+    formatted = formatted:gsub(" (%d+) ", "\n\n%1. ")
 
     -- split bulleted items
-    formatted = formatted:gsub(" • ", "\n  • ")
+    formatted = formatted:gsub(" • ", "\n   - ")
 
-    -- add space before common sections
-    formatted = formatted:gsub(" (DERIVATIVES)", "\n\n%1")
-    formatted = formatted:gsub(" (ORIGIN)", "\n\n%1")
-    formatted = formatted:gsub(" (PHRASES)", "\n\n%1")
+    -- NOTE: using bold instead of italics/underlines because italics don't render properly,
+    -- probably due to spell check styling conflict stealing the underline
 
-    -- add space after pronunciation (before first pipe or definition)
-    formatted = formatted:gsub("(%| [^|]+%|) (%a)", "%1\n\n%2")
+    -- bold example usage - text between pipes that comes after a colon
+    formatted = formatted:gsub(": ([^|%.]+) %| ([^|]+) %|", ": %1 **%2**")
+
+    -- also bold standalone examples (pipes after punctuation)
+    formatted = formatted:gsub("([%.!?]) %| ([^|]+) %|", "%1 **%2**")
+
+    -- make word forms bold - things in parentheses
+    formatted = formatted:gsub("%(([^%)]+)%)", "**(%1)**")
 
     return formatted
 end
@@ -37,6 +53,7 @@ local function show_definition(word, definition)
         vim.api.nvim_set_option_value("buftype", "nofile", { buf = M.buf })
         vim.api.nvim_set_option_value("bufhidden", "hide", { buf = M.buf })
         vim.api.nvim_set_option_value("swapfile", false, { buf = M.buf })
+        vim.api.nvim_set_option_value("filetype", "markdown", { buf = M.buf })
 
         -- keybindings for the dictionary window
         vim.keymap.set("n", "q", ":quit<CR>", { silent = true, buffer = M.buf })
@@ -44,7 +61,7 @@ local function show_definition(word, definition)
     end
 
     -- format and set buffer content
-    local formatted = format_definition(definition)
+    local formatted = format_definition(word, definition)
     local lines = vim.split(formatted, "\n")
     vim.api.nvim_buf_set_lines(M.buf, 0, -1, true, lines)
 
@@ -72,6 +89,8 @@ local function show_definition(word, definition)
     -- set window-local options after creating the window
     vim.api.nvim_set_option_value("wrap", true, { win = M.win })
     vim.api.nvim_set_option_value("linebreak", true, { win = M.win })
+    vim.api.nvim_set_option_value("conceallevel", 2, { win = M.win })
+    vim.api.nvim_set_option_value("spell", false, { win = M.win })
 
     vim.api.nvim_win_set_cursor(M.win, { 1, 0 })
 end
