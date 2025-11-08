@@ -201,7 +201,6 @@ require("packer").startup(function()
 		"ray-x/lsp_signature.nvim", -- signature help
 		"sbdchd/neoformat", -- code formatting, best to not connect to automatic saves
 		"sheerun/vim-polyglot", -- syntax files for folding
-		"shushcat/vim-minimd", -- markdown shortcuts and folding
 		"tpope/vim-fugitive", -- git integration
 		"tpope/vim-repeat", -- allow plugins to map .
 		"tpope/vim-surround", -- manipulate surrounding symbols
