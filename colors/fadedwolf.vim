@@ -74,7 +74,7 @@ let s:bwc.deepgravel     = ['3b4145', 238]
 let s:bwc.deepergravel   = ['2d3235', 236]
 let s:bwc.darkgravel     = ['212324', 235]
 let s:bwc.blackgravel    = ['1a1b1c', 233]
-let s:bwc.blackestgravel = ['131414', 232]
+let s:bwc.blackestgravel = ['000000', 0]
 
 " A color sampled from a highlight in a photo of a glass of Dale's Pale Ale on
 " my desk.
@@ -184,7 +184,7 @@ endif
 
 " General/UI {{{
 
-call s:HL('Normal', 'plain', 'blackgravel')
+call s:HL('Normal', 'plain', 'blackestgravel')
 
 call s:HL('Folded', 'mediumgravel', 'bg', 'none')
 
