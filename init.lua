@@ -14,7 +14,6 @@ require("mappings")
 g.indent_blankline_enabled = true
 g.indent_blankline_char = "▏"
 g.indent_blankline_show_first_indent_level = false
-g.transparent_enabled = true
 
 -- surpress deprecation warnings, nothing we can do about plugins
 vim.deprecate = function() end

@@ -93,7 +93,7 @@ map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 
 -- plugin mappings
 -- > limelight
-map("n", "<leader>l", "<cmd>TransparentToggle<CR>Limelight!! 0.85<CR>") -- <leader>l to toggle limelight
+map("n", "<leader>l", "<cmd>Limelight!! 0.85<CR>") -- <leader>l to toggle limelight
 
 -- > Trouble
 -- map("n", "<leader>t", "<cmd>TroubleToggle<CR>") -- <leader>t to toggle Trouble
