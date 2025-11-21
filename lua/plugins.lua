@@ -204,6 +204,7 @@ require("packer").startup(function()
         "tpope/vim-fugitive", -- git integration
         "tpope/vim-repeat", -- allow plugins to map .
         "tpope/vim-surround", -- manipulate surrounding symbols
+        "dhruvasagar/vim-table-mode", -- markdown table manipulation
         "wbthomason/packer.nvim", -- packer manages itself
         "williamboman/nvim-lsp-installer", -- lsp installation helper
         {
