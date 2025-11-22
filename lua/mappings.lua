@@ -33,6 +33,17 @@ map("n", "<leader>S", "<cmd>vsplit<CR>")
 map("n", "J", "<cmd>bprev<CR>")
 map("n", "K", "<cmd>bnext<CR>")
 
+-- <Space>[1-9] to switch to Nth buffer (by bufferline visual order)
+for i = 1, 9 do
+    vim.keymap.set("n", "<Space>" .. i, function()
+        require("bufferline").go_to(i, true)
+    end, { noremap = true, silent = true })
+end
+
+-- <Space>h/<Space>l to move buffer left/right in bufferline
+vim.keymap.set("n", "<Space>h", "<cmd>BufferLineMovePrev<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Space>l", "<cmd>BufferLineMoveNext<CR>", { noremap = true, silent = true })
+
 -- closing buffer
 map("n", "<M-C-w>", "<cmd>bp <BAR> bd! #<CR>")
 
