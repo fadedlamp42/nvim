@@ -306,6 +306,9 @@ require("packer").startup(function()
         },
         "powerman/vim-plugin-AnsiEsc",
 
+        -- debugging
+        "mfussenegger/nvim-dap",
+
         -- LSP and completion
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
@@ -616,6 +619,48 @@ g.markdown_fenced_languages = { "ts=typescript" }
 
 -- codecompanion
 g.codecompanion_auto_tool_mode = true
+
+-- nvim-dap (node debugging via vscode-js-debug)
+-- install: download js-debug-dap-*.tar.gz from https://github.com/microsoft/vscode-js-debug/releases
+-- extract to ~/.local/share/nvim/js-debug/
+local dap = require("dap")
+local js_debug_path = vim.fn.stdpath("data") .. "/js-debug/src/dapDebugServer.js"
+
+dap.adapters["pwa-node"] = {
+    type = "server",
+    host = "localhost",
+    port = "${port}",
+    executable = {
+        command = "node",
+        args = { js_debug_path, "${port}" },
+    },
+}
+
+-- shared config for js/ts
+local js_config = {
+    {
+        type = "pwa-node",
+        request = "launch",
+        name = "launch file",
+        program = "${file}",
+        cwd = "${workspaceFolder}",
+    },
+    {
+        type = "pwa-node",
+        request = "attach",
+        name = "attach",
+        port = 9229,
+        cwd = "${workspaceFolder}",
+        sourceMaps = true,
+        resolveSourceMapLocations = {
+            "${workspaceFolder}/**",
+            "!**/node_modules/**",
+        },
+    },
+}
+
+dap.configurations.javascript = js_config
+dap.configurations.typescript = js_config
 
 -- native vim spell check and thesaurus
 vim.opt.thesaurus:append(vim.fn.stdpath("config") .. "/thesaurus/mthesaur.txt")

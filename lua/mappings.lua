@@ -167,4 +167,20 @@ map("n", "<leader>L", "<cmd>set spell!<CR>", { noremap = true, silent = true })
 map("n", "<leader>A", "<cmd>AerialToggle!<CR>", { noremap = true, silent = true })
 
 -- macdict - macOS Dictionary.app lookup (offline)
-map("n", "<leader>d", "<cmd>lua require('macdict').lookup()<CR>", { noremap = true, silent = true })
+map("n", "<leader>dd", "<cmd>lua require('macdict').lookup()<CR>", { noremap = true, silent = true })
+
+-- nvim-dap debugging (gdb-style: c=continue, n=next, s=step, o=out, b=breakpoint)
+map("n", "<leader>dc", "<cmd>lua require('dap').continue()<CR>", { noremap = true, silent = true })
+map("n", "<leader>dn", "<cmd>lua require('dap').step_over()<CR>", { noremap = true, silent = true })
+map("n", "<leader>ds", "<cmd>lua require('dap').step_into()<CR>", { noremap = true, silent = true })
+map("n", "<leader>do", "<cmd>lua require('dap').step_out()<CR>", { noremap = true, silent = true })
+map("n", "<leader>db", "<cmd>lua require('dap').toggle_breakpoint()<CR>", { noremap = true, silent = true })
+map(
+    "n",
+    "<leader>dB",
+    "<cmd>lua require('dap').set_breakpoint(vim.fn.input('condition: '))<CR>",
+    { noremap = true, silent = true }
+)
+map("n", "<leader>dr", "<cmd>lua require('dap').repl.open()<CR>", { noremap = true, silent = true })
+map("n", "<leader>dl", "<cmd>lua require('dap').run_last()<CR>", { noremap = true, silent = true })
+map("n", "<leader>dx", "<cmd>lua require('dap').terminate()<CR>", { noremap = true, silent = true })
