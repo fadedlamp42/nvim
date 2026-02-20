@@ -1,0 +1,209 @@
+{
+	"agent-session": {
+		"prefix": "agent-session",
+		"description": "Standardized way to refer to the current agent session, useful for prompting the model to recall or reference previous context. The placeholder should be filled with the specific session ID or directory name that the model (i.e. `opencode` or `claude`) can use to access relevant files or context from this session. This creates a consistent anchor for the model to tie its responses to the ongoing work.",
+		"body": [
+			"`${1:session ID}` from `${2:session directory/cwd}`"
+		]
+	},
+	"empty-tasks": {
+		"prefix": "empty-tasks",
+		"description": "Scaffold a full tasks section with lifecycle categories: todo for uncommitted work, ongoing (active/passive/waiting) for in-flight items with different attention levels, done for completed work, and cancelled for abandoned items. Use this at the top of any project or session markdown file to establish a task tracking structure.",
+		"body": [
+			"# tasks",
+			"",
+			"## todo",
+			"",
+			"## ongoing",
+			"",
+			"### active",
+			"",
+			"### passive",
+			"",
+			"### waiting",
+			"",
+			"## done",
+			"",
+			"## cancelled",
+			"$0"
+		]
+	},
+
+	"pocus-debug": {
+		"prefix": "pocus-debug",
+		"description": "Prompt for verifying Pocus workflow correctness by cross-referencing local Postgres data with Temporal workflow/activity execution history. Assumes MCP access to the local Postgres instance has already been enabled and that Temporal is reachable at localhost:7272.",
+		"body": [
+			"Here's what I see for ${1:current task}. I just enabled access to the local Postgres instance via MCP, think carefully about whether this is a correct result (you can also use `localhost:7272` and `temporal` to check how the workflow/activities went)$0"
+		]
+	},
+
+	"compare-deploy": {
+		"prefix": "compare-deploy",
+		"description": "Structured comparison of deployment strategies for a service or tool, covering self-hosting, the vendor's official cloud offering, and any third-party managed providers the model might know about. Explicitly asks for evaluation across cost, operational complexity, and vendor lock-in to force a multi-dimensional answer rather than a single recommendation.",
+		"body": [
+			"Compare self-hosting, ${1:official cloud}, and any other providers I might not be thinking of for ${2:service or tool} deployment, particularly across cost, operational complexity, and lock-in$0"
+		]
+	},
+
+	"explain-tool": {
+		"prefix": "explain-tool",
+		"description": "Request a top-down mental model of an unfamiliar tool or service, calibrated by specifying what you already know. This framing prevents the model from over-explaining basics you've already internalized and lets it focus on the novel abstractions, principles, and design philosophy that differentiate the new tool from things in your existing vocabulary.",
+		"body": [
+			"Explain the fundamentals, principles, and top level mental model of ${1:tool or service}, I already know ${2:related tools or services}$0"
+		]
+	},
+
+	"primary-sources": {
+		"prefix": "primary-sources",
+		"description": "Remind the model to ground its research in official documentation and primary sources rather than secondhand blog posts, tutorials, or Stack Overflow answers. The casual variant is more natural mid-conversation; both achieve the same grounding effect. Particularly useful before deep research tasks where hallucinated or outdated blog content could derail implementation.",
+		"body": [
+			"use `exa` for good research and rely on primary sources, not random ass blogs lol$0"
+		]
+	},
+
+	"research-repo": {
+		"prefix": "research-repo",
+		"description": "Commission a thorough investigation of a specific concept within a repository, asking for the full narrative arc: the original PR that introduced it, significant iterations and refactors, how it executes, its purpose, and its position in the feature dependency graph (what it powers and what it depends on). Optionally outputs to a knowledge base file for later reading.",
+		"body": [
+			"Do research across ${1:repository} and give me a full story about \"${2:concept}\", including original PR, significant iterations, execution, purpose, and its place in the feature graph (features it powers + features it requires to run)",
+			"",
+			"Output your full report as /Users/regular/knowledge/${3:domain}/reading-and-learning/${4:ALL-CAPS-NAME}.md so I can read it later$0"
+		]
+	},
+
+	"pre-meeting": {
+		"prefix": "pre-meeting",
+		"description": "Quick pre-meeting prep prompt that asks the model to review agenda items or discussion points you've raised in a Notion doc (or similar), forming an opinion before you walk into the meeting. Useful for getting a second perspective on your talking points and identifying gaps in your reasoning.",
+		"body": [
+			"What's your opinion on the items I raised here? Use the MCP to access it - ${1:Notion URL}$0"
+		]
+	},
+
+	"revisit-tasks": {
+		"prefix": "revisit-tasks",
+		"description": "After significant progress or context evolution, prompt the model to re-examine the tasks section with fresh eyes and suggest simplification. Explicitly asks for condensation so the task list remains easy to conceptualize at a glance, and notes that many items are likely stale from earlier iterations. Read-only by default: asks for suggestions, not changes.",
+		"body": [
+			"Great, now let's revisit the `tasks` section at the top of the file with fresh eyes; I want to simplify and condense as much as possible so it's easy for me to conceptualize at a glance. Don't change anything yet, but I think a lot of it is stale/specified from previous, less-developed versions of our vision$0"
+		]
+	},
+
+	"synthesize": {
+		"prefix": "synthesize",
+		"description": "Instruct the model to compress and reorganize scattered information into a single coherent spec or document, with the critical constraint of losslessness: no information should be dropped or summarized away during the synthesis. Useful when context has accumulated across multiple conversations or files and needs to be consolidated without losing any decisions or details.",
+		"body": [
+			"synthesize everything losslessly into a new ${1:spec path}$0"
+		]
+	},
+
+	"find-sep": {
+		"prefix": "find-sep",
+		"description": "Invoke the Simplest Extensible Path (SEP) principle: find the implementation that's simple enough to ship now but extensible enough to grow without rewrites. Goldilocks complexity, informed by Einstein's 'as simple as possible but no simpler' and Occam's razor. Useful when you sense the model is overengineering or underengineering a solution.",
+		"body": [
+			"find the simplest extensible path (SEP)$0"
+		]
+	},
+
+	"just-explain": {
+		"prefix": "just-explain",
+		"description": "Hard constraint that prevents the model from making any code changes, only explaining what exists or what it would do. Essential when you want to understand before approving changes, or when the model is being too eager to edit files. Short and direct by design.",
+		"body": [
+			"Don't change anything, just explain$0"
+		]
+	},
+
+	"testing-steps": {
+		"prefix": "testing-steps",
+		"description": "After the model has made changes, ask it to enumerate the exact manual testing steps so you can efficiently verify its work. Frames the request as 'how can I help you' which subtly positions the human as the tester and the model as the implementer who knows what needs validation. Good practice after any non-trivial implementation session.",
+		"body": [
+			"What are my exact testing steps for the changes you've made so far? Tell me how I can efficiently help you$0"
+		]
+	},
+
+	"whats-next": {
+		"prefix": "whats-next",
+		"description": "Post-compaction continuation prompt. After a context window reset or model switch, ask the model to explain what it plans to do next based on the compacted context it just received. Tests whether the compaction preserved enough information for the model to proceed coherently.",
+		"body": [
+			"Alright, explain to me what you'll do next$0"
+		]
+	},
+
+	"pause-if-bad": {
+		"prefix": "pause-if-bad",
+		"description": "Safety rail for autonomous execution: instruct the model to pause and ask for explicit approval before taking any action that could have negative consequences (destructive operations, irreversible changes, production access, etc.). The placeholder should be filled with the specific class of negative action you're worried about in context.",
+		"body": [
+			"If you hit a block where you'd need to ${1:do something negative}, pause and ask for approval$0"
+		]
+	},
+
+	"usage-then-go": {
+		"prefix": "usage-then-go",
+		"description": "Two-phase prompt: first, ask the model to write a concise usage section for a README (forcing it to crystallize its understanding of the project), then instruct it to follow those very instructions in a specific context. The act of writing usage docs first creates a self-verifying loop where the model has to understand the system before operating within it.",
+		"body": [
+			"write an extremely concise `# usage` section at the top of `README.md`",
+			"",
+			"Alright, now follow those instructions in context of ${1:project} and only loop me in during judgement-critical steps$0"
+		]
+	},
+
+	"md-simple-tasks": {
+		"prefix": "md-simple-tasks",
+		"description": "Kick off a work session on multiple small, obvious tasks from a markdown planning file. Frames the tasks as straightforward so the model moves quickly, but explicitly asks for a brief explanation of each fix so you can review the approach and course-correct. Best for grinding through a backlog of small items in one session.",
+		"body": [
+			"We'll be working from ${1:relevant markdown file} on ${2:relevant codebase}, specifically these tasks in `active`:",
+			"${3:one or more tasks}",
+			"",
+			"These should all be very obvious and simple, but let me know how you fix each so I can review your approach and we'll tweak after if necessary.$0"
+		]
+	},
+
+	"md-big-task": {
+		"prefix": "md-big-task",
+		"description": "Kick off a work session on a single large, complex task from a markdown planning file that has an associated spec written by a previous research agent. Signals to the model that this needs to be broken into manageable pieces and that minimizing complexity is a priority. The parenthetical note about reading the full task is important because the model often only processes the first line.",
+		"body": [
+			"We'll be working from ${1:relevant markdown file} on ${2:relevant codebase}, specifically this big one in `active` (this is only the first line, it's a big task; read it):",
+			"${3:first line of big task}",
+			"",
+			"You'll find ${4:spec file} referenced, written by a previous research agent, let's chop this implementation into manageable pieces and attempt to minimize complexity; this isn't some big, enterprise project, it's just meant to be stable and easily extensible.$0"
+		]
+	},
+
+	"make-beautiful": {
+		"prefix": "make-beautiful",
+		"description": "Direct the model to polish a system or function to best-practice quality. 'Beautiful' here means readable, well-structured, properly typed, and following established patterns. More specific than 'make nice' (which is a full modularization refactor) - this is about making a specific piece of code exemplary.",
+		"body": [
+			"Make ${1:system or function} beautiful, following all best practices$0"
+		]
+	},
+
+	"add-todos": {
+		"prefix": "add-todos",
+		"description": "Ask the model to audit the current codebase or recent changes and leave TODO comments marking improvement opportunities and simplification targets. Useful as a lightweight alternative to centralized markdown task tracking, since TODOs are grep-able and live next to the code they reference. Consider the tradeoff: TODOs are local and discoverable via search, markdown planning is centralized but costs tokens to maintain.",
+		"body": [
+			"Add TODO comments for everything you'd like to do/things to simplify later$0"
+		]
+	},
+
+	"pyramid": {
+		"prefix": "pyramid",
+		"description": "Apply Barbara Minto's Pyramid Principle to restructure generated prose: lead with the conclusion, then supporting arguments, then details. Transforms bottom-up 'here's what I found' writing into top-down 'here's the answer, here's why' writing that's immediately understandable. Particularly effective on LLM output which tends to bury the lede.",
+		"body": [
+			"Apply the pyramid principle to make ${1:generated prose} immediately understandable$0"
+		]
+	},
+
+	"state-diagram": {
+		"prefix": "state-diagram",
+		"description": "Ask the model to produce a Graphviz DOT state diagram documenting the different states a system can be in and the transitions between them. Saves the diagram to the repository root for iteration and reference. Powerful for understanding complex workflows, lifecycle management, and distributed system states after implementation.",
+		"body": [
+			"Draw a state diagram to explain what you've done, I want to understand the different possible states and their transitions (`dot`/`graphviz` to do this, and save it in the repository root for iteration and reference)$0"
+		]
+	},
+
+	"walk-hunks": {
+		"prefix": "walk-hunks",
+		"description": "Before reviewing individual changes, zoom out and ask the model to walk through every diff hunk explaining why each change is necessary. Forces big-picture thinking and often reveals unnecessary or redundant changes that looked fine in isolation. The 'big picture first' framing prevents the model from diving into implementation details before establishing the narrative.",
+		"body": [
+			"Let's look at the big picture first; walk me through every hunk and explain why we need it$0"
+		]
+	}
+}

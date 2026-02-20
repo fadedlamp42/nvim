@@ -14,9 +14,6 @@ vim.g.mapleader = ","
 map("i", "jk", "<esc>")
 map("t", "jk", "<C-\\><C-n>")
 
--- <leader>f to open netrw in vertical split
-map("n", "<leader>f", "<cmd>Vexplore<CR>")
-
 -- <leader>F to open netrw in current window
 map("n", "<leader>F", "<cmd>Explore<CR>")
 
@@ -53,13 +50,6 @@ map("n", "<leader>V", "<cmd>e ~/.config/nvim/init.lua<CR>")
 -- clear search highlight after search and fix paste insert mode
 map("n", "<leader><space>", "<cmd>nohlsearch<CR>:set nopaste<CR>")
 
---[[ useful if tagbar is reinstalled
---map leader return to toggle tag sidebar
-nnoremap <silent> <leader><CR> :TagbarToggle<CR>
-nnoremap <silent> <leader>b :BuffergatorOpen<CR>
-nnoremap <silent> <leader>B :BuffergatorClose<CR>
-]]
-
 -- j and k to move visually on wrapped lines
 map("n", "j", "gj")
 map("n", "k", "gk")
@@ -84,19 +74,20 @@ map("n", "<leader>cd", "<cmd>cd %:h<CR>")
 -- <leader-R> to reload init.lua
 map("n", "<leader>R", "<cmd>source ~/.config/nvim/init.lua<CR>:echo 'Reloaded init.lua'<CR>")
 
--- lsp actions
---map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-map("n", "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>")
-map("n", "<leader>f", "<cmd>lua vim.lsp.buf.format { async = true }<CR>")
+-- filetype / formatting
+map("n", "<leader>f", "<cmd>set ft=markdown<CR>") -- enables snippets, spell, render-markdown in blank buffers
 map("n", "<leader>q", "<cmd>%!sleek<CR>:set filetype=sql<CR>:set foldmethod=indent<CR>")
+
+-- lsp actions
+map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+map("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>")
 map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
 map("n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>")
 map("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>")
 map("n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>")
 map("n", "<leader>?", "<Cmd>lua vim.lsp.buf.hover()<CR>")
-map("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>")
-map("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>")
+map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
 map("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>")
 map("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>")
 map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
@@ -107,8 +98,7 @@ map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 map("n", "<leader>l", "<cmd>Limelight!! 0.85<CR>") -- <leader>l to toggle limelight
 
 -- > Trouble
--- map("n", "<leader>t", "<cmd>TroubleToggle<CR>") -- <leader>t to toggle Trouble
-map("n", "<leader>T", "<cmd>TodoTrouble<CR>") -- <leader>t to view TODOs with Trouble
+map("n", "<leader>T", "<cmd>TodoTrouble<CR>") -- <leader>T to view TODOs with Trouble
 
 -- > easy-align
 vim.cmd("xmap ga <Plug>(EasyAlign)") -- EasyAlign visual mode
@@ -131,27 +121,21 @@ map("n", "<leader>GP", "<cmd>Git push<CR>") -- <leader>GP for git push
 map("n", "<leader>Gr", "<cmd>Git reset<CR>") -- <leader>Gr for git reset
 
 -- > Copilot
-map("i", "<C-p>", "<cmd>Copilot panel<CR>") -- <leader>p to toggle Copilot panel
+map("i", "<C-p>", "<cmd>Copilot panel<CR>") -- <C-p> in insert mode to open Copilot panel
 
 -- fzf
 map("n", "<C-g>", "<cmd>Rg<CR>")
 map("n", "<C-p>", "<cmd>Files<CR>")
 map("n", "<A-p>", "<cmd>GFiles<CR>")
+map("n", "<C-s>", "<cmd>Snippets<CR>") -- browse and expand global vsnip snippets
 
 -- vim-doge
 map("n", "<leader>D", "<cmd>DogeGenerate<CR>") -- :DogeGenerate on <leader>D
 
 map("n", "<TAB>", "<Plug>(doge-comment-jump-forward)")
 map("n", "<S-TAB>", "<Plug>(doge-comment-jump-backward)")
--- map('i', '<TAB>', '<Plug>(doge-comment-jump-forward)')
--- map('i', '<S-TAB>', '<Plug>(doge-comment-jump-backward)')
---map('s', '<TAB>', '<Plug>(doge-comment-jump-forward)')
---map('s', '<S-TAB>', '<Plug>(doge-comment-jump-backward)')
 
 -- codecompanion
--- vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
--- vim.keymap.set({ "n", "v" }, "<LocalLeader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
--- vim.keymap.set("v", "a", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 map("n", "<leader>a", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
 map("v", "<leader>a", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
 map("n", "<C-a>", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })

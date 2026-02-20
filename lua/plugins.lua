@@ -401,7 +401,7 @@ local signature_config = {
     select_signature_key = "<M-n>", -- cycle to next signature, e.g. '<M-n>' function overloading
     move_cursor_key = nil, -- imap, use nvim_set_current_win to move cursor between current win and floating
 }
-require("lsp_signature").setup(cfg)
+require("lsp_signature").setup(signature_config)
 
 -- marks
 require("marks").setup({
@@ -450,6 +450,61 @@ require("marks").setup({
 g.doge_enable_mappings = 0
 g.doge_buffer_mappings = 0
 g.doge_doc_standard_python = "numpy"
+
+-- vsnip: custom snippet directory (inside nvim config repo for version control)
+-- global.json is loaded for all filetypes via the autocmd below
+g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+        local ft = vim.bo.filetype
+        if ft ~= "" then
+            local filetypes = vim.g.vsnip_filetypes or {}
+            if not filetypes[ft] then
+                filetypes[ft] = { "global" }
+                vim.g.vsnip_filetypes = filetypes
+            end
+        end
+    end,
+})
+
+-- :Snippets command - browse and expand global snippets via fzf
+vim.api.nvim_create_user_command("Snippets", function()
+    local path = g.vsnip_snippet_dir .. "/global.json"
+    local file = io.open(path, "r")
+    if not file then
+        vim.notify("no snippet file at " .. path, vim.log.levels.WARN)
+        return
+    end
+    local snippets = vim.json.decode(file:read("*a"))
+    file:close()
+
+    -- build lookup table and fzf display lines
+    local body_by_prefix = {}
+    local lines = {}
+    for name, snippet in pairs(snippets) do
+        local prefix = snippet.prefix or name
+        local desc = snippet.description or ""
+        if #desc > 80 then
+            desc = desc:sub(1, 77) .. "..."
+        end
+        body_by_prefix[prefix] = snippet.body
+        table.insert(lines, prefix .. "  " .. desc)
+    end
+    table.sort(lines)
+
+    vim.fn["fzf#run"](vim.fn["fzf#wrap"]({
+        source = lines,
+        options = { "--prompt", "snippet> " },
+        sink = function(selected)
+            local prefix = selected:match("^(%S+)")
+            local body = body_by_prefix[prefix]
+            if body then
+                vim.fn["vsnip#anonymous"](table.concat(body, "\n"))
+            end
+        end,
+    }))
+end, {})
 
 -- copilot
 g.copilot_enabled = false
@@ -514,14 +569,8 @@ cmp.setup({
                 else
                     cmp.select_next_item()
                 end
-            --[[ Replace with your snippet engine (see above sections on this page)
-      elseif snippy.can_expand_or_advance() then
-        snippy.expand_or_advance() ]]
-            -- elseif has_words_before() then
-            -- 	cmp.complete()
-            -- 	if #cmp.get_entries() == 1 then
-            -- 		cmp.confirm({ select = true })
-            -- 	end
+            elseif vim.fn["vsnip#jumpable"](1) == 1 then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(vsnip-jump-next)", true, true, true), "")
             else
                 fallback()
             end
@@ -529,6 +578,8 @@ cmp.setup({
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
+            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(vsnip-jump-prev)", true, true, true), "")
             else
                 fallback()
             end

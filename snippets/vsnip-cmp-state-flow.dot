@@ -1,0 +1,115 @@
+// vsnip + nvim-cmp state flow
+// render: dot -Tsvg vsnip-cmp-state-flow.dot -o vsnip-cmp-state-flow.svg
+// or:    dot -Tpng vsnip-cmp-state-flow.dot -o vsnip-cmp-state-flow.png
+
+digraph vsnip_cmp_states {
+    rankdir=TB
+    fontname="Helvetica"
+    node [fontname="Helvetica" fontsize=11 style="filled,rounded" shape=box]
+    edge [fontname="Helvetica" fontsize=9]
+
+    // --- color legend ---
+    // purple = NORMAL mode
+    // blue   = INSERT mode, no session
+    // green  = INSERT mode, session active
+    // orange = SELECT mode, session active
+    // gray   = transitional (not a resting state)
+
+    // --- nodes ---
+
+    normal [
+        label="NORMAL MODE\n\nCtrl-s = :Snippets (fzf picker)\n,f = set ft=markdown"
+        fillcolor="#e8daef"
+    ]
+
+    fzf_picker [
+        label="FZF SNIPPET PICKER\n(NORMAL, :Snippets)\n\nfuzzy search by prefix/description\nEnter = expand at cursor\nEsc = cancel"
+        fillcolor="#e8daef"
+    ]
+
+    idle [
+        label="IDLE\n(INSERT, no session)\n\nTab = literal tab"
+        fillcolor="#d4e6f1"
+    ]
+
+    cmp_menu [
+        label="CMP MENU VISIBLE\n(INSERT, no session)\n\nTab = select next item\nS-Tab = select prev\nEsc/C-e = abort"
+        fillcolor="#d4e6f1"
+    ]
+
+    expanding [
+        label="EXPANDING\n(transitional)"
+        fillcolor="#d5d8dc"
+        shape=ellipse
+    ]
+
+    subgraph cluster_session {
+        label="vsnip session active\n(extmarks tracking all tabstops)"
+        style="dashed,rounded"
+        color="#7f8c8d"
+        fontname="Helvetica"
+        fontsize=10
+        fontcolor="#7f8c8d"
+
+        at_placeholder [
+            label="AT PLACEHOLDER\n(SELECT mode)\n\nplaceholder text highlighted\ntyping replaces selection"
+            fillcolor="#fdebd0"
+        ]
+
+        typing [
+            label="TYPING REPLACEMENT\n(INSERT, session active)\n\nuser editing placeholder\nTab = jump next"
+            fillcolor="#d5f5e3"
+        ]
+
+        at_bare [
+            label="AT BARE TABSTOP\n(INSERT, session active)\n\ncursor positioned, no selection\nTab = jump next"
+            fillcolor="#d5f5e3"
+        ]
+    }
+
+    // --- transitions ---
+
+    // normal mode entry points
+    normal -> fzf_picker [label="Ctrl-s\n(:Snippets command)"]
+    normal -> idle [label="i / a / o\n(enter INSERT)"]
+    fzf_picker -> normal [label="Esc\n(cancel picker)"]
+    fzf_picker -> expanding [label="Enter on snippet\n(fzf sink calls\nvsnip#anonymous)"]
+
+    // idle -> cmp
+    idle -> cmp_menu [label="type prefix text\n(cmp auto-triggers)"]
+    cmp_menu -> idle [label="Esc / C-e\n(cmp.abort)"]
+
+    // cmp -> expansion
+    cmp_menu -> expanding [label="Enter on snippet item\n(cmp.confirm -> snippet.expand\n-> vsnip#anonymous)"]
+
+    // expansion -> first tabstop
+    expanding -> at_placeholder [label="$1 has placeholder\n(e.g. ${1:official cloud})"]
+    expanding -> at_bare [label="$1 is bare\n(e.g. $1)"]
+
+    // SELECT -> INSERT (the key transition)
+    at_placeholder -> typing [label="type any character\n(SELECT replaces selection,\nenters INSERT)"]
+    at_placeholder -> typing [label="Cmd+V / paste\n(bracketed paste: first char\nreplaces selection via SELECT,\nrest inserted in INSERT)" color="#2e86c1" fontcolor="#2e86c1"]
+
+    // Tab jumps within session
+    typing -> at_placeholder [label="Tab: next has placeholder\n(vsnip#jumpable=1\n-> vsnip-jump-next)"]
+    typing -> at_bare [label="Tab: next is bare\n(vsnip-jump-next)"]
+    at_bare -> at_placeholder [label="Tab: next has placeholder"]
+    at_bare -> at_bare [label="Tab: next is bare"]
+    at_placeholder -> at_placeholder [label="Tab: skip placeholder,\nnext also has placeholder"]
+
+    // session end
+    typing -> idle [label="Tab at $0\n(session ends)" style=bold color="#e74c3c" fontcolor="#e74c3c"]
+    at_bare -> idle [label="Tab at $0\n(session ends)" style=bold color="#e74c3c" fontcolor="#e74c3c"]
+    at_placeholder -> idle [label="Tab at $0\n(session ends)" style=bold color="#e74c3c" fontcolor="#e74c3c"]
+
+    // escape hatch
+    {typing at_bare at_placeholder} -> idle [
+        label="Esc + move cursor\n(session invalidated)"
+        style=dashed
+        color="#95a5a6"
+        fontcolor="#95a5a6"
+    ]
+
+    // return to normal
+    idle -> normal [label="Esc / jk" style=dashed color="#95a5a6" fontcolor="#95a5a6"]
+}
