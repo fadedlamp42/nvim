@@ -10,6 +10,8 @@ Clone into `$HOME/.config`, relies on `python3-pynvim` and `node`.
 
 ### Pre-commit hooks
 
+`-s ses_3877e3789ffeoHJm0Us7ovjA1u` from `/Users/regular/knowledge/personal/repositories/faded-setup/dot-files/nvim`
+
 This repo uses a git hook to automatically format Lua code with [StyLua](https://github.com/JohnnyMorganz/StyLua) before commits. Formatting and re-staging happens transparently during the commit.
 
 **Setup:**
