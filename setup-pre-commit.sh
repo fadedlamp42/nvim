@@ -1,6 +1,11 @@
 #!/bin/sh
-# installs a pre-commit hook that runs stylua on staged lua files
+# installs stylua and a pre-commit hook that formats staged lua files
 # idempotent; safe to run multiple times
+
+if ! command -v stylua > /dev/null 2>&1; then
+    echo "installing stylua via brew..."
+    brew install stylua
+fi
 
 hook_dir=$(git rev-parse --git-dir)/hooks
 hook_path="$hook_dir/pre-commit"
