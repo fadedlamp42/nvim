@@ -212,6 +212,21 @@
 		]
 	},
 
+	"parallel-agents": {
+		"prefix": "parallel-agents",
+		"description": "Propose splitting a project into parallel work streams handled by @general sub-agents. Frames the division as collaborative (asking the model's opinion) while seeding your own initial breakdown. The numbered list placeholder is where you enumerate the specific verticals you want to parallelize. Useful when a project has independent axes of progress that would benefit from concurrent subagentic execution rather than serial iteration.",
+		"body": [
+			"I want to parallelize progress on ${1:project or goal}, so let's start using @general sub-agents to work on more than one vertical at once.",
+			"",
+			"Would love your help figuring out the best division of work, but I think at least:",
+			"${2:numbered work streams}",
+			"",
+			"...can be our parallel work streams. What do you think?",
+			"",
+			"Once we agree, document the workstreams in ${3:CURRENT_SUBAGENTS.md} with a top-level header per stream so we don't get lost and can track granular progress in each. Then, kick it off$0"
+		]
+	},
+
 	"walk-hunks": {
 		"prefix": "walk-hunks",
 		"description": "Before reviewing individual changes, zoom out and ask the model to walk through every diff hunk explaining why each change is necessary. Forces big-picture thinking and often reveals unnecessary or redundant changes that looked fine in isolation. The 'big picture first' framing prevents the model from diving into implementation details before establishing the narrative.",
