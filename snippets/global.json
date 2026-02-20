@@ -1,4 +1,17 @@
 {
+	"email-reject-small-company": {
+		"prefix": "email-reject-small-company",
+		"description": "Polite email template for rejecting a recruiter outreach from a small company when you're not actively looking. The placeholder should be filled with the recruiter's name and the company name. Useful for maintaining good relationships while setting clear boundaries about your current job search status.",
+		"body": [
+			"Hi ${1:recruiter name},",
+			"",
+			"Thanks for reaching out, but I'm currently only passively searching for later stage opportunities, I'm quite busy with my own business at the moment so I couldn't explore further with ${2:company name}.",
+			"",
+			"Best,",
+			"Peter"
+		]
+	},
+
 	"agent-session": {
 		"prefix": "agent-session",
 		"description": "Standardized way to refer to the current agent session, useful for prompting the model to recall or reference previous context. The placeholder should be filled with the specific session ID or directory name that the model (i.e. `opencode` or `claude`) can use to access relevant files or context from this session. This creates a consistent anchor for the model to tie its responses to the ongoing work.",
