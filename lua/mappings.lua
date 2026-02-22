@@ -128,6 +128,7 @@ map("n", "<C-g>", "<cmd>Rg<CR>")
 map("n", "<C-p>", "<cmd>Files<CR>")
 map("n", "<A-p>", "<cmd>GFiles<CR>")
 map("n", "<C-s>", "<cmd>Snippets<CR>") -- browse and expand global vsnip snippets
+map("i", "<C-s>", "<cmd>Snippets<CR>") -- same from insert mode
 
 -- vim-doge
 map("n", "<leader>D", "<cmd>DogeGenerate<CR>") -- :DogeGenerate on <leader>D

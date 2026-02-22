@@ -419,24 +419,26 @@ cmp.setup({
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        -- vsnip jump takes priority so Tab always advances through snippet tabstops
+        -- ses_37be58172ffeLI93N9PSkf7ckc
         ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
+            if vim.fn["vsnip#jumpable"](1) == 1 then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(vsnip-jump-next)", true, true, true), "")
+            elseif cmp.visible() then
                 if #cmp.get_entries() == 1 then
                     cmp.confirm({ select = true })
                 else
                     cmp.select_next_item()
                 end
-            elseif vim.fn["vsnip#jumpable"](1) == 1 then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(vsnip-jump-next)", true, true, true), "")
             else
                 fallback()
             end
         end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+            if vim.fn["vsnip#jumpable"](-1) == 1 then
                 vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>(vsnip-jump-prev)", true, true, true), "")
+            elseif cmp.visible() then
+                cmp.select_prev_item()
             else
                 fallback()
             end
@@ -444,7 +446,6 @@ cmp.setup({
     }),
     sources = cmp.config.sources({
         { name = "nvim_lsp" },
-        { name = "vsnip" }, -- For vsnip users.
     }, {
         { name = "buffer" },
     }),
