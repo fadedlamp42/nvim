@@ -74,7 +74,8 @@ require("packer").startup(function()
         "tpope/vim-surround", -- manipulate surrounding symbols
         "dhruvasagar/vim-table-mode", -- markdown table manipulation
         "wbthomason/packer.nvim", -- packer manages itself
-        "williamboman/nvim-lsp-installer", -- lsp installation helper
+        { "williamboman/mason.nvim" },
+        { "williamboman/mason-lspconfig.nvim", requires = { "williamboman/mason.nvim" } },
         {
             "folke/todo-comments.nvim",
             requires = "nvim-lua/plenary.nvim",
@@ -477,6 +478,38 @@ cmp.setup.cmdline(":", {
         { name = "cmdline" },
     }),
     matching = { disallow_symbol_nonprefix_matching = false },
+})
+
+-- mason: LSP server installer (replaces nvim-lsp-installer)
+-- ensure mason can find toolchains regardless of how nvim was launched
+local mason_path_extras = {
+    vim.fn.expand("$HOME/.nvm/versions/node/v25.6.1/bin"),
+    "/opt/homebrew/bin",
+    "/opt/homebrew/opt/ruby/bin",
+    "/opt/homebrew/lib/ruby/gems/4.0.0/bin",
+}
+vim.env.PATH = table.concat(mason_path_extras, ":") .. ":" .. vim.env.PATH
+
+require("mason").setup()
+require("mason-lspconfig").setup({
+    -- NOTE: ccls not available in mason, install via system package manager (brew install ccls)
+    ensure_installed = {
+        "bashls",
+        "csharp_ls",
+        "cssls",
+        "dockerls",
+        "eslint",
+        "gopls",
+        "html",
+        "kotlin_language_server",
+        "pyright",
+        "solargraph",
+        "tailwindcss",
+        "terraformls",
+        "ts_ls",
+        "vimls",
+        "yamlls",
+    },
 })
 
 -- lsp setup with native vim.lsp.config (nvim 0.11+)
