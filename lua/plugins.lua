@@ -47,138 +47,6 @@ local configure_indent = function()
         -- }
     })
 end
--- https://codecompanion.olimorris.dev/getting-started.html#suggested-plugin-workflow
-local configure_codecompanion = function()
-    require("codecompanion").setup({
-        opts = {
-            system_prompt = function(opts)
-                --[[ Default prompt
-					return "
-						You are an AI programming assistant named "CodeCompanion". You are currently plugged in to the Neovim text editor on a user's machine.
-
-						Your core tasks include:
-						- Answering general programming questions.
-						- Explaining how the code in a Neovim buffer works.
-						- Reviewing the selected code in a Neovim buffer.
-						- Generating unit tests for the selected code.
-						- Proposing fixes for problems in the selected code.
-						- Scaffolding code for a new workspace.
-						- Finding relevant code to the user's query.
-						- Proposing fixes for test failures.
-						- Answering questions about Neovim.
-						- Running tools.
-
-						You must:
-						- Follow the user's requirements carefully and to the letter.
-						- Keep your answers short and impersonal, especially if the user responds with context outside of your tasks.
-						- Minimize other prose.
-						- Use Markdown formatting in your answers.
-						- Include the programming language name at the start of the Markdown code blocks.
-						- Avoid including line numbers in code blocks.
-						- Avoid wrapping the whole response in triple backticks.
-						- Only return code that's relevant to the task at hand. You may not need to return all of the code that the user has shared.
-						- Use actual line breaks instead of '\n' in your response to begin new lines.
-						- Use '\n' only when you want a literal backslash followed by a character 'n'.
-						- All non-code responses must be in %s.
-
-						When given a task:
-						1. Think step-by-step and describe your plan for what to build in pseudocode, written out in great detail, unless asked not to do so.
-						2. Output the code in a single code block, being careful to only return relevant code.
-						3. You should always generate short suggestions for the next user turns that are relevant to the conversation.
-						4. You can only give one reply for each conversation turn.
-					"
-				end,
-				]]
-                --
-                return "You're a programming assistant. Answer coding questions, explain code, review selections, generate tests, fix code issues, scaffold new code, find relevant code, fix test failures, answer Neovim questions, and run tools. Keep responses extremely brief—just one sentence unless specifically asked for more. Use proper Markdown with language indicators for code blocks, avoid line numbers, and don't wrap entire responses in backticks. Use actual line breaks instead of '\n' except when literal. Use blunt language, don't make extra suggestions, and use concise words."
-            end,
-        },
-        adapters = {
-            copilot = function()
-                return require("codecompanion.adapters").extend("copilot", {
-                    schema = {
-                        model = {
-                            default = "claude-3.7-sonnet",
-                        },
-                    },
-                })
-            end,
-            -- ollama = function()
-            -- 	return require("codecompanion.adapters").extend("ollama", {
-            -- 		schema = {
-            -- 			model = {
-            -- 				default = "gemma3:4b-it-qat",
-            -- 			},
-            -- 		},
-            -- 	})
-            -- end,
-        },
-        strategies = {
-            -- TODO figure out tool calling with ollama
-            -- chat = {
-            -- 	adapter = "ollama",
-            -- },
-            -- inline = {
-            -- 	adapter = "ollama",
-            -- },
-            -- cmd = {
-            -- 	adapter = "ollama",
-            -- },
-            chat = {
-                adapter = "copilot",
-            },
-            inline = {
-                adapter = "copilot",
-            },
-            cmd = {
-                adapter = "copilot",
-            },
-        },
-        extensions = {
-            mcphub = {
-                callback = "mcphub.extensions.codecompanion",
-                opts = {
-                    make_vars = true,
-                    make_slash_commands = true,
-                    show_result_in_chat = true,
-                },
-            },
-        },
-    })
-end
-
--- mcphub
-local configure_mcphub = function()
-    require("mcphub").setup({
-        config = vim.fn.expand("~/.config/nvim/mcp-servers.json"),
-
-        auto_approve = true, -- Auto approve mcp tool calls (best for codecompanion integration)
-        auto_toggle_mcp_servers = true, -- Let LLMs start and stop MCP servers automatically
-
-        -- Extensions configuration
-        -- extensions = {
-        -- 	codecompanion = {
-        -- 		show_result_in_chat = true,
-        -- 		make_vars = true,
-        -- 		make_slash_commands = true, -- make /slash commands from MCP server prompts
-        -- 	},
-        -- },
-
-        -- Default window settings
-        ui = {
-            window = {
-                width = 0.8, -- 0-1 (ratio); "50%" (percentage); 50 (raw number)
-                height = 0.8, -- 0-1 (ratio); "50%" (percentage); 50 (raw number)
-                relative = "editor",
-                zindex = 50,
-                border = "rounded", -- "none", "single", "double", "rounded", "solid", "shadow"
-            },
-            wo = { -- window-scoped options (vim.wo)
-            },
-        },
-    })
-end
-
 -- package list
 require("packer").startup(function()
     use({
@@ -192,7 +60,7 @@ require("packer").startup(function()
         "junegunn/vim-easy-align", -- align text using ga
         "karb94/neoscroll.nvim", -- smooth scrolling
         "lilydjwg/colorizer", -- colorize hex color codes
-        "machakann/vim-highlightedyank", -- highlight yanked  text
+
         "mattn/emmet-vim", -- quick html/css editing
         "mfussenegger/nvim-lint", -- linting to augment lsps
         "neovim/nvim-lspconfig", -- builtin lsp
@@ -240,25 +108,6 @@ require("packer").startup(function()
         }, -- blankline indent characters
         { "napmn/react-extract.nvim", requires = { "nvim-treesitter/nvim-treesitter" } }, -- extract components
         { "yamatsum/nvim-nonicons", requires = { "nvim-tree/nvim-web-devicons" } }, -- swap icons for nonicons.ttf
-        {
-            "olimorris/codecompanion.nvim",
-            config = configure_codecompanion,
-            requires = {
-                "nvim-lua/plenary.nvim",
-                "nvim-treesitter/nvim-treesitter", -- To fix yaml parser error, run :TSInstall yaml
-                "ravitemer/mcphub.nvim",
-                "echasnovski/mini.pick",
-            },
-        },
-        { "ravitemer/mcphub.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = configure_mcphub }, -- npm install -g mcp-hub@latest,
-        {
-            "CopilotC-Nvim/CopilotChat.nvim",
-            requires = {
-                { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-                { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-            },
-            build = "make tiktoken", -- Only on MacOS or Linux
-        },
         {
             "MeanderingProgrammer/render-markdown.nvim",
             after = { "nvim-treesitter" },
@@ -506,6 +355,13 @@ vim.api.nvim_create_user_command("Snippets", function()
     }))
 end, {})
 
+-- highlight yanked text (native replacement for vim-highlightedyank)
+vim.api.nvim_create_autocmd("TextYankPost", {
+    callback = function()
+        vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
+    end,
+})
+
 -- copilot
 g.copilot_enabled = false
 
@@ -667,9 +523,6 @@ vim.lsp.enable({
 })
 
 g.markdown_fenced_languages = { "ts=typescript" }
-
--- codecompanion
-g.codecompanion_auto_tool_mode = true
 
 -- nvim-dap (node debugging via vscode-js-debug)
 -- install: download js-debug-dap-*.tar.gz from https://github.com/microsoft/vscode-js-debug/releases
