@@ -241,5 +241,13 @@
 		"body": [
 			"use `arxiv` to find the most recent, highest-quality options, then `exa` to cross-reference available implementations with enough GitHub stars to trust$0"
 		]
+	},
+
+	"email-role-preferences": {
+		"prefix": "email-role-preferences",
+		"description": "Canned response describing ideal role criteria for recruiter conversations: large org for learning, fully remote preferred, nights/weekends free for personal business, hybrid only for exceptional offers. Useful as a quick paste when a recruiter asks what you're looking for.",
+		"body": [
+			"Ideally, I'm looking for somewhere that I can learn from a large organization's engineering practices while maintaining time at night and weekends to work on my own business. Due to family constraints, especially in the future, it should be fully remote. But for the right offer, I could flex hybrid if absolutely necessary.$0"
+		]
 	}
 }
