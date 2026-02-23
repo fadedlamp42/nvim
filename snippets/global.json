@@ -233,5 +233,13 @@
 		"body": [
 			"Let's look at the big picture first; walk me through every hunk and explain why we need it$0"
 		]
+	},
+
+	"research-impl": {
+		"prefix": "research-impl",
+		"description": "Two-stage research workflow for finding trustworthy implementations of a technique or approach: first use arxiv to identify the most recent, highest-quality academic work, then use exa to cross-reference with real-world implementations filtered by GitHub stars as a quality/trust signal. Combines academic rigor with practical adoption metrics to avoid both outdated papers and unmaintained repos.",
+		"body": [
+			"use `arxiv` to find the most recent, highest-quality options, then `exa` to cross-reference available implementations with enough GitHub stars to trust$0"
+		]
 	}
 }
