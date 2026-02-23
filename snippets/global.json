@@ -249,5 +249,13 @@
 		"body": [
 			"Ideally, I'm looking for somewhere that I can learn from a large organization's engineering practices while maintaining time at night and weekends to work on my own business. Due to family constraints, especially in the future, it should be fully remote. But for the right offer, I could flex hybrid if absolutely necessary.$0"
 		]
+	},
+
+	"find-existing": {
+		"prefix": "find-existing",
+		"description": "Redirect the model away from building a custom solution when a well-established library or tool likely already exists. Triggers an exa search for pre-rolled alternatives before committing to a bespoke implementation. Useful when the model starts scaffolding something that feels like reinventing the wheel, or when you suspect the problem space is mature enough that someone has already solved it well.",
+		"body": [
+			"I like that direction, but use `exa` to see if there's more of a pre-rolled solution; this all feels very custom and I don't think we need to reinvent this wheel$0"
+		]
 	}
 }
