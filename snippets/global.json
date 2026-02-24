@@ -257,5 +257,27 @@
 		"body": [
 			"I like that direction, but use `exa` to see if there's more of a pre-rolled solution; this all feels very custom and I don't think we need to reinvent this wheel$0"
 		]
+	},
+
+	"new-agent": {
+		"prefix": "new-agent",
+		"description": "Spin off a focused agent session from a parent-authored `agents/*.md` track file. The parent session designs agent tracks with full context (scope, owned files, exclusion zones, tasks, fast feedback strategies), then the human babysits execution in a separate tmux session. The agent file IS the prompt — this snippet just bootstraps the session by pointing the model at it and setting expectations. Keep agents in an adjacent `*-agents` tmux session so primary context stays stable. The track placeholder should match a filename in `agents/` (e.g. image, face, motion, velocity).",
+		"body": [
+			"Read `agents/${1:track}.md` — that's your full brief. It has your scope, owned files, tasks, deployment commands, and fast feedback loop strategies. Stay within your scope; other tracks own other files.",
+			"",
+			"Also read `CLAUDE.md` for project-wide constraints and `README.md` for current state.",
+			"",
+			"Tight feedback loops are critical — prefer hot-swapping files into containers over rebuilding, prefer targeted tests over full end-to-end. Every round-trip counts.",
+			"",
+			"Read your agent file now and tell me what you'll do first.$0"
+		]
+	},
+
+	"recap": {
+		"prefix": "recap",
+		"description": "Post-implementation debrief prompt that forces the model to summarize what it changed and how to verify it, formatted as short phrases and numbered steps rather than dense prose. Combines accountability (what changed) with actionability (how to verify) in a scannable format. Useful at the end of any implementation session before context-switching.",
+		"body": [
+			"Alright, recap: what did you just do, and how can I test it. Short phrases and numbered lists, not paragraphs$0"
+		]
 	}
 }
