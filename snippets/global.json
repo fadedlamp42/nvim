@@ -297,5 +297,13 @@
 		"body": [
 			"I'm merging back into the primary agent again, create a full summary of the work we accomplished, remaining items, and any decisions we made which diverge from the original plan. Write it to `agents/results/${1:agent name}_\\$(date +%Y%m%d-%H%M).md`$0"
 		]
+	},
+
+	"tldr": {
+		"prefix": "tldr",
+		"description": "Quick catch-up prompt for returning to a conversation after being away. Asks the model to distill the problem and solution into a single sentence, cutting through potentially long context to get you back up to speed instantly.",
+		"body": [
+			"Just getting back to this, could you explain in one sentence what the problem was and how you fixed it?$0"
+		]
 	}
 }
