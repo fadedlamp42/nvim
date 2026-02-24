@@ -289,5 +289,13 @@
 			"",
 			"${1:copied `otop` output}$0"
 		]
+	},
+
+	"close-agent": {
+		"prefix": "close-agent",
+		"description": "Termination prompt for a sub-agent session that's being merged back into the primary agent. Forces the model to produce a structured handoff summary covering completed work, remaining items, and any deviations from the original plan, written to a timestamped file under agents/results/. Essential for preserving context across agent boundaries so the primary agent can pick up without re-discovering state.",
+		"body": [
+			"I'm merging back into the primary agent again, create a full summary of the work we accomplished, remaining items, and any decisions we made which diverge from the original plan. Write it to `agents/results/${1:agent name}_\\$(date +%Y%m%d-%H%M).md`$0"
+		]
 	}
 }
