@@ -47,6 +47,9 @@ local configure_indent = function()
         -- }
     })
 end
+-- disable polyglot for filetypes where treesitter handles highlighting
+g.polyglot_disabled = { "markdown" }
+
 -- package list
 require("packer").startup(function()
     use({
@@ -107,6 +110,16 @@ require("packer").startup(function()
             config = configure_indent,
             requires = { "nvim-treesitter/nvim-treesitter" },
         }, -- blankline indent characters
+        {
+            "nvim-treesitter/nvim-treesitter",
+            run = ":TSUpdate",
+            config = function()
+                require("nvim-treesitter.configs").setup({
+                    ensure_installed = { "markdown", "markdown_inline" },
+                    highlight = { enable = true },
+                })
+            end,
+        },
         { "napmn/react-extract.nvim", requires = { "nvim-treesitter/nvim-treesitter" } }, -- extract components
         { "yamatsum/nvim-nonicons", requires = { "nvim-tree/nvim-web-devicons" } }, -- swap icons for nonicons.ttf
         {
