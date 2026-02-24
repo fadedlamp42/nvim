@@ -279,5 +279,15 @@
 		"body": [
 			"Alright, recap: what did you just do, and how can I test it. Short phrases and numbered lists, not paragraphs$0"
 		]
+	},
+
+	"agent-audit": {
+		"prefix": "agent-audit",
+		"description": "Triage prompt for auditing parallel agent sessions by examining tty activity. Paste otop output so the model can correlate resource usage or process activity back to specific agent sessions and identify which one caused an issue first.",
+		"body": [
+			"Audit the work of each session via ttys0* and see who caused it first:",
+			"",
+			"${1:copied `otop` output}$0"
+		]
 	}
 }
