@@ -305,5 +305,13 @@
 		"body": [
 			"Just getting back to this, could you explain in one sentence what the problem was and how you fixed it?$0"
 		]
+	},
+
+	"sentry-issues": {
+		"prefix": "sentry-issues",
+		"description": "Kick off a Sentry triage session: pull all unresolved issues for an org, investigate root causes, fix what's fixable in code, and report back. Assumes the Sentry MCP is connected and the model has access to the relevant codebase. The placeholder should be filled with the Sentry org slug or project name to scope the search.",
+		"body": [
+			"Take a look at all the issues in Sentry for ${1:org or project}, then do your best to fix all of them. Don't commit anything, but type check and then give me a full report afterwards.$0"
+		]
 	}
 }
