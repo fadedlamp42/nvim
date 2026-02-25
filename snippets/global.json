@@ -265,6 +265,8 @@
 		"body": [
 			"Read `agents/${1:track}.md` — that's your full brief. It has your scope, owned files, tasks, deployment commands, and fast feedback loop strategies. Stay within your scope; other tracks own other files.",
 			"",
+			"Use a `git worktree` on a separate branch to isolate your changes — don't even bother symlinking, just work directly in the worktree. If necessary, set up a fresh dependency environment in the worktree so any packages you add or remove are properly tracked in the diff; _don't_ pollute primary dependencies/infrastructure.",
+			"",
 			"Also read `CLAUDE.md` for project-wide constraints and `README.md` for current state.",
 			"",
 			"Tight feedback loops are critical — prefer hot-swapping files into containers over rebuilding, prefer targeted tests over full end-to-end. Every round-trip counts.",
