@@ -461,6 +461,7 @@ cmp.setup({
         { name = "nvim_lsp" },
     }, {
         { name = "buffer" },
+        { name = "path" },
     }),
 })
 
