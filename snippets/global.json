@@ -315,5 +315,13 @@
 		"body": [
 			"Take a look at all the issues in Sentry for ${1:org or project}, then do your best to fix all of them. Don't commit anything, but type check and then give me a full report afterwards.$0"
 		]
+	},
+
+	"study-and-build": {
+		"prefix": "study-and-build",
+		"description": "Research an existing tool or repository for inspiration, then build a minimal version informed by three internal knowledge bases: enargeia (UI patterns), panspeculum (philosophical grounding), and engineering README (principles). The model studies the reference, extracts what's worth keeping, and produces something smaller and more opinionated that supports specific missing features you care about.",
+		"body": [
+			"Study ${1:repository or tool} for inspiration, then make a more minimal version, inspired by the UI of `/Users/regular/knowledge/prism/repositories/enargeia`, the philosophy of `/Users/regular/knowledge/prism/panspeculum`, and the principles of `/Users/regular/knowledge/engineering/README.md` which supports ${2:missing feature(s)}$0"
+		]
 	}
 }
