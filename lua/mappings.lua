@@ -65,8 +65,11 @@ map("n", "<C-h>", "<cmd>vertical res -3<CR>")
 map("n", "<C-l>", "<cmd>vertical res +3<CR>")
 map("n", "<C-y>", "<cmd>res +3<CR>")
 
--- <leader-p> to copy path of current file with a message
+-- <leader-p> to copy absolute path of current file
 map("n", "<leader>p", "<cmd>let @+ = expand('%:p')<CR>:echo 'File path copied to clipboard: ' . expand('%:p')<CR>")
+
+-- <leader-P> to copy relative path (relative to cwd) of current file
+map("n", "<leader>P", "<cmd>let @+ = fnamemodify(expand('%:p'), ':.')<CR>:echo 'Relative path copied: ' . fnamemodify(expand('%:p'), ':.')<CR>")
 
 -- <leader>cd to change to current directory
 map("n", "<leader>cd", "<cmd>cd %:h<CR>")
