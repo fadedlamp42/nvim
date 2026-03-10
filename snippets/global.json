@@ -12,6 +12,19 @@
 		]
 	},
 
+	"email-probe-remote": {
+		"prefix": "email-probe-remote",
+		"description": "Polite email template for probing whether a non-remote or hybrid role has flexibility for fully remote, based on current experience at Pocus. The placeholder should be filled with the recruiter's name.",
+		"body": [
+			"Hi ${1:recruiter name},",
+			"",
+			"Thanks for reaching out, would there be flexibility for a fully remote configuration? That's how I've learned to operate here at Pocus and it'd be pretty difficult to let that style go.",
+			"",
+			"Best,",
+			"Peter"
+		]
+	},
+
 	"agent-session": {
 		"prefix": "agent-session",
 		"description": "Standardized way to refer to the current agent session, useful for prompting the model to recall or reference previous context. The placeholder should be filled with the specific session ID or directory name that the model (i.e. `opencode` or `claude`) can use to access relevant files or context from this session. This creates a consistent anchor for the model to tie its responses to the ongoing work.",
