@@ -330,6 +330,14 @@
 		]
 	},
 
+	"fork-parallel": {
+		"prefix": "fork-parallel",
+		"description": "Announce a conversation fork to parallelize independent work streams, and ask the model to suggest additional threads to maximize throughput. Useful when you've identified at least one axis of independent work and want the model to find more. The total thread count and existing thread descriptions are placeholders so you can tune parallelism to your available context windows.",
+		"body": [
+			"I'm going to fork the conversation from this point to do ${1:these tasks} in parallel, and at this point I'd love to parallelize any other work in ${2:MVP} that you could imagine is independent enough, so make suggestions for up to ${3:2} additional (${4:4} total) threads for me to work to minimize total development time$0"
+		]
+	},
+
 	"study-and-build": {
 		"prefix": "study-and-build",
 		"description": "Research an existing tool or repository for inspiration, then build a minimal version informed by three internal knowledge bases: enargeia (UI patterns), panspeculum (philosophical grounding), and engineering README (principles). The model studies the reference, extracts what's worth keeping, and produces something smaller and more opinionated that supports specific missing features you care about.",
