@@ -338,6 +338,14 @@
 		]
 	},
 
+	"fork": {
+		"prefix": "fork",
+		"description": "Fork a GitHub repository, clone it into the personal repositories directory, and add it as a submodule of the root knowledge repository. Uses gh repo fork for the fork, then adds the submodule following the established convention in .gitmodules (path under personal/repositories/, SSH URL, no branch specified).",
+		"body": [
+			"Fork ${1:owner/repo} using `gh` into `/Users/regular/knowledge/personal/repositories`, then add it as a submodule of the root `~/knowledge/` repository (check `.gitmodules` for convention)$0"
+		]
+	},
+
 	"study-and-build": {
 		"prefix": "study-and-build",
 		"description": "Research an existing tool or repository for inspiration, then build a minimal version informed by three internal knowledge bases: enargeia (UI patterns), panspeculum (philosophical grounding), and engineering README (principles). The model studies the reference, extracts what's worth keeping, and produces something smaller and more opinionated that supports specific missing features you care about.",
