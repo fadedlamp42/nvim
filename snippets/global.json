@@ -352,5 +352,13 @@
 		"body": [
 			"Study ${1:repository or tool} for inspiration, then make a more minimal version, inspired by the UI of `/Users/regular/knowledge/prism/repositories/enargeia`, the philosophy of `/Users/regular/knowledge/prism/panspeculum`, and the principles of `/Users/regular/knowledge/engineering/README.md` which supports ${2:missing feature(s)}$0"
 		]
+	},
+
+	"densify": {
+		"prefix": "densify",
+		"description": "Instruct the model to clean up and compress a draft message through deduplication, punctuation fixes, run-on sentence splitting, and paragraph merging at varying abstraction levels. Produces three candidate versions so you can pick the density that fits the context.",
+		"body": [
+			"Densify deduplicate ideas, add missing punctuation, break up run-on sentences, and merge similar paragraphs into more abstract ones to create a final draft of this message. Provide three candidate versions: low, moderate, and high abstraction$0"
+		]
 	}
 }
