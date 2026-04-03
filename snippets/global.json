@@ -360,5 +360,19 @@
 		"body": [
 			"Densify deduplicate ideas, add missing punctuation, break up run-on sentences, and merge similar paragraphs into more abstract ones to create a final draft of this message. Provide three candidate versions: low, moderate, and high abstraction$0"
 		]
+	},
+
+	"shape-and-prune-tasks": {
+		"prefix": "shape-and-prune-tasks",
+		"description": "Prompt for reshaping a project's task list into a cleaner, session-oriented structure optimized for parallel agent execution. Asks the model to prune, group, and reorganize without removing anything, assign top-level items to OpenCode sessions, and avoid false-precision time estimates (per Shape Up philosophy). Read-only on non-task sections.",
+		"body": [
+			"Let's take some time to prune, organize, and group the tasks in README.md; I don't want to remove anything, but the list of tasks has gotten unwieldy and I want to get more organized.",
+			"",
+			"The top-level of indentation for each should have an OpenCode session assigned (`ses_*`) and everything nested beneath should be the sole responsibility of that session. Sessions may pause sometimes to allow critical sections of work to occur, but in general things should be optimized for parallelism.",
+			"",
+			"Focus entirely on the `# tasks` section, the rest of README.md + HISTORY.md can inform your judgement, but don't touch those sections.",
+			"",
+			"Zoom out and get a full picture of what's happening, try to avoid specific due-dates and time estimates (those are almost always wrong, see /Users/regular/archive/books/shape-up.pdf), and give me a top-down view of what the task space should look like. $0"
+		]
 	}
 }
