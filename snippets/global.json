@@ -362,6 +362,14 @@
 		]
 	},
 
+	"naturalize-writing-style": {
+		"prefix": "naturalize-writing-style",
+		"description": "Instruct the model to adopt the user's personal writing style, conventions, and punctuation habits by studying prose from BOOK.md (particularly the 'rafting' story). Useful when you want generated text to feel human-written and match your voice rather than reading as AI-generated. Apply after drafting to naturalize tone, cadence, and quirks.",
+		"body": [
+			"Wonderful, now just try to adopt my writing style, conventions, and punctuation habbits from /Users/regular/knowledge/personal/BOOK.md (especially my prose like the \"rafting\" story in there), I don't want this to feel AI- generated lol$0"
+		]
+	},
+
 	"shape-and-prune-tasks": {
 		"prefix": "shape-and-prune-tasks",
 		"description": "Prompt for reshaping a project's task list into a cleaner, session-oriented structure optimized for parallel agent execution. Asks the model to prune, group, and reorganize without removing anything, assign top-level items to OpenCode sessions, and avoid false-precision time estimates (per Shape Up philosophy). Read-only on non-task sections.",
