@@ -322,11 +322,21 @@
 		]
 	},
 
-	"sentry-issues": {
-		"prefix": "sentry-issues",
+	"sentry-bulk-issues": {
+		"prefix": "sentry-bulk-issues",
 		"description": "Kick off a Sentry triage session: pull all unresolved issues for an org, investigate root causes, fix what's fixable in code, and report back. Assumes the Sentry MCP is connected and the model has access to the relevant codebase. The placeholder should be filled with the Sentry org slug or project name to scope the search.",
 		"body": [
 			"Take a look at all the issues in Sentry for ${1:org or project}, then do your best to fix all of them. Don't commit anything, but type check and then give me a full report afterwards.$0"
+		]
+	},
+
+	"sentry-single-issue": {
+		"prefix": "sentry-single-issue",
+		"description": "Investigate a specific Sentry issue in context of a codebase: read details, identify root cause, cross-reference with distributed traces via ClickHouse and supporting metrics/logs in Grafana. Assumes Sentry, ClickHouse, and Grafana MCPs are connected. The issue ID should follow Sentry's PROJECT-NUMBER format.",
+		"body": [
+			"There's an issue about ${1:repository path} in ${2:service name}, it seems: ${3:ISSUE-ID}",
+			"",
+			"Read details and let me know what happened, find relevant traces via ClickHouse and supporting evidence in Grafana if necessary using enabled tools$0"
 		]
 	},
 
@@ -364,9 +374,9 @@
 
 	"naturalize-writing-style": {
 		"prefix": "naturalize-writing-style",
-		"description": "Instruct the model to adopt the user's personal writing style, conventions, and punctuation habits by studying prose from BOOK.md (particularly the 'rafting' story). Useful when you want generated text to feel human-written and match your voice rather than reading as AI-generated. Apply after drafting to naturalize tone, cadence, and quirks.",
+		"description": "Rewrite AI-generated text to match Peter's personal writing voice, derived from close analysis of his prose (especially the 'rafting' story in BOOK.md and 'the reason' entry). The model should read BOOK.md first, then apply these patterns:\n\nSENTENCE STRUCTURE: long flowing sentences that build momentum through multiple clauses, punctuated by short punchy ones for emotional emphasis ('She can't die.', 'Raft.', 'Good riddance.'). Starts sentences with conjunctions (And, But, So). Semicolons connect related thoughts naturally in narrative, not just lists. NEVER use em dashes (—) or en dashes (–); they're the single biggest AI writing tell. Peter uses semicolons, commas, and parentheses where AI would reach for a dash. Parentheses for technical or contextual detail. Comma-heavy compound sentences.\n\nWORD CHOICE: concrete sensory details over abstractions ('buzzed 20-something' not 'inexperienced individual', 'hot struggling breaths on the side of my face' not 'her breathing indicated distress'). Casual vocabulary mixed with precise/articulate words in the same sentence. Natural hedges: 'really', 'honestly', 'basically', 'quite', 'I think'. Occasional humor and self-deprecation ('lol', 'sore as hell'). Never: 'leveraged', 'architected', 'scalable', 'robust', 'utilize', 'spearheaded', 'cutting-edge', 'passionate about'. Never use em dashes (—) or en dashes (–) anywhere; always prefer semicolons, commas, or parentheses.\n\nVOICE: first person, conversational but articulate. Genuinely vulnerable without performing vulnerability. Reflects personally at the end of pieces, never performatively ('I really couldn't ask for a better outcome' not 'this has been an incredibly rewarding journey'). Uses quotes around words to distance from literal meaning or add emphasis.\n\nAI TELLS TO ELIMINATE: mirroring the question back in the opener ('A project I owned 0-1 is...' → 'The one I'd point to is...'); labeled section headers in prose ('The problem:', 'How I solved it:'); perfect parallel structure in every sentence; performative enthusiasm ('I'm excited to', 'I had the privilege of'); resume verbs in conversational prose ('spearheaded', 'drove', 'orchestrated'); bullet points disguised as sentences; ending with generic inspiration ('and I look forward to continuing to...').\n\nTRANSFORM EXAMPLES: 'Users have sent unsolicited testimonials describing how the daily practice is meaningfully changing their lives' → 'users have been sending Mat unsolicited emails about how the daily practice is genuinely changing their lives'. 'He explored vibe-coding but quickly hit the ceiling on monetization' → 'he texted me about it and asked if he could vibe-code it himself; I told him honestly that for something simple, maybe, but the moment you want subscriptions...'. 'Dr. Mat Park — ex-NASA executive coach — wrote a book' → 'Dr. Mat Park (ex-NASA executive coach, D1 golf scholarship) wrote a book' (parentheses or commas, never dashes). 'the moment you want subscriptions — you'll hit a wall' → 'the moment you want subscriptions, real content delivery, and something that doesn't break, you'll hit a wall' (commas, never dashes).\n\nEMAIL WRAPPER: when wrapping prose in an email, the greeting should be warmer and more accommodating than the body ('Of course! Here you go:' not 'Thanks, here you go:'). Peter's email closers are always 'Best, Peter'.",
 		"body": [
-			"Wonderful, now just try to adopt my writing style, conventions, and punctuation habbits from /Users/regular/knowledge/personal/BOOK.md (especially my prose like the \"rafting\" story in there), I don't want this to feel AI- generated lol$0"
+			"Now adopt my writing style, conventions, and punctuation from /Users/regular/knowledge/personal/BOOK.md (especially the prose like the \"rafting\" story). Read it first, then rewrite what you drafted; I don't want this to feel AI-generated$0"
 		]
 	},
 
