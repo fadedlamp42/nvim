@@ -380,6 +380,18 @@
 		]
 	},
 
+	"terraform-system-plan": {
+		"prefix": "terraform-system-plan",
+		"description": "Full-system confidence check: ask the model to produce both a top-down architectural diagram (Graphviz DOT rendered to PNG) and a gap analysis of the current codebase state with real file/function references. The 'terraform plan' metaphor signals you want a complete inventory of what exists versus what's missing, like a dry-run diff against the intended architecture. Useful when you've lost the forest for the trees or are onboarding back into a project after time away. The placeholder should be filled with the project-relative path prefix for the diagram output (e.g. specs/diagrams/full-system).",
+		"body": [
+			"I want more confidence:",
+			"1. Create a single diagram which explains the FULL system, from the top layer of abstraction down, in ${1:specs/diagrams/full-system}.[dot|png]",
+			"2. Summarize the current state of the codebase/system; what we have, with actual file/function references, and what we don't",
+			"",
+			"In practical terms, I want a `terraform plan` for the entire project$0"
+		]
+	},
+
 	"shape-and-prune-tasks": {
 		"prefix": "shape-and-prune-tasks",
 		"description": "Prompt for reshaping a project's task list into a cleaner, session-oriented structure optimized for parallel agent execution. Asks the model to prune, group, and reorganize without removing anything, assign top-level items to OpenCode sessions, and avoid false-precision time estimates (per Shape Up philosophy). Read-only on non-task sections.",
