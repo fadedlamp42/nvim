@@ -169,6 +169,9 @@ require("packer").startup(function()
         },
         "powerman/vim-plugin-AnsiEsc",
 
+        -- TTS narration (sttts integration)
+        { "~/knowledge/personal/repositories/tts-vim", as = "tts-vim" },
+
         -- debugging
         "mfussenegger/nvim-dap",
 
