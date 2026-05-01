@@ -547,7 +547,18 @@ vim.lsp.config("kotlin_language_server", {
     capabilities = capabilities,
 })
 vim.lsp.config("pyright", c)
-vim.lsp.config("solargraph", { diagnostics = true, formatting = true })
+vim.lsp.config("solargraph", {
+    capabilities = capabilities,
+    settings = {
+        solargraph = {
+            diagnostics = true,
+            formatting = true,
+            -- bump past the 7000-file default; leadgenie is ~14k files
+            maxFiles = 20000,
+        },
+    },
+    init_options = { maxFiles = 20000 },
+})
 vim.lsp.config("tailwindcss", c)
 vim.lsp.config("terraformls", c)
 vim.lsp.config("ts_ls", c)
