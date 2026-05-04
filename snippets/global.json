@@ -404,5 +404,15 @@
 			"",
 			"Zoom out and get a full picture of what's happening, try to avoid specific due-dates and time estimates (those are almost always wrong, see /Users/regular/archive/books/shape-up.pdf), and give me a top-down view of what the task space should look like. $0"
 		]
+	},
+
+	"review-pr": {
+		"prefix": "review-pr",
+		"description": "Kick off a pre-merge review session: open a fresh `review` tmux window with all modified files loaded as vim buffers (not tabs, so they're easy to cycle through with :bn/:bp), and write a reviewer-facing spec at the new path that mirrors the structure of an existing reference spec. Includes the explicit constraint that everything testable should be tested before merging, since migrations only apply post-approval and the local worker uses `--remote` for production resource parity. First placeholder is the new spec path (typically dated, e.g. feature_MM-DD-YYYY.md), second is the reference spec whose format should be mimicked.",
+		"body": [
+			"Open a new `review` tmux window which opens all modified files with `vim F1 F2 F3 ...` (don't use tabs, just buffers) and write a ${1:new spec path} in the same way that ${2:reference spec path} was written for me to understand your changes as a fresh reviewer.",
+			"",
+			"Also, note that we need to test everything possible _before_ merging (i.e. we'll actually apply the migration once approved and run what we can via our local worker (which uses --remote for production resource access parity))$0"
+		]
 	}
 }
