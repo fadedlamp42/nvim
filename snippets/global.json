@@ -1,4 +1,12 @@
 {
+	"linkedin-late-response": {
+		"prefix": "linkedin-late-response",
+		"description": "Polite LinkedIn message template for responding to a recruiter outreach after a delay. The placeholders should be filled with the recruiter's name and the company name. Useful for quickly replying to recruiter messages when you haven't checked LinkedIn in a while, while expressing interest and asking about compensation to determine if it's worth pursuing further.",
+		"body": [
+			"Hi ${1:recruiter name}, thanks for reaching out! Sorry for the delayed response, I don't check LinkedIn very frequently, but I'd be very interested to explore further with ${2:company name}. Do you have information about expected compensation range? If that aligns, I can move quickly as well."
+		]
+	},
+
 	"email-reject-small-company": {
 		"prefix": "email-reject-small-company",
 		"description": "Polite email template for rejecting a recruiter outreach from a small company when you're not actively looking. The placeholder should be filled with the recruiter's name and the company name. Useful for maintaining good relationships while setting clear boundaries about your current job search status.",
@@ -6,6 +14,19 @@
 			"Hi ${1:recruiter name},",
 			"",
 			"Thanks for reaching out, but I'm currently only passively searching for later stage opportunities, I'm quite busy with my own business at the moment so I couldn't explore further with ${2:company name}.",
+			"",
+			"Best,",
+			"Peter"
+		]
+	},
+
+	"email-good-product": {
+		"prefix": "email-good-product",
+		"description": "Polite email template for expressing interest in a company with an attractive product, while probing for compensation and remote work flexibility. The placeholders should be filled with the recruiter's name and the company name. Useful for quickly responding to recruiter outreach when the product is appealing but you need more information to determine if it's worth pursuing.",
+		"body": [
+			"Hi ${1:recruiter name},",
+			"",
+			"I'm quite interested and aligned with the product at ${2:company name}, do you have any information on potential compensation and remote friendliness? I have an injury which makes it difficult to commute, but if remote is possible and compensation can compare with my current role at Apollo I'd love to explore.",
 			"",
 			"Best,",
 			"Peter"
