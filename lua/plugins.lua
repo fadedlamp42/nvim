@@ -182,6 +182,13 @@ require("packer").startup(function()
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
         "petertriho/cmp-git",
+        {
+            'nvim-flutter/flutter-tools.nvim',
+            requires = {
+                'nvim-lua/plenary.nvim',
+                'stevearc/dressing.nvim', -- optional for vim.ui.select
+            },
+        },
 
         -- For vsnip users
         "hrsh7th/cmp-vsnip",
@@ -640,3 +647,27 @@ vim.cmd([[
 		autocmd FileType markdown,mkd,text setlocal spell
 	augroup END
 ]])
+
+-- flutter-tools
+-- 
+-- alternatively you can override the default configs
+require("flutter-tools").setup {
+  debugger = { -- integrate with nvim dap + install dart code debugger
+    enabled = true,
+  },
+  fvm = true, -- takes priority over path, uses <workspace>/.fvm/flutter_sdk if enabled
+  widget_guides = {
+    enabled = true,
+  },
+  dev_log = {
+    enabled = true,
+    notify_errors = true, -- if there is an error whilst running then notify the user
+  },
+  dev_tools = {
+    autostart = true, -- autostart devtools server if not detected
+    auto_open_browser = true, -- Automatically opens devtools in the browser
+  },
+  outline = {
+    auto_open = true -- if true this will open the outline automatically when it is first populated
+  },
+}
